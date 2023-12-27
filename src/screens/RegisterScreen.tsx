@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
-export default function RegisterScreen() {
+export default function RegisterScreen(): JSX.Element {
   return (
-    <View>
+    <SafeAreaView>
       <Text>Register Screen</Text>
-    </View>
+    </SafeAreaView>
   );
 }

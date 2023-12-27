@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
-export default function LoginScreen() {
+export default function LoginScreen(): JSX.Element {
   return (
-    <View>
+    <SafeAreaView>
       <Text>Login Screen</Text>
-    </View>
+    </SafeAreaView>
   );
 }

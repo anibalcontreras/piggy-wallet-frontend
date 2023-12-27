@@ -1,9 +1,9 @@
-import { Text, View } from 'react-native';
+import { Text, SafeAreaView } from 'react-native';
 
-export default function HomeScreen() {
+export default function HomeScreen(): JSX.Element {
   return (
-    <View>
+    <SafeAreaView>
       <Text>Home Screen</Text>
-    </View>
+    </SafeAreaView>
   );
 }

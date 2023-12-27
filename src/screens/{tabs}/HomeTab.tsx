@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native';
+import { SafeAreaView, Text } from 'react-native';
 
-export default function HomeTab() {
+export default function HomeTab(): JSX.Element {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>HomeTab!</Text>
-    </View>
+    </SafeAreaView>
   );
 }
