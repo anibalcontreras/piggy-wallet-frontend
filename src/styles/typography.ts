@@ -4,7 +4,7 @@ import { systemWeights } from 'react-native-typography';
 import * as Colors from './colors';
 
 type FontSize = 'small' | 'medium' | 'large' | 'xLarge';
-const fontSize: Record<FontSize, TextStyle> = {
+export const fontSize: Record<FontSize, TextStyle> = {
   small: {
     fontSize: 13,
   },
