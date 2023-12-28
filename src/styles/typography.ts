@@ -54,19 +54,19 @@ export const headerStyles: Record<HeaderStyle, TextStyle> = {
     ...fontSize.xLarge,
     ...fontWeight.bold,
     ...lineHeight.xLarge,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
   medium: {
     ...fontSize.large,
     ...fontWeight.bold,
     ...lineHeight.large,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
   small: {
     ...fontSize.medium,
     ...fontWeight.bold,
     ...lineHeight.medium,
-    color: Colors.colors.seaGreen,
+    color: Colors.palette.primary,
   },
 };
 
@@ -76,13 +76,13 @@ export const subheaderStyles: Record<SubheaderStyle, TextStyle> = {
     ...fontSize.medium,
     ...fontWeight.regular,
     ...lineHeight.medium,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
   bold: {
     ...fontSize.large,
     ...fontWeight.semibold,
     ...lineHeight.medium,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
 };
 
@@ -92,24 +92,24 @@ export const bodyStyles: Record<Body, TextStyle> = {
     ...fontSize.medium,
     ...fontWeight.regular,
     ...lineHeight.medium,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
   secondary: {
     ...fontSize.medium,
     ...fontWeight.semibold,
     ...lineHeight.medium,
-    color: Colors.colors.white,
+    color: Colors.palette.text,
   },
   highlight: {
     ...fontSize.medium,
     ...fontWeight.bold,
     ...lineHeight.medium,
-    color: Colors.colors.seaGreen,
+    color: Colors.palette.primary,
   },
   muted: {
     ...fontSize.small,
     ...fontWeight.regular,
     ...lineHeight.small,
-    color: Colors.colors.grey,
+    color: Colors.palette.border,
   },
 };
