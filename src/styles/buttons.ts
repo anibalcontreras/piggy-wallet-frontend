@@ -10,20 +10,20 @@ export const bar: Record<Bar, ViewStyle> = {
   primary: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Sizing.layout.x30,
-    borderRadius: Outlines.borderRadius.base,
+    padding: Sizing.layout.x20,
+    borderRadius: Outlines.borderRadius.large,
     backgroundColor: Colors.palette.primary,
   },
 };
 
-type BarText = 'primary';
-export const barText: Record<BarText, TextStyle> = {
-  primary: {
-    ...Typography.fontSize.medium,
-    ...Typography.fontWeight.semibold,
-    color: Colors.palette.text,
-  },
-};
+// type BarText = 'primary';
+// export const barText: Record<BarText, TextStyle> = {
+//   primary: {
+//     ...Typography.fontSize.medium,
+//     ...Typography.fontWeight.semibold,
+//     color: Colors.palette.text,
+//   },
+// };
 
 type ButtonStyle = 'standard' | 'fullWidth';
 export const buttonStyle: Record<ButtonStyle, ViewStyle> = {

@@ -1,6 +1,6 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { Sizing, Typography } from '../styles';
-// import { Colors } from '../styles';
+import Button from '../components/common/Button';
 
 export default function HomeScreen(): JSX.Element {
   return (
@@ -8,6 +8,8 @@ export default function HomeScreen(): JSX.Element {
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
       <Text style={styles.header}>PiggyWallet</Text>
       <Text style={styles.body}>Gestiona tus finanzas sabiamente</Text>
+      <Button type="standard" title="Iniciar sesión" />
+      <Button type="fullWidth" title="Registrarse" />
     </SafeAreaView>
   );
 }
@@ -28,5 +30,6 @@ const styles = StyleSheet.create({
   },
   body: {
     ...Typography.bodyStyles.highlight,
+    marginBottom: Sizing.layout.x100,
   },
 });
