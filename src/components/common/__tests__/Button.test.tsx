@@ -1,7 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import renderer, { act } from 'react-test-renderer';
 import Button from '../Button';
-import { Text } from 'react-native';
+import { Text, Pressable } from 'react-native';
 
 describe('Button Component', () => {
   it('renders standard button correctly', () => {
@@ -20,5 +20,17 @@ describe('Button Component', () => {
     const instance = tree.root;
     const textComponent = instance.findByType(Text);
     expect(textComponent.props.children).toBe(buttonText);
+  });
+
+  it('handles onPress event correctly', () => {
+    const mockOnPress = jest.fn();
+    const tree = renderer.create(<Button onPress={mockOnPress}>Test</Button>);
+
+    const pressable = tree.root.findByType(Pressable);
+    void act(() => {
+      pressable.props.onPress();
+    });
+
+    expect(mockOnPress).toHaveBeenCalled();
   });
 });

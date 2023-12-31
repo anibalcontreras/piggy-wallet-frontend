@@ -1,9 +1,9 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
-import { type HomeNavigationProps } from '../types/navigation';
 
-export default function HomeScreen({ navigation }: HomeNavigationProps): JSX.Element {
+export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
