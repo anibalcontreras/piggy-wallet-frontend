@@ -9,7 +9,7 @@ export default function HomeScreen(): JSX.Element {
       <Text style={styles.header}>PiggyWallet</Text>
       <Text style={styles.body}>Gestiona tus finanzas sabiamente</Text>
       <Button type="standard" title="Iniciar sesión" />
-      <Button type="fullWidth" title="Registrarse" />
+      <Button type="standard" title="Registrarse" />
     </SafeAreaView>
   );
 }
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   },
   body: {
     ...Typography.bodyStyles.highlight,
-    marginBottom: Sizing.layout.x100,
+    marginBottom: Sizing.layout.x110,
   },
 });

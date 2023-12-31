@@ -33,7 +33,7 @@ export const buttonStyle: Record<ButtonStyle, ViewStyle> = {
   },
   fullWidth: {
     ...bar.primary,
-    width: '100%',
+    width: Sizing.screen.width - Sizing.layout.x30,
   },
 };
 

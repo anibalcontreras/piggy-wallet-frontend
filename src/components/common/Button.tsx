@@ -8,16 +8,22 @@ interface ButtonProps {
 }
 
 function Button({ type, title }: ButtonProps): JSX.Element {
+  const buttonStyle = type === 'standard' ? style.standardButton : style.fullWidthButton;
+
   return (
-    <Pressable style={Buttons.applyOpacity(style.button)}>
+    <Pressable style={Buttons.applyOpacity(buttonStyle)}>
       <Text style={style.buttonText}>{title}</Text>
     </Pressable>
   );
 }
 
 const style = StyleSheet.create({
-  button: {
+  standardButton: {
     ...Buttons.buttonStyle.standard,
+    marginBottom: Sizing.x20,
+  },
+  fullWidthButton: {
+    ...Buttons.buttonStyle.fullWidth,
     marginBottom: Sizing.x20,
   },
   buttonText: {
