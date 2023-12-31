@@ -1,12 +1,7 @@
 import React from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
-import { Buttons, Sizing } from '../../styles';
-
-interface ButtonProps {
-  variant?: 'standard' | 'fullWidth';
-  onPress?: () => void;
-  children: string | string[];
-}
+import { type ButtonProps } from '../../types/components';
+import { Buttons } from '../../styles';
 
 function Button({ variant = 'standard', onPress, children }: ButtonProps): JSX.Element {
   let buttonStyle;
@@ -29,11 +24,9 @@ function Button({ variant = 'standard', onPress, children }: ButtonProps): JSX.E
 const style = StyleSheet.create({
   standardButton: {
     ...Buttons.buttonStyle.standard,
-    marginBottom: Sizing.x20,
   },
   fullWidthButton: {
     ...Buttons.buttonStyle.fullWidth,
-    marginBottom: Sizing.x20,
   },
   buttonText: {
     ...Buttons.buttonText.primary,

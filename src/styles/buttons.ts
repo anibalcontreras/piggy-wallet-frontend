@@ -13,9 +13,12 @@ export const bar: Record<Bar, ViewStyle> = {
     padding: Sizing.layout.x20,
     borderRadius: Outlines.borderRadius.large,
     backgroundColor: Colors.palette.primary,
+    marginBottom: Sizing.x20,
   },
 };
 
+// Si es que llegara a extenderse el estilo de texto de los botones
+// Podria considerar mantener esto como base
 // type BarText = 'primary';
 // export const barText: Record<BarText, TextStyle> = {
 //   primary: {
