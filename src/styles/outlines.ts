@@ -6,7 +6,7 @@ type BorderRadius = 'small' | 'base' | 'large' | 'max';
 export const borderRadius: Record<BorderRadius, number> = {
   small: 5,
   base: 10,
-  large: 20,
+  large: 25,
   max: 9999,
 };
 

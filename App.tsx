@@ -6,6 +6,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import LayoutTab from './src/screens/{tabs}/LayoutTab';
+import { type RootStackParamsList } from './src/types/navigation';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -16,7 +17,7 @@ const defaultTheme = {
 };
 
 export default function App(): JSX.Element {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<RootStackParamsList>();
 
   return (
     <AuthContext.Provider value={{}}>
