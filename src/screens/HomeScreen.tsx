@@ -1,15 +1,16 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
+import { type HomeNavigationProps } from '../types/navigation';
 
-export default function HomeScreen(): JSX.Element {
+export default function HomeScreen({ navigation }: HomeNavigationProps): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
       <Text style={styles.header}>PiggyWallet</Text>
       <Text style={styles.body}>Gestiona tus finanzas sabiamente</Text>
-      <Button type="standard" title="Iniciar sesión" />
-      <Button type="standard" title="Registrarse" />
+      <Button onPress={() => navigation.navigate('Login')}>Iniciar Sesión</Button>
+      <Button onPress={() => navigation.navigate('Register')}>Registrarse</Button>
     </SafeAreaView>
   );
 }

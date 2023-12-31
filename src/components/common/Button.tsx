@@ -3,16 +3,25 @@ import { Text, Pressable, StyleSheet } from 'react-native';
 import { Buttons, Sizing } from '../../styles';
 
 interface ButtonProps {
-  type: 'standard' | 'fullWidth';
-  title: string;
+  variant?: 'standard' | 'fullWidth';
+  onPress?: () => void;
+  children: string | string[];
 }
 
-function Button({ type, title }: ButtonProps): JSX.Element {
-  const buttonStyle = type === 'standard' ? style.standardButton : style.fullWidthButton;
+function Button({ variant = 'standard', onPress, children }: ButtonProps): JSX.Element {
+  let buttonStyle;
+  switch (variant) {
+    case 'standard':
+      buttonStyle = style.standardButton;
+      break;
+    case 'fullWidth':
+      buttonStyle = style.fullWidthButton;
+      break;
+  }
 
   return (
-    <Pressable style={Buttons.applyOpacity(buttonStyle)}>
-      <Text style={style.buttonText}>{title}</Text>
+    <Pressable style={Buttons.applyOpacity(buttonStyle)} onPress={onPress}>
+      <Text style={style.buttonText}>{children}</Text>
     </Pressable>
   );
 }
