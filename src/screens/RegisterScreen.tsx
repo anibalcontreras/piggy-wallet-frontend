@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-} from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
+import CustomTextInput from '../components/common/CustomTextInput';
 
 export default function RegisterScreen({
   navigation,
 }: Navigation.RegisterNavigationProps): JSX.Element {
-  const [number, onChangeNumber] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -27,34 +19,11 @@ export default function RegisterScreen({
       <View style={styles.contentContainer}>
         <Text style={styles.header}>¡Bienvenido!</Text>
         <Text style={styles.body}>Registrate para organizar tus finanzas</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
+        <CustomTextInput placeholder="Nombre completo" />
+        <CustomTextInput placeholder="RUT" />
+        <CustomTextInput placeholder="Número de teléfono" />
+        <CustomTextInput placeholder="Correo electrónico" />
+        <CustomTextInput placeholder="Contraseña" />
         <Button>Registrarme</Button>
         <Button variant="text" onPress={() => navigation.navigate('Login')}>
           Ya tengo cuenta
@@ -93,6 +62,7 @@ const styles = StyleSheet.create({
   },
   body: {
     ...Typography.subheaderStyles.regular,
+    marginBottom: Sizing.layout.x20,
   },
   input: {
     height: 40,

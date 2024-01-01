@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
+import CustomTextInput from '../components/common/CustomTextInput';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
-  const [number, onChangeNumber] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -25,20 +17,8 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       <View style={styles.contentContainer}>
         <Text style={styles.header}>¡Hola!</Text>
         <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        />
+        <CustomTextInput placeholder="Correo electrónico" />
+        <CustomTextInput placeholder="Contraseña" />
         <Button>Iniciar Sesión</Button>
         <Button variant="text" onPress={() => navigation.navigate('Register')}>
           Crear mi cuenta
@@ -77,6 +57,7 @@ const styles = StyleSheet.create({
   },
   body: {
     ...Typography.subheaderStyles.regular,
+    marginBottom: Sizing.layout.x20,
   },
   input: {
     height: 40,
