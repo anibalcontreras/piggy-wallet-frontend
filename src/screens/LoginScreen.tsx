@@ -29,7 +29,7 @@ export default function LoginScreen(): JSX.Element {
           keyboardType="numeric"
         />
         <Button>Iniciar Sesión</Button>
-        <Button>Crear mi cuenta</Button>
+        <Button variant="text">Crear mi cuenta</Button>
       </View>
     </SafeAreaView>
   );

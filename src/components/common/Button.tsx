@@ -3,33 +3,46 @@ import { Text, Pressable, StyleSheet } from 'react-native';
 import { type ButtonProps } from '../../types/components';
 import { Buttons } from '../../styles';
 
-function Button({ variant = 'standard', onPress, children }: ButtonProps): JSX.Element {
+function Button({ variant = 'contained', onPress, children }: ButtonProps): JSX.Element {
   let buttonStyle;
+  let textStyle;
   switch (variant) {
-    case 'standard':
-      buttonStyle = style.standardButton;
+    case 'contained':
+      buttonStyle = style.containedButton;
+      textStyle = style.containedButtonText;
       break;
     case 'fullWidth':
       buttonStyle = style.fullWidthButton;
+      textStyle = style.containedButtonText;
+      break;
+    case 'text':
+      buttonStyle = style.textButton;
+      textStyle = style.textButtonText;
       break;
   }
 
   return (
     <Pressable style={Buttons.applyOpacity(buttonStyle)} onPress={onPress}>
-      <Text style={style.buttonText}>{children}</Text>
+      <Text style={textStyle}>{children}</Text>
     </Pressable>
   );
 }
 
 const style = StyleSheet.create({
-  standardButton: {
-    ...Buttons.buttonStyle.standard,
+  containedButton: {
+    ...Buttons.buttonStyle.contained,
   },
   fullWidthButton: {
     ...Buttons.buttonStyle.fullWidth,
   },
-  buttonText: {
-    ...Buttons.buttonText.primary,
+  textButton: {
+    ...Buttons.buttonStyle.text,
+  },
+  containedButtonText: {
+    ...Buttons.buttonText.contained,
+  },
+  textButtonText: {
+    ...Buttons.buttonText.text,
   },
 });
 
