@@ -63,7 +63,7 @@ export const headerStyles: Record<HeaderStyle, TextStyle> = {
     color: Colors.palette.text,
   },
   small: {
-    ...fontSize.medium,
+    ...fontSize.large,
     ...fontWeight.bold,
     ...lineHeight.medium,
     color: Colors.palette.primary,

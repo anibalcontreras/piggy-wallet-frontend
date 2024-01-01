@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, SafeAreaView, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 
-export default function LoginScreen(): JSX.Element {
+export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
   const [number, onChangeNumber] = useState('');
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('../assets/images/logo.png')} />
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image style={styles.logo} source={require('../assets/images/logo.png')} />
+        </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
       </View>
       <View style={styles.contentContainer}>
@@ -29,7 +40,9 @@ export default function LoginScreen(): JSX.Element {
           keyboardType="numeric"
         />
         <Button>Iniciar Sesión</Button>
-        <Button variant="text">Crear mi cuenta</Button>
+        <Button variant="text" onPress={() => navigation.navigate('Register')}>
+          Crear mi cuenta
+        </Button>
       </View>
     </SafeAreaView>
   );
