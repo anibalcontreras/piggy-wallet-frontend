@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
@@ -24,26 +15,22 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
       </View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.contentContainer}
-      >
-        <Text style={styles.header}>¡Hola!</Text>
-        <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
-        <CustomTextInput
-          placeholder="Correo electrónico"
-          inputMode="email"
-          textContentType="emailAddress"
-        />
-        <CustomTextInput placeholder="Contraseña" textContentType="password" />
-        <Button>Iniciar Sesión</Button>
-        <Button variant="text" onPress={() => navigation.navigate('Register')}>
-          Crear mi cuenta
-        </Button>
-      </KeyboardAvoidingView>
-
-      {/* <View style={styles.contentContainer}>
-      </View> */}
+      <KeyboardAwareScrollView>
+        <View style={styles.contentContainer}>
+          <Text style={styles.header}>¡Hola!</Text>
+          <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
+          <CustomTextInput
+            placeholder="Correo electrónico"
+            inputMode="email"
+            textContentType="emailAddress"
+          />
+          <CustomTextInput placeholder="Contraseña" textContentType="password" />
+          <Button>Iniciar Sesión</Button>
+          <Button variant="text" onPress={() => navigation.navigate('Register')}>
+            Crear mi cuenta
+          </Button>
+        </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
