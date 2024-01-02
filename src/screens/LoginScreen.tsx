@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
@@ -14,7 +24,10 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
       </View>
-      <View style={styles.contentContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.contentContainer}
+      >
         <Text style={styles.header}>¡Hola!</Text>
         <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
         <CustomTextInput
@@ -27,7 +40,10 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
         <Button variant="text" onPress={() => navigation.navigate('Register')}>
           Crear mi cuenta
         </Button>
-      </View>
+      </KeyboardAvoidingView>
+
+      {/* <View style={styles.contentContainer}>
+      </View> */}
     </SafeAreaView>
   );
 }
