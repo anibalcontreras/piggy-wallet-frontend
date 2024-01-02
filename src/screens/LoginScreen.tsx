@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = (): void => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -24,7 +30,20 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             inputMode="email"
             textContentType="emailAddress"
           />
-          <CustomTextInput placeholder="Contraseña" textContentType="password" />
+          <View style={styles.passwordContainer}>
+            <CustomTextInput
+              placeholder="Contraseña"
+              textContentType="password"
+              secureTextEntry={!showPassword}
+            />
+            <MaterialCommunityIcons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={24}
+              color="#aaa"
+              style={styles.passwordIcon}
+              onPress={toggleShowPassword}
+            />
+          </View>
           <Button>Iniciar Sesión</Button>
           <Button variant="text" onPress={() => navigation.navigate('Register')}>
             Crear mi cuenta
@@ -51,9 +70,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Sizing.layout.x20,
   },
+  passwordContainer: {
+    position: 'relative',
+  },
   logo: {
     width: Sizing.screen.width * 0.25,
     height: Sizing.screen.width * 0.25,
+  },
+  passwordIcon: {
+    position: 'absolute',
+    right: Sizing.layout.x30,
+    top: Sizing.layout.x15,
   },
   header: {
     ...Typography.headerStyles.small,
@@ -65,11 +92,5 @@ const styles = StyleSheet.create({
   body: {
     ...Typography.subheaderStyles.regular,
     marginBottom: Sizing.layout.x20,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
   },
 });

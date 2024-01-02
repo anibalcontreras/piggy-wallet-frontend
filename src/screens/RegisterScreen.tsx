@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
@@ -9,6 +10,15 @@ import CustomTextInput from '../components/common/CustomTextInput';
 export default function RegisterScreen({
   navigation,
 }: Navigation.RegisterNavigationProps): JSX.Element {
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = (): void => {
+    setShowPassword(!showPassword);
+  };
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const toggleShowConfirmPassword = (): void => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -29,7 +39,34 @@ export default function RegisterScreen({
             textContentType="telephoneNumber"
           />
           <CustomTextInput placeholder="Correo electrónico" textContentType="emailAddress" />
-          <CustomTextInput placeholder="Contraseña" textContentType="password" />
+          <View style={styles.passwordContainer}>
+            <CustomTextInput
+              placeholder="Contraseña"
+              textContentType="password"
+              secureTextEntry={!showPassword}
+            />
+            <MaterialCommunityIcons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={24}
+              color="#aaa"
+              style={styles.passwordIcon}
+              onPress={toggleShowPassword}
+            />
+          </View>
+          <View style={styles.passwordContainer}>
+            <CustomTextInput
+              placeholder="Confirmar contraseña"
+              textContentType="password"
+              secureTextEntry={!showConfirmPassword}
+            />
+            <MaterialCommunityIcons
+              name={showConfirmPassword ? 'eye-off' : 'eye'}
+              size={24}
+              color="#aaa"
+              style={styles.passwordIcon}
+              onPress={toggleShowConfirmPassword}
+            />
+          </View>
           <Button>Registrarme</Button>
           <Button variant="text" onPress={() => navigation.navigate('Login')}>
             Ya tengo cuenta
@@ -56,9 +93,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: Sizing.layout.x20,
   },
+  passwordContainer: {
+    position: 'relative',
+  },
   logo: {
     width: Sizing.screen.width * 0.25,
     height: Sizing.screen.width * 0.25,
+  },
+  passwordIcon: {
+    position: 'absolute',
+    right: Sizing.layout.x30,
+    top: Sizing.layout.x15,
   },
   header: {
     ...Typography.headerStyles.small,
