@@ -17,13 +17,17 @@ export default function RegisterScreen({
         <Text style={styles.subheader}>PiggyWallet</Text>
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.header}>¡Bienvenido!</Text>
+        <Text style={styles.header}>¡Bienvenido/a!</Text>
         <Text style={styles.body}>Registrate para organizar tus finanzas</Text>
         <CustomTextInput placeholder="Nombre completo" />
         <CustomTextInput placeholder="RUT" />
-        <CustomTextInput placeholder="Número de teléfono" />
-        <CustomTextInput placeholder="Correo electrónico" />
-        <CustomTextInput placeholder="Contraseña" />
+        <CustomTextInput
+          placeholder="Número de teléfono"
+          keyboardType="phone-pad"
+          textContentType="telephoneNumber"
+        />
+        <CustomTextInput placeholder="Correo electrónico" textContentType="emailAddress" />
+        <CustomTextInput placeholder="Contraseña" textContentType="password" />
         <Button>Registrarme</Button>
         <Button variant="text" onPress={() => navigation.navigate('Login')}>
           Ya tengo cuenta

@@ -17,8 +17,12 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       <View style={styles.contentContainer}>
         <Text style={styles.header}>¡Hola!</Text>
         <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
-        <CustomTextInput placeholder="Correo electrónico" />
-        <CustomTextInput placeholder="Contraseña" />
+        <CustomTextInput
+          placeholder="Correo electrónico"
+          inputMode="email"
+          textContentType="emailAddress"
+        />
+        <CustomTextInput placeholder="Contraseña" textContentType="password" />
         <Button>Iniciar Sesión</Button>
         <Button variant="text" onPress={() => navigation.navigate('Register')}>
           Crear mi cuenta

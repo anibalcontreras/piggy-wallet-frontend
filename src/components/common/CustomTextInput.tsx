@@ -2,7 +2,15 @@ import { TextInput, StyleSheet } from 'react-native';
 import { Colors, Outlines, Sizing } from '../../styles';
 
 function CustomTextInput({ ...props }): JSX.Element {
-  return <TextInput style={[styles.input]} {...props} />;
+  return (
+    <TextInput
+      style={[styles.input]}
+      placeholderTextColor={Colors.palette.primary}
+      keyboardAppearance="dark"
+      selectionColor={Colors.palette.primary}
+      {...props}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
@@ -14,6 +22,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.palette.border,
     borderRadius: Outlines.borderRadius.base,
     borderWidth: Outlines.borderWidth.thin,
+    color: Colors.palette.primary,
   },
 });
 
