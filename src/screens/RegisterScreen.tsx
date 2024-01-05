@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   passwordIcon: {
     position: 'absolute',
     right: Sizing.layout.x30,
-    top: Sizing.layout.x15,
+    top: Sizing.layout.x25,
   },
   header: {
     ...Typography.headerStyles.small,

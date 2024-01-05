@@ -1,13 +1,26 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
+  const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email('Por favor ingresa una dirección de correo válida')
+      .required('Correo electrónico es requerido'),
+    password: yup
+      .string()
+      .min(8, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
+      .required('Contraseña es requerida'),
+  });
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = (): void => {
     setShowPassword(!showPassword);
@@ -25,26 +38,47 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
         <View style={styles.contentContainer}>
           <Text style={styles.header}>¡Hola!</Text>
           <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
-          <CustomTextInput
-            placeholder="Correo electrónico"
-            inputMode="email"
-            textContentType="emailAddress"
-          />
-          <View style={styles.passwordContainer}>
-            <CustomTextInput
-              placeholder="Contraseña"
-              textContentType="password"
-              secureTextEntry={!showPassword}
-            />
-            <MaterialCommunityIcons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={24}
-              color="#aaa"
-              style={styles.passwordIcon}
-              onPress={toggleShowPassword}
-            />
-          </View>
-          <Button>Iniciar Sesión</Button>
+          <Formik
+            validationSchema={loginValidationSchema}
+            initialValues={{ email: '', password: '' }}
+            onSubmit={(values) => console.log(values)}
+          >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, isValid }) => (
+              <>
+                <CustomTextInput
+                  name="email"
+                  placeholder="Correo electrónico"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  keyboardType="email-address"
+                  inputMode="email"
+                  textContentType="emailAddress"
+                />
+                {errors.email && <Text style={styles.validationBody}>{errors.email}</Text>}
+                <View style={styles.passwordContainer}>
+                  <CustomTextInput
+                    name="password"
+                    placeholder="Contraseña"
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                    textContentType="password"
+                    secureTextEntry={!showPassword}
+                  />
+                  {errors.password && <Text style={styles.validationBody}>{errors.password}</Text>}
+                  <MaterialCommunityIcons
+                    name={showPassword ? 'eye-off' : 'eye'}
+                    size={24}
+                    color="#aaa"
+                    style={styles.passwordIcon}
+                    onPress={toggleShowPassword}
+                  />
+                </View>
+                <Button onPress={handleSubmit}>Iniciar Sesión</Button>
+              </>
+            )}
+          </Formik>
           <Button variant="text" onPress={() => navigation.navigate('Register')}>
             Crear mi cuenta
           </Button>
@@ -68,10 +102,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: Sizing.layout.x20,
+    padding: Sizing.layout.x10,
   },
   passwordContainer: {
     position: 'relative',
+    marginBottom: Sizing.layout.x20,
   },
   logo: {
     width: Sizing.screen.width * 0.25,
@@ -80,7 +115,7 @@ const styles = StyleSheet.create({
   passwordIcon: {
     position: 'absolute',
     right: Sizing.layout.x30,
-    top: Sizing.layout.x15,
+    top: Sizing.layout.x25,
   },
   header: {
     ...Typography.headerStyles.small,
@@ -92,5 +127,9 @@ const styles = StyleSheet.create({
   body: {
     ...Typography.subheaderStyles.regular,
     marginBottom: Sizing.layout.x20,
+  },
+  validationBody: {
+    ...Typography.bodyStyles.error,
+    alignSelf: 'center',
   },
 });

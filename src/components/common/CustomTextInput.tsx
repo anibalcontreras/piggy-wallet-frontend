@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     height: Sizing.layout.x60,
     width: Sizing.screen.width - Sizing.layout.x30,
     padding: Sizing.layout.x20,
-    marginBottom: Sizing.layout.x20,
+    margin: Sizing.layout.x10,
     borderColor: Colors.palette.border,
     borderRadius: Outlines.borderRadius.base,
     borderWidth: Outlines.borderWidth.thin,
