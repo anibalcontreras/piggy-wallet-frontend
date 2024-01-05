@@ -51,7 +51,7 @@ exports[`Button Component renders fullWidth button correctly 1`] = `
         "color": "#FFFFFF",
         "fontFamily": "System",
         "fontSize": 16,
-        "fontWeight": "700",
+        "fontWeight": "600",
       }
     }
   >
@@ -111,7 +111,7 @@ exports[`Button Component renders standard button correctly 1`] = `
         "color": "#FFFFFF",
         "fontFamily": "System",
         "fontSize": 16,
-        "fontWeight": "700",
+        "fontWeight": "600",
       }
     }
   >

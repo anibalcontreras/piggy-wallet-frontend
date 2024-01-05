@@ -1,11 +1,12 @@
 import React from 'react';
-import renderer, { act } from 'react-test-renderer';
+import { Text } from 'react-native';
+import renderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react-native';
 import Button from '../Button';
-import { Text, Pressable } from 'react-native';
 
 describe('Button Component', () => {
   it('renders standard button correctly', () => {
-    const tree = renderer.create(<Button variant="standard">Test</Button>).toJSON();
+    const tree = renderer.create(<Button>Test</Button>).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -24,13 +25,9 @@ describe('Button Component', () => {
 
   it('handles onPress event correctly', () => {
     const mockOnPress = jest.fn();
-    const tree = renderer.create(<Button onPress={mockOnPress}>Test</Button>);
+    const { getByText } = render(<Button onPress={mockOnPress}>Test</Button>);
 
-    const pressable = tree.root.findByType(Pressable);
-    void act(() => {
-      pressable.props.onPress();
-    });
-
+    fireEvent.press(getByText('Test'));
     expect(mockOnPress).toHaveBeenCalled();
   });
 });
