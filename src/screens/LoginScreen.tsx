@@ -21,6 +21,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       .min(8, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
       .required('Contraseña es requerida'),
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = (): void => {
     setShowPassword(!showPassword);
