@@ -42,8 +42,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             validationSchema={loginValidationSchema}
             initialValues={{ email: '', password: '' }}
             onSubmit={(values) => console.log(values)}
+            validateOnMount={true}
           >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, isValid }) => (
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
               <>
                 <CustomTextInput
                   name="email"
@@ -54,8 +55,11 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                   keyboardType="email-address"
                   inputMode="email"
                   textContentType="emailAddress"
+                  autoCapitalize="none"
                 />
-                {errors.email && <Text style={styles.validationBody}>{errors.email}</Text>}
+                {errors.email && touched.email && (
+                  <Text style={styles.validationBody}>{errors.email}</Text>
+                )}
                 <View style={styles.passwordContainer}>
                   <CustomTextInput
                     name="password"
@@ -66,7 +70,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     textContentType="password"
                     secureTextEntry={!showPassword}
                   />
-                  {errors.password && <Text style={styles.validationBody}>{errors.password}</Text>}
+                  {errors.password && touched.password && (
+                    <Text style={styles.validationBody}>{errors.password}</Text>
+                  )}
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}
                     size={24}
@@ -75,7 +81,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     onPress={toggleShowPassword}
                   />
                 </View>
-                <Button onPress={handleSubmit}>Iniciar Sesión</Button>
+                <Button onPress={handleSubmit} disabled={!isValid}>
+                  Iniciar Sesión
+                </Button>
               </>
             )}
           </Formik>
