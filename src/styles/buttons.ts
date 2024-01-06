@@ -12,40 +12,45 @@ export const bar: Record<Bar, ViewStyle> = {
     justifyContent: 'center',
     padding: Sizing.layout.x20,
     borderRadius: Outlines.borderRadius.large,
-    backgroundColor: Colors.palette.primary,
     marginBottom: Sizing.x20,
   },
 };
 
-// Si es que llegara a extenderse el estilo de texto de los botones
-// Podria considerar mantener esto como base
-// type BarText = 'primary';
-// export const barText: Record<BarText, TextStyle> = {
-//   primary: {
-//     ...Typography.fontSize.medium,
-//     ...Typography.fontWeight.semibold,
-//     color: Colors.palette.text,
-//   },
-// };
+type BarText = 'primary';
+export const barText: Record<BarText, TextStyle> = {
+  primary: {
+    ...Typography.fontSize.medium,
+    ...Typography.fontWeight.semibold,
+  },
+};
 
-type ButtonStyle = 'standard' | 'fullWidth';
+type ButtonStyle = 'contained' | 'fullWidth' | 'text';
 export const buttonStyle: Record<ButtonStyle, ViewStyle> = {
-  standard: {
+  contained: {
     ...bar.primary,
+    backgroundColor: Colors.palette.primary,
     width: Sizing.layout.x150,
   },
   fullWidth: {
     ...bar.primary,
+    backgroundColor: Colors.palette.primary,
     width: Sizing.screen.width - Sizing.layout.x30,
+  },
+  text: {
+    ...bar.primary,
+    width: Sizing.layout.x150,
   },
 };
 
-type ButtonTextStyle = 'primary';
+type ButtonTextStyle = 'contained' | 'text';
 export const buttonText: Record<ButtonTextStyle, TextStyle> = {
-  primary: {
-    ...Typography.fontSize.medium,
-    ...Typography.fontWeight.bold,
+  contained: {
+    ...barText.primary,
     color: Colors.palette.text,
+  },
+  text: {
+    ...barText.primary,
+    color: Colors.palette.primary,
   },
 };
 

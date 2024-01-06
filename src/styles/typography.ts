@@ -3,8 +3,11 @@ import { systemWeights } from 'react-native-typography';
 
 import * as Colors from './colors';
 
-type FontSize = 'small' | 'medium' | 'large' | 'xLarge';
+type FontSize = 'xSmall' | 'small' | 'medium' | 'large' | 'xLarge';
 export const fontSize: Record<FontSize, TextStyle> = {
+  xSmall: {
+    fontSize: 10,
+  },
   small: {
     fontSize: 13,
   },
@@ -63,7 +66,7 @@ export const headerStyles: Record<HeaderStyle, TextStyle> = {
     color: Colors.palette.text,
   },
   small: {
-    ...fontSize.medium,
+    ...fontSize.large,
     ...fontWeight.bold,
     ...lineHeight.medium,
     color: Colors.palette.primary,
@@ -86,7 +89,7 @@ export const subheaderStyles: Record<SubheaderStyle, TextStyle> = {
   },
 };
 
-type Body = 'primary' | 'secondary' | 'highlight' | 'muted';
+type Body = 'primary' | 'secondary' | 'highlight' | 'muted' | 'error';
 export const bodyStyles: Record<Body, TextStyle> = {
   primary: {
     ...fontSize.medium,
@@ -111,5 +114,11 @@ export const bodyStyles: Record<Body, TextStyle> = {
     ...fontWeight.regular,
     ...lineHeight.small,
     color: Colors.palette.border,
+  },
+  error: {
+    ...fontSize.xSmall,
+    ...fontWeight.regular,
+    ...lineHeight.small,
+    color: Colors.palette.error,
   },
 };
