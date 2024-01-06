@@ -13,17 +13,21 @@ export default function RegisterScreen({
   navigation,
 }: Navigation.RegisterNavigationProps): JSX.Element {
   const signUpValidationSchema = yup.object().shape({
-    fullName: yup
+    firstName: yup
       .string()
-      .matches(/(\w.+\s).+/, 'Ingresa nombre y apellido')
-      .required('Nombre completo es requerido'),
-    phoneNumber: yup
+      .matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, 'Ingresa tu nombre')
+      .required('El nombre es requerido'),
+    lastName: yup
       .string()
-      .matches(/(56)(\d){9}\b/, 'Ingresa un número de teléfono válido')
-      .required('Número de teléfono es requerido'),
+      .matches(/^[A-Za-z]+$/, 'Ingresa tu primer apellido')
+      .required('El primer apellido es requerido'),
+    secondLastName: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, 'Ingresa tu segundo apellido')
+      .required('El segundo apellido es requerido'),
     email: yup
       .string()
-      .email('Por favor ingresa una dirección de correo válida')
+      .email('Ingresa tu dirección de correo electrónico')
       .required('Dirección de correo es requerida'),
     password: yup
       .string()
@@ -59,10 +63,10 @@ export default function RegisterScreen({
           <Formik
             validationSchema={signUpValidationSchema}
             initialValues={{
-              fullName: '',
-              rut: '',
+              firstName: '',
+              lastName: '',
+              secondLastName: '',
               email: '',
-              phoneNumber: '',
               password: '',
               confirmPassword: '',
             }}
@@ -71,14 +75,12 @@ export default function RegisterScreen({
           >
             {({ handleSubmit, isValid }) => (
               <>
-                <Field component={CustomTextInput} name="fullName" placeholder="Nombre completo" />
-                <Field component={CustomTextInput} name="rut" placeholder="RUT" />
+                <Field component={CustomTextInput} name="firstName" placeholder="Nombre(s)" />
+                <Field component={CustomTextInput} name="lastName" placeholder="Primer apellido" />
                 <Field
                   component={CustomTextInput}
-                  name="phoneNumber"
-                  placeholder="Número de teléfono"
-                  keyboardType="phone-pad"
-                  textContentType="telephoneNumber"
+                  name="secondLastName"
+                  placeholder="Segundo apellido"
                 />
                 <Field
                   component={CustomTextInput}
@@ -99,13 +101,13 @@ export default function RegisterScreen({
                   />
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}
-                    size={24}
+                    size={Sizing.x25}
                     color="#aaa"
                     style={styles.passwordIcon}
                     onPress={toggleShowPassword}
                   />
                 </View>
-                <View style={styles.passwordContainer}>
+                <View style={styles.confirmPasswordContainer}>
                   <Field
                     component={CustomTextInput}
                     name="confirmPassword"
@@ -115,7 +117,7 @@ export default function RegisterScreen({
                   />
                   <MaterialCommunityIcons
                     name={showConfirmPassword ? 'eye-off' : 'eye'}
-                    size={24}
+                    size={Sizing.x25}
                     color="#aaa"
                     style={styles.passwordIcon}
                     onPress={toggleShowConfirmPassword}
@@ -154,6 +156,10 @@ const styles = StyleSheet.create({
   },
   passwordContainer: {
     position: 'relative',
+  },
+  confirmPasswordContainer: {
+    position: 'relative',
+    marginBottom: Sizing.layout.x20,
   },
   logo: {
     width: Sizing.screen.width * 0.25,

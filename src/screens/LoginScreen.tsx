@@ -66,7 +66,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                   />
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}
-                    size={24}
+                    size={Sizing.x25}
                     color="#aaa"
                     style={styles.passwordIcon}
                     onPress={toggleShowPassword}
