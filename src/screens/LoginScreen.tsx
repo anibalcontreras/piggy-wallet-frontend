@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: Sizing.layout.x10,
+    marginTop: Sizing.layout.x80,
   },
   passwordContainer: {
     position: 'relative',
