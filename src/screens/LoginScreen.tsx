@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
@@ -44,35 +44,25 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             onSubmit={(values) => console.log(values)}
             validateOnMount={true}
           >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+            {({ handleSubmit, isValid }) => (
               <>
-                <CustomTextInput
+                <Field
+                  component={CustomTextInput}
                   name="email"
                   placeholder="Correo electrónico"
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
                   keyboardType="email-address"
                   inputMode="email"
                   textContentType="emailAddress"
                   autoCapitalize="none"
                 />
-                {errors.email && touched.email && (
-                  <Text style={styles.validationBody}>{errors.email}</Text>
-                )}
                 <View style={styles.passwordContainer}>
-                  <CustomTextInput
+                  <Field
+                    component={CustomTextInput}
                     name="password"
                     placeholder="Contraseña"
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
                     textContentType="password"
                     secureTextEntry={!showPassword}
                   />
-                  {errors.password && touched.password && (
-                    <Text style={styles.validationBody}>{errors.password}</Text>
-                  )}
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}
                     size={24}
