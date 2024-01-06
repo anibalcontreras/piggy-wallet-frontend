@@ -3,9 +3,9 @@ import { systemWeights } from 'react-native-typography';
 
 import * as Colors from './colors';
 
-type FontSize = 'xsmall' | 'small' | 'medium' | 'large' | 'xLarge';
+type FontSize = 'xSmall' | 'small' | 'medium' | 'large' | 'xLarge';
 export const fontSize: Record<FontSize, TextStyle> = {
-  xsmall: {
+  xSmall: {
     fontSize: 10,
   },
   small: {
@@ -116,7 +116,7 @@ export const bodyStyles: Record<Body, TextStyle> = {
     color: Colors.palette.border,
   },
   error: {
-    ...fontSize.xsmall,
+    ...fontSize.xSmall,
     ...fontWeight.regular,
     ...lineHeight.small,
     color: Colors.palette.error,

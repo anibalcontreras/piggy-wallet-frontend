@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
 import { Colors, Outlines, Sizing, Typography } from '../../styles';
-import { type CustomTextInputProps } from '../../types/components';
+import { type Components } from '../../types';
 
-function CustomTextInput(props: CustomTextInputProps): JSX.Element {
+function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
   const {
     field: { name, onBlur, onChange, value },
     form: { errors, touched, setFieldTouched },

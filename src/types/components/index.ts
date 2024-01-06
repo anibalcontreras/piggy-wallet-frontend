@@ -1,10 +1,8 @@
 import { type FieldProps } from 'formik';
-import { type TextInputProps } from 'react-native';
+import { type PressableProps, type TextInputProps } from 'react-native';
 
-export interface ButtonProps {
+export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
-  onPress?: () => void;
-  disabled?: boolean;
   children: string | string[];
 }
 

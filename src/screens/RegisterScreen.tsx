@@ -125,7 +125,7 @@ export default function RegisterScreen({
                     onPress={() => toggleShowPassword('confirmPassword')}
                   />
                 </View>
-                <Button onPress={handleSubmit} disabled={!isValid}>
+                <Button onPress={() => handleSubmit} disabled={!isValid}>
                   Registrarme
                 </Button>
               </>

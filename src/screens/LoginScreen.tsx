@@ -71,7 +71,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     onPress={toggleShowPassword}
                   />
                 </View>
-                <Button onPress={handleSubmit} disabled={!isValid}>
+                <Button onPress={() => handleSubmit} disabled={!isValid}>
                   Iniciar Sesión
                 </Button>
               </>

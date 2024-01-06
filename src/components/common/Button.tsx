@@ -1,34 +1,33 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
-import { type ButtonProps } from '../../types/components';
+import { type Components } from '../../types';
 import { Buttons } from '../../styles';
 
-function Button({ variant = 'contained', onPress, children, disabled }: ButtonProps): JSX.Element {
+function Button({ variant = 'contained', ...props }: Components.ButtonProps): JSX.Element {
   let buttonStyle;
   let textStyle;
   switch (variant) {
     case 'contained':
-      buttonStyle = disabled ? style.disabledContainedButton : style.containedButton;
+      buttonStyle = props.disabled ?? false ? style.disabledContainedButton : style.containedButton;
       textStyle = style.containedButtonText;
       break;
     case 'fullWidth':
-      buttonStyle = disabled ? style.disabledFullWidthButton : style.fullWidthButton;
+      buttonStyle = props.disabled ?? false ? style.disabledFullWidthButton : style.fullWidthButton;
       textStyle = Buttons.buttonText.contained;
       break;
     case 'text':
-      buttonStyle = disabled ? style.disabledTextButton : style.textButton;
+      buttonStyle = props.disabled ?? false ? style.disabledTextButton : style.textButton;
       textStyle = Buttons.buttonText.text;
       break;
   }
 
   return (
     <Pressable
-      style={disabled ? buttonStyle : Buttons.applyOpacity(buttonStyle)}
-      onPress={onPress}
-      disabled={disabled}
+      style={props.disabled ?? false ? buttonStyle : Buttons.applyOpacity(buttonStyle)}
+      disabled={props.disabled}
+      {...props}
     >
-      <Text style={textStyle}>{children}</Text>
+      <Text style={textStyle}>{props.children}</Text>
     </Pressable>
   );
 }
@@ -37,19 +36,19 @@ const style = StyleSheet.create({
   containedButton: {
     ...Buttons.buttonStyle.contained,
   },
-  fullWidthButton: {
-    ...Buttons.buttonStyle.fullWidth,
-  },
-  textButton: {
-    ...Buttons.buttonStyle.text,
-  },
   disabledContainedButton: {
     ...Buttons.buttonStyle.contained,
     opacity: 0.35,
   },
+  fullWidthButton: {
+    ...Buttons.buttonStyle.fullWidth,
+  },
   disabledFullWidthButton: {
     ...Buttons.buttonStyle.fullWidth,
     opacity: 0.35,
+  },
+  textButton: {
+    ...Buttons.buttonStyle.text,
   },
   disabledTextButton: {
     ...Buttons.buttonStyle.text,
