@@ -127,8 +127,4 @@ const styles = StyleSheet.create({
     ...Typography.subheaderStyles.regular,
     marginBottom: Sizing.layout.x20,
   },
-  validationBody: {
-    ...Typography.bodyStyles.error,
-    alignSelf: 'center',
-  },
 });

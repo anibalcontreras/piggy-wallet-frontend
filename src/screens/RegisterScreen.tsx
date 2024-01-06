@@ -40,12 +40,14 @@ export default function RegisterScreen({
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const toggleShowPassword = (): void => {
-    setShowPassword(!showPassword);
-  };
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const toggleShowConfirmPassword = (): void => {
-    setShowConfirmPassword(!showConfirmPassword);
+
+  const toggleShowPassword = (fieldName: string): void => {
+    if (fieldName === 'password') {
+      setShowPassword(!showPassword);
+    } else if (fieldName === 'confirmPassword') {
+      setShowConfirmPassword(!showConfirmPassword);
+    }
   };
 
   return (
@@ -104,7 +106,7 @@ export default function RegisterScreen({
                     size={Sizing.x25}
                     color="#aaa"
                     style={styles.passwordIcon}
-                    onPress={toggleShowPassword}
+                    onPress={() => toggleShowPassword('password')}
                   />
                 </View>
                 <View style={styles.confirmPasswordContainer}>
@@ -120,7 +122,7 @@ export default function RegisterScreen({
                     size={Sizing.x25}
                     color="#aaa"
                     style={styles.passwordIcon}
-                    onPress={toggleShowConfirmPassword}
+                    onPress={() => toggleShowPassword('confirmPassword')}
                   />
                 </View>
                 <Button onPress={handleSubmit} disabled={!isValid}>
@@ -149,7 +151,6 @@ const styles = StyleSheet.create({
     marginLeft: Sizing.layout.x15,
   },
   contentContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: Sizing.layout.x20,
@@ -180,11 +181,5 @@ const styles = StyleSheet.create({
   body: {
     ...Typography.subheaderStyles.regular,
     marginBottom: Sizing.layout.x20,
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
   },
 });

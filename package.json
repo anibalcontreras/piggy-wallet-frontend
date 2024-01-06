@@ -11,7 +11,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "jest -u"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",

@@ -1,16 +1,7 @@
 import React from 'react';
-import { Text, TextInput, type TextInputProps, StyleSheet } from 'react-native';
-import { type FieldProps } from 'formik';
+import { StyleSheet, Text, TextInput } from 'react-native';
 import { Colors, Outlines, Sizing, Typography } from '../../styles';
-
-interface CustomTextInputProps extends TextInputProps {
-  field: FieldProps['field'];
-  form: {
-    errors: Record<string, string>;
-    touched: Record<string, boolean>;
-    setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
-  };
-}
+import { type CustomTextInputProps } from '../../types/components';
 
 function CustomTextInput(props: CustomTextInputProps): JSX.Element {
   const {
@@ -18,13 +9,12 @@ function CustomTextInput(props: CustomTextInputProps): JSX.Element {
     form: { errors, touched, setFieldTouched },
     ...inputProps
   } = props;
-
   const hasError = Boolean(errors[name]) && touched[name];
 
   return (
     <>
       <TextInput
-        style={[styles.input, hasError && styles.validationInput]}
+        style={[styles.input, hasError && styles.inputError]}
         value={value}
         onChangeText={(text) => onChange(name)(text)}
         onBlur={() => {
@@ -52,12 +42,12 @@ const styles = StyleSheet.create({
     borderWidth: Outlines.borderWidth.thin,
     color: Colors.palette.primary,
   },
+  inputError: {
+    borderColor: Colors.palette.error,
+  },
   validationBody: {
     ...Typography.bodyStyles.error,
     alignSelf: 'center',
-  },
-  validationInput: {
-    borderColor: Colors.palette.error,
   },
 });
 
