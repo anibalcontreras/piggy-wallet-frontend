@@ -8,6 +8,7 @@ import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
+import { useAuth } from '../context/AuthContext';
 
 export default function RegisterScreen({
   navigation,
@@ -41,12 +42,43 @@ export default function RegisterScreen({
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { onLogin, onRegister } = useAuth();
 
   const toggleShowPassword = (fieldName: string): void => {
     if (fieldName === 'password') {
       setShowPassword(!showPassword);
     } else if (fieldName === 'confirmPassword') {
       setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
+
+  const login = async (email: string, password: string): Promise<void> => {
+    const result = await onLogin?.(email, password);
+    if (Boolean(result) && Boolean(result.error)) {
+      alert(result.msg);
+    }
+  };
+
+  const register = async (
+    firstName: string,
+    lastName: string,
+    secondLastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ): Promise<void> => {
+    const result = await onRegister?.(
+      firstName,
+      lastName,
+      secondLastName,
+      email,
+      password,
+      confirmPassword
+    );
+    if (Boolean(result) && Boolean(result.error)) {
+      alert(result.msg);
+    } else {
+      await login(email, password);
     }
   };
 
@@ -72,7 +104,16 @@ export default function RegisterScreen({
               password: '',
               confirmPassword: '',
             }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={async (values) =>
+              await register(
+                values.email,
+                values.password,
+                values.firstName,
+                values.lastName,
+                values.secondLastName,
+                values.confirmPassword
+              )
+            }
             validateOnMount={true}
           >
             {({ handleSubmit, isValid }) => (
@@ -98,7 +139,7 @@ export default function RegisterScreen({
                     component={CustomTextInput}
                     name="password"
                     placeholder="Contraseña"
-                    textContentType="password"
+                    // textContentType="password"
                     secureTextEntry={!showPassword}
                   />
                   <MaterialCommunityIcons
@@ -114,7 +155,7 @@ export default function RegisterScreen({
                     component={CustomTextInput}
                     name="confirmPassword"
                     placeholder="Confirmar contraseña"
-                    textContentType="password"
+                    // textContentType="password"
                     secureTextEntry={!showConfirmPassword}
                   />
                   <MaterialCommunityIcons
@@ -125,7 +166,7 @@ export default function RegisterScreen({
                     onPress={() => toggleShowPassword('confirmPassword')}
                   />
                 </View>
-                <Button onPress={() => handleSubmit} disabled={!isValid}>
+                <Button onPress={() => handleSubmit()} disabled={!isValid}>
                   Registrarme
                 </Button>
               </>
