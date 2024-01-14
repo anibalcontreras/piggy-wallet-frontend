@@ -31,7 +31,9 @@ export const Layout = (): JSX.Element => {
     <NavigationContainer theme={defaultTheme}>
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         {authState?.authenticated ?? false ? (
-          <Stack.Screen name="LayoutTab" component={LayoutTab} />
+          <>
+            <Stack.Screen name="LayoutTab" component={LayoutTab} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
