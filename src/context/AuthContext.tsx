@@ -9,8 +9,7 @@ interface AuthProps {
     lastName: string,
     secondLastName: string,
     email: string,
-    password: string,
-    confirmPassword: string
+    password: string
   ) => Promise<any>;
   onLogin?: (email: string, password: string) => Promise<any>;
   onLogout?: () => Promise<any>;
@@ -64,8 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     lastName: string,
     secondLastName: string,
     email: string,
-    password: string,
-    confirmPassword: string
+    password: string
   ): Promise<AxiosResponse | ServiceError> => {
     try {
       return await axios.post(`${API_URL}/users`, {
@@ -74,7 +72,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         secondLastName,
         email,
         password,
-        confirmPassword,
       });
     } catch (error) {
       return { error: true, msg: (error as Error).message }; // (error as any).response.data.msg

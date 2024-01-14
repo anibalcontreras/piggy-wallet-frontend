@@ -24,7 +24,7 @@ export default function App(): JSX.Element {
   );
 }
 
-export const Layout = (): JSX.Element => {
+const Layout = (): JSX.Element => {
   const { authState } = useAuth();
   const Stack = createNativeStackNavigator<RootStackParamsList>();
   return (

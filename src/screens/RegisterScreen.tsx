@@ -64,17 +64,9 @@ export default function RegisterScreen({
     lastName: string,
     secondLastName: string,
     email: string,
-    password: string,
-    confirmPassword: string
+    password: string
   ): Promise<void> => {
-    const result = await onRegister?.(
-      firstName,
-      lastName,
-      secondLastName,
-      email,
-      password,
-      confirmPassword
-    );
+    const result = await onRegister?.(firstName, lastName, secondLastName, email, password);
     if (Boolean(result) && Boolean(result.error)) {
       alert(result.msg);
     } else {
@@ -106,12 +98,11 @@ export default function RegisterScreen({
             }}
             onSubmit={async (values) =>
               await register(
-                values.email,
-                values.password,
                 values.firstName,
                 values.lastName,
                 values.secondLastName,
-                values.confirmPassword
+                values.email,
+                values.password
               )
             }
             validateOnMount={true}
