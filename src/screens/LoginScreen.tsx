@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,8 +8,7 @@ import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
-import { API_URL, useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
   const loginValidationSchema = yup.object().shape({
@@ -23,29 +22,19 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       .required('Contraseña es requerida'),
   });
 
-  const [showPassword, setShowPassword] = useState(false);
   const { onLogin } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = (): void => {
     setShowPassword(!showPassword);
   };
+
   const login = async (email: string, password: string): Promise<void> => {
     const result = await onLogin?.(email, password);
     if (Boolean(result) && Boolean(result.error)) {
       alert(result.msg);
     }
   };
-
-  useEffect(() => {
-    const testCall = async (): Promise<void> => {
-      const result = await axios.get(`${API_URL}/users`);
-      console.log('result of testCall in Login.tsx', result);
-    };
-    testCall().then(
-      () => {},
-      () => {}
-    );
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

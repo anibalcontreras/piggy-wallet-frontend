@@ -1,31 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios, { type AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
-
-interface AuthProps {
-  authState?: { token: string | null; authenticated: boolean | null };
-  onRegister?: (
-    firstName: string,
-    lastName: string,
-    secondLastName: string,
-    email: string,
-    password: string
-  ) => Promise<any>;
-  onLogin?: (email: string, password: string) => Promise<any>;
-  onLogout?: () => Promise<any>;
-}
-
-interface ServiceError {
-  error: boolean;
-  msg: string;
-}
+import { type Authorization } from '../types';
+import { axiosInstance } from '../service/api';
+import { END_POINT } from '../service/constant';
 
 const TOKEN_KEY = process.env.EXPO_PUBLIC_TOKEN_KEY ?? '';
-export const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const AuthContext = createContext<Authorization.AuthProps>({});
 
-const AuthContext = createContext<AuthProps>({});
-
-export const useAuth = (): AuthProps => {
+export const useAuth = (): Authorization.AuthProps => {
   return useContext(AuthContext);
 };
 
@@ -59,30 +42,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   }, []);
 
   const register = async (
-    firstName: string,
-    lastName: string,
-    secondLastName: string,
-    email: string,
-    password: string
-  ): Promise<AxiosResponse | ServiceError> => {
+    userRegister: Authorization.UserRegister
+  ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
-      return await axios.post(`${API_URL}/users`, {
-        firstName,
-        lastName,
-        secondLastName,
-        email,
-        password,
+      const { firstName, lastName, secondLastName, email, password } = userRegister;
+      return await axiosInstance.request({
+        method: 'POST',
+        url: END_POINT.register,
+        data: {
+          firstName,
+          lastName,
+          secondLastName,
+          email,
+          password,
+        },
       });
     } catch (error) {
-      return { error: true, msg: (error as Error).message }; // (error as any).response.data.msg
+      return { error: true, msg: (error as Error).message };
     }
   };
 
-  const login = async (email: string, password: string): Promise<AxiosResponse | ServiceError> => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
-      const result = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/auth`, {
-        email,
-        password,
+      const result = await axiosInstance.request({
+        method: 'POST',
+        url: END_POINT.login,
+        data: {
+          email,
+          password,
+        },
       });
 
       setAuthState({
@@ -96,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
       return result;
     } catch (error) {
-      return { error: true, msg: (error as Error).message }; // (error as any).response.data.msg
+      return { error: true, msg: (error as Error).message };
     }
   };
 

@@ -4,11 +4,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Navigation } from '../types';
+import { type Authorization, type Navigation } from '../types';
+import { useAuth } from '../context/AuthContext';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
-import { useAuth } from '../context/AuthContext';
 
 export default function RegisterScreen({
   navigation,
@@ -40,9 +40,9 @@ export default function RegisterScreen({
       .required('Confirmar contraseña es requerido'),
   });
 
+  const { onLogin, onRegister } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { onLogin, onRegister } = useAuth();
 
   const toggleShowPassword = (fieldName: string): void => {
     if (fieldName === 'password') {
@@ -59,17 +59,12 @@ export default function RegisterScreen({
     }
   };
 
-  const register = async (
-    firstName: string,
-    lastName: string,
-    secondLastName: string,
-    email: string,
-    password: string
-  ): Promise<void> => {
-    const result = await onRegister?.(firstName, lastName, secondLastName, email, password);
+  const register = async (userRegister: Authorization.UserRegister): Promise<void> => {
+    const result = await onRegister?.(userRegister);
     if (Boolean(result) && Boolean(result.error)) {
       alert(result.msg);
     } else {
+      const { email, password } = userRegister;
       await login(email, password);
     }
   };
@@ -96,15 +91,16 @@ export default function RegisterScreen({
               password: '',
               confirmPassword: '',
             }}
-            onSubmit={async (values) =>
-              await register(
-                values.firstName,
-                values.lastName,
-                values.secondLastName,
-                values.email,
-                values.password
-              )
-            }
+            onSubmit={async (values) => {
+              const userRegister: Authorization.UserRegister = {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                secondLastName: values.secondLastName,
+                email: values.email,
+                password: values.password,
+              };
+              await register(userRegister);
+            }}
             validateOnMount={true}
           >
             {({ handleSubmit, isValid }) => (
