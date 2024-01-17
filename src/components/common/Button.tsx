@@ -32,7 +32,11 @@ function Button({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator size="small" color={Colors.palette.text} />
+        <ActivityIndicator
+          size="small"
+          color={Colors.palette.text}
+          testID="button-loading-indicator"
+        />
       ) : (
         <Text style={textStyle}>{props.children}</Text>
       )}
