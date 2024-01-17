@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
@@ -23,6 +23,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   });
 
   const { onLogin } = useAuth();
+  const [isLogginIn, setIsLogginIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = (): void => {
@@ -30,9 +31,11 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   };
 
   const login = async (email: string, password: string): Promise<void> => {
+    setIsLogginIn(true);
     const result = await onLogin?.(email, password);
+    setIsLogginIn(false);
     if (Boolean(result) && Boolean(result.error)) {
-      alert(result.msg);
+      Alert.alert('Error', 'Correo o contraseña incorrectos');
     }
   };
 
@@ -83,9 +86,13 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     onPress={toggleShowPassword}
                   />
                 </View>
-                <Button onPress={() => handleSubmit()} disabled={!isValid}>
-                  Iniciar Sesión
-                </Button>
+                {isLogginIn ? (
+                  <Button loading={true} />
+                ) : (
+                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                    Iniciar Sesión
+                  </Button>
+                )}
               </>
             )}
           </Formik>

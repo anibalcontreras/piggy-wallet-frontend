@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   useEffect(() => {
     const loadToken = async (): Promise<void> => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      console.log('stored:', token);
 
       if (token !== null) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`; // Revisar header

@@ -1,9 +1,13 @@
 import React from 'react';
-import { Text, Pressable, StyleSheet } from 'react-native';
+import { Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { type Components } from '../../types';
-import { Buttons } from '../../styles';
+import { Buttons, Colors } from '../../styles';
 
-function Button({ variant = 'contained', ...props }: Components.ButtonProps): JSX.Element {
+function Button({
+  variant = 'contained',
+  loading = false,
+  ...props
+}: Components.ButtonProps): JSX.Element {
   let buttonStyle;
   let textStyle;
   switch (variant) {
@@ -27,7 +31,11 @@ function Button({ variant = 'contained', ...props }: Components.ButtonProps): JS
       disabled={props.disabled}
       {...props}
     >
-      <Text style={textStyle}>{props.children}</Text>
+      {loading ? (
+        <ActivityIndicator size="small" color={Colors.palette.text} />
+      ) : (
+        <Text style={textStyle}>{props.children}</Text>
+      )}
     </Pressable>
   );
 }
