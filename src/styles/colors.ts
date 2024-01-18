@@ -1,22 +1,24 @@
 // This file has a really basic way of defining colors and palettes.
 // If more colors are added, layout should change as shown in documentation.
 
-type Colors = 'almostBlack' | 'darkBlue' | 'seaGreen' | 'grey' | 'white';
+type Colors = 'almostBlack' | 'darkBlue' | 'seaGreen' | 'grey' | 'white' | 'orange';
 const colors: Record<Colors, string> = {
   almostBlack: '#191E29',
   darkBlue: '#132D46',
   seaGreen: '#01C38D',
   grey: '#696E79',
   white: '#FFFFFF',
+  orange: '#E67E22',
 };
 
-type Palette = 'primary' | 'secondary' | 'background' | 'text' | 'border';
+type Palette = 'primary' | 'secondary' | 'background' | 'text' | 'border' | 'error';
 export const palette: Record<Palette, string> = {
   primary: colors.seaGreen,
   secondary: colors.almostBlack,
   background: colors.darkBlue,
   text: colors.white,
   border: colors.grey,
+  error: colors.orange,
 };
 
 // Utility function to apply opacity to hex colors

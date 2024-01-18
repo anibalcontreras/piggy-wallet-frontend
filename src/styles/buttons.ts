@@ -10,9 +10,9 @@ export const bar: Record<Bar, ViewStyle> = {
   primary: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Sizing.layout.x30,
-    borderRadius: Outlines.borderRadius.base,
-    backgroundColor: Colors.palette.primary,
+    padding: Sizing.layout.x20,
+    borderRadius: Outlines.borderRadius.large,
+    marginBottom: Sizing.x20,
   },
 };
 
@@ -21,28 +21,36 @@ export const barText: Record<BarText, TextStyle> = {
   primary: {
     ...Typography.fontSize.medium,
     ...Typography.fontWeight.semibold,
-    color: Colors.palette.text,
   },
 };
 
-type ButtonStyle = 'standard' | 'fullWidth';
+type ButtonStyle = 'contained' | 'fullWidth' | 'text';
 export const buttonStyle: Record<ButtonStyle, ViewStyle> = {
-  standard: {
+  contained: {
     ...bar.primary,
+    backgroundColor: Colors.palette.primary,
     width: Sizing.layout.x150,
   },
   fullWidth: {
     ...bar.primary,
-    width: '100%',
+    backgroundColor: Colors.palette.primary,
+    width: Sizing.screen.width - Sizing.layout.x30,
+  },
+  text: {
+    ...bar.primary,
+    width: Sizing.layout.x150,
   },
 };
 
-type ButtonTextStyle = 'primary';
+type ButtonTextStyle = 'contained' | 'text';
 export const buttonText: Record<ButtonTextStyle, TextStyle> = {
-  primary: {
-    ...Typography.fontSize.medium,
-    ...Typography.fontWeight.bold,
+  contained: {
+    ...barText.primary,
     color: Colors.palette.text,
+  },
+  text: {
+    ...barText.primary,
+    color: Colors.palette.primary,
   },
 };
 
