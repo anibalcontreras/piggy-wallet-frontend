@@ -21,7 +21,6 @@ describe('Button Component', () => {
 
   it('renders an ActivityIndicator when loading prop is true', () => {
     const { queryByTestId } = render(<Button loading>Test</Button>);
-    // Busca el ActivityIndicator usando el testID
     expect(queryByTestId('button-loading-indicator')).toBeTruthy();
   });
 

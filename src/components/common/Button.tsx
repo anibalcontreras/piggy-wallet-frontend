@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 import { type Components } from '../../types';
 import { Buttons, Colors } from '../../styles';
 

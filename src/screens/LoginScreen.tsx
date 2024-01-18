@@ -6,9 +6,9 @@ import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
-import { useAuth } from '../context/AuthContext';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
   const loginValidationSchema = yup.object().shape({
@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   });
 
   const { onLogin } = useAuth();
-  const [isLogginIn, setIsLogginIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = (): void => {
@@ -31,9 +31,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   };
 
   const login = async (email: string, password: string): Promise<void> => {
-    setIsLogginIn(true);
+    setIsLoggingIn(true);
     const result = await onLogin?.(email, password);
-    setIsLogginIn(false);
+    setIsLoggingIn(false);
     if (Boolean(result) && Boolean(result.error)) {
       Alert.alert('Error', 'Correo o contraseña incorrectos');
     }
@@ -86,7 +86,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     onPress={toggleShowPassword}
                   />
                 </View>
-                {isLogginIn ? (
+                {isLoggingIn ? (
                   <Button loading={true} />
                 ) : (
                   <Button onPress={() => handleSubmit()} disabled={!isValid}>

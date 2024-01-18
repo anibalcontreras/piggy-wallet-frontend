@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import axios, { type AxiosResponse } from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import axios, { type AxiosResponse } from 'axios';
 import { type Authorization } from '../types';
 import { axiosInstance } from '../service/api';
 import { END_POINT } from '../service/constant';
