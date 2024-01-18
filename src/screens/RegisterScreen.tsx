@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, SafeAreaView, StyleSheet } from 'react-native';
+import { Alert, View, Text, TouchableOpacity, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Navigation } from '../types';
+import { type Authorization, type Navigation } from '../types';
+import { useAuth } from '../context/AuthContext';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
@@ -39,6 +40,8 @@ export default function RegisterScreen({
       .required('Confirmar contraseña es requerido'),
   });
 
+  const { onLogin, onRegister } = useAuth();
+  const [isSigningUp, setIsSigningUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -47,6 +50,25 @@ export default function RegisterScreen({
       setShowPassword(!showPassword);
     } else if (fieldName === 'confirmPassword') {
       setShowConfirmPassword(!showConfirmPassword);
+    }
+  };
+
+  const login = async (email: string, password: string): Promise<void> => {
+    const result = await onLogin?.(email, password);
+    if (Boolean(result) && Boolean(result.error)) {
+      Alert.alert('Error', 'Ingresa los datos en el formato correcto');
+    }
+  };
+
+  const register = async (userRegister: Authorization.UserRegister): Promise<void> => {
+    setIsSigningUp(true);
+    const result = await onRegister?.(userRegister);
+    setIsSigningUp(false);
+    if (Boolean(result) && Boolean(result.error)) {
+      Alert.alert('Error', 'Ingresa los datos en el formato correcto');
+    } else {
+      const { email, password } = userRegister;
+      await login(email, password);
     }
   };
 
@@ -72,7 +94,16 @@ export default function RegisterScreen({
               password: '',
               confirmPassword: '',
             }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={async (values) => {
+              const userRegister: Authorization.UserRegister = {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                secondLastName: values.secondLastName,
+                email: values.email,
+                password: values.password,
+              };
+              await register(userRegister);
+            }}
             validateOnMount={true}
           >
             {({ handleSubmit, isValid }) => (
@@ -125,9 +156,13 @@ export default function RegisterScreen({
                     onPress={() => toggleShowPassword('confirmPassword')}
                   />
                 </View>
-                <Button onPress={() => handleSubmit} disabled={!isValid}>
-                  Registrarme
-                </Button>
+                {isSigningUp ? (
+                  <Button loading={true} />
+                ) : (
+                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                    Registrarme
+                  </Button>
+                )}
               </>
             )}
           </Formik>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, Image, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import CustomTextInput from '../components/common/CustomTextInput';
 
@@ -21,9 +22,21 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       .required('Contraseña es requerida'),
   });
 
+  const { onLogin } = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const toggleShowPassword = (): void => {
     setShowPassword(!showPassword);
+  };
+
+  const login = async (email: string, password: string): Promise<void> => {
+    setIsLoggingIn(true);
+    const result = await onLogin?.(email, password);
+    setIsLoggingIn(false);
+    if (Boolean(result) && Boolean(result.error)) {
+      Alert.alert('Error', 'Correo o contraseña incorrectos');
+    }
   };
 
   return (
@@ -41,7 +54,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
           <Formik
             validationSchema={loginValidationSchema}
             initialValues={{ email: '', password: '' }}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={async (values) => {
+              await login(values.email, values.password);
+            }}
             validateOnMount={true}
           >
             {({ handleSubmit, isValid }) => (
@@ -71,9 +86,13 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     onPress={toggleShowPassword}
                   />
                 </View>
-                <Button onPress={() => handleSubmit} disabled={!isValid}>
-                  Iniciar Sesión
-                </Button>
+                {isLoggingIn ? (
+                  <Button loading={true} />
+                ) : (
+                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                    Iniciar Sesión
+                  </Button>
+                )}
               </>
             )}
           </Formik>

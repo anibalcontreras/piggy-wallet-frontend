@@ -3,7 +3,8 @@ import { type PressableProps, type TextInputProps } from 'react-native';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
-  children: string | string[];
+  loading?: boolean;
+  children?: string | string[];
 }
 
 export interface CustomTextInputProps extends TextInputProps {

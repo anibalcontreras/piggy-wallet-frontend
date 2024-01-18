@@ -19,6 +19,11 @@ describe('Button Component', () => {
     expect(getByText(buttonText)).toBeTruthy();
   });
 
+  it('renders an ActivityIndicator when loading prop is true', () => {
+    const { queryByTestId } = render(<Button loading>Test</Button>);
+    expect(queryByTestId('button-loading-indicator')).toBeTruthy();
+  });
+
   it('handles onPress event correctly', () => {
     const mockOnPress = jest.fn();
     const { getByText } = render(<Button onPress={mockOnPress}>Test</Button>);
