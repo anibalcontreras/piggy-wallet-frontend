@@ -7,6 +7,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import LayoutTab from './src/screens/{tabs}/LayoutTab';
 import { type RootStackParamsList } from './src/types/navigation';
+import AddExpenseScreen from './src/screens/AddExpenseScreen';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -33,6 +34,7 @@ const Layout = (): JSX.Element => {
         {authState?.authenticated ?? false ? (
           <>
             <Stack.Screen name="LayoutTab" component={LayoutTab} />
+            <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
           </>
         ) : (
           <>

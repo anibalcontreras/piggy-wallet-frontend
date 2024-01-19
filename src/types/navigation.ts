@@ -6,9 +6,11 @@ export type RootStackParamsList = {
   Login: undefined;
   Register: undefined;
   LayoutTab: undefined;
+  AddExpense: undefined;
 };
 
 export type HomeNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
 export type LoginNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Login'>;
 export type RegisterNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Register'>;
 export type LayoutTabNavigationProps = NativeStackScreenProps<RootStackParamsList, 'LayoutTab'>;
+export type AddExpenseNavigationProps = NativeStackScreenProps<RootStackParamsList, 'AddExpense'>;
