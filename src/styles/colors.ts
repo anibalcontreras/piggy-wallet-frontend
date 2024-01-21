@@ -31,10 +31,11 @@ const applyOpacity = (hexColor: string, opacity: number): string => {
 };
 
 // You can also add specific shades or transparent versions as needed
-type Transparent = 'clear' | 'lightGrey' | 'darkBlue';
+type Transparent = 'clear' | 'lightGrey' | 'darkBlue' | 'lightWhite';
 export const transparent: Record<Transparent, string> = {
   clear: 'rgba(255, 255, 255, 0)',
   lightGrey: applyOpacity(colors.grey, 0.5),
   darkBlue: applyOpacity(colors.darkBlue, 0.5),
+  lightWhite: applyOpacity(colors.white, 0.85),
   // ... and so on
 };

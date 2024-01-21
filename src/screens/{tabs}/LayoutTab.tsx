@@ -21,6 +21,7 @@ export default function LayoutTab({
         tabBarStyle: {
           backgroundColor: Colors.palette.background,
           borderTopColor: Colors.palette.border,
+          paddingTop: Sizing.x15,
         },
       }}
     >
@@ -46,7 +47,11 @@ export default function LayoutTab({
         options={{
           tabBarIcon: () => (
             <View style={styles.addExpenseContainer}>
-              <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.text} />
+              <AntDesign
+                name="pluscircle"
+                size={Sizing.x50}
+                color={Colors.transparent.lightWhite}
+              />
             </View>
           ),
         }}

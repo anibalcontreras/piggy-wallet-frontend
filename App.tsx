@@ -34,7 +34,11 @@ const Layout = (): JSX.Element => {
         {authState?.authenticated ?? false ? (
           <>
             <Stack.Screen name="LayoutTab" component={LayoutTab} />
-            <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+            <Stack.Screen
+              name="AddExpense"
+              options={{ presentation: 'modal' }}
+              component={AddExpenseScreen}
+            />
           </>
         ) : (
           <>
