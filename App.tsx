@@ -5,9 +5,10 @@ import { Colors } from './src/styles';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import LayoutTab from './src/screens/{tabs}/LayoutTab';
+// import LayoutTab from './src/screens/{tabs}/LayoutTab';
 import { type RootStackParamsList } from './src/types/navigation';
 import AddExpenseScreen from './src/screens/AddExpenseScreen';
+import AppNavigator from './src/navigation/navigation';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -33,7 +34,7 @@ const Layout = (): JSX.Element => {
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         {authState?.authenticated ?? false ? (
           <>
-            <Stack.Screen name="LayoutTab" component={LayoutTab} />
+            <Stack.Screen name="AppNavigator" component={AppNavigator} />
             <Stack.Screen
               name="AddExpense"
               options={{ presentation: 'modal' }}
