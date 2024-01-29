@@ -5,7 +5,6 @@ import { Colors } from './src/styles';
 import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-// import LayoutTab from './src/screens/{tabs}/LayoutTab';
 import { type RootStackParamsList } from './src/types/navigation';
 import AddExpenseScreen from './src/screens/AddExpenseScreen';
 import AppNavigator from './src/navigation/navigation';

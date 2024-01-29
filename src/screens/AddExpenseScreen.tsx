@@ -1,11 +1,7 @@
 import { StyleSheet, View } from 'react-native';
-import React from 'react';
-import { type Navigation } from '../types';
 import { Colors } from '../styles';
 
-export default function AddExpenseScreen({
-  navigation,
-}: Navigation.AddExpenseNavigationProps): JSX.Element {
+export default function AddExpenseScreen(): JSX.Element {
   return <View style={styles.container}></View>;
 }
 

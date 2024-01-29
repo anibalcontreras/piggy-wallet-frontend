@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import type { ScreenValue } from '../../../navigation/types';
+import type { Navigation } from '../../../types';
 import { toBottomBarIconName, toBottomBarRouteName } from '../../../navigation/utils';
 import TabBarIndicator from './TabBarIndicator';
 import TabBarItem from './TabBarItem';
@@ -30,8 +30,8 @@ const BottomTabBar = ({
         {routeNames.map((routeName, index) => (
           <TabBarItem
             key={routeName}
-            title={toBottomBarRouteName(routeName as ScreenValue)}
-            iconName={toBottomBarIconName(routeName as ScreenValue)}
+            title={toBottomBarRouteName(routeName as Navigation.ScreenValue)}
+            iconName={toBottomBarIconName(routeName as Navigation.ScreenValue)}
             isSelected={selectedTab === index}
             onPress={() => navigation.navigate(routeName)}
           />
