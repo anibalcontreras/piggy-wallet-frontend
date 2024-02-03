@@ -1,11 +1,14 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Colors, Sizing } from '../../styles';
+import { Colors, Sizing } from '../styles';
+import type { Navigation } from '../types';
 
-export default function ExpensesTab(): JSX.Element {
+export default function ExpensesScreen({
+  navigation,
+}: Navigation.ExpensesNavigationProps): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => null}>
+      <TouchableOpacity onPress={() => navigation.navigate('AddExpense')}>
         <AntDesign
           style={styles.addButton}
           name="pluscircle"
