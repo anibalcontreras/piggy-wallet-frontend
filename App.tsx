@@ -2,12 +2,12 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { Colors } from './src/styles';
-// import HomeScreen from './src/screens/LandingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import { type RootStackParamsList } from './src/types/navigation';
 import AppNavigator from './src/navigation/navigation';
 import LandingScreen from './src/screens/LandingScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -34,6 +34,22 @@ const Layout = (): JSX.Element => {
         {authState?.authenticated ?? false ? (
           <>
             <Stack.Screen name="AppNavigator" component={AppNavigator} />
+            <Stack.Screen
+              options={{
+                headerShown: true,
+                title: 'Configuración',
+                headerStyle: {
+                  backgroundColor: Colors.palette.background,
+                },
+                headerTintColor: Colors.palette.text,
+                contentStyle: {
+                  borderTopColor: Colors.palette.border,
+                  borderTopWidth: 1,
+                },
+              }}
+              name="Settings"
+              component={SettingsScreen}
+            />
           </>
         ) : (
           <>

@@ -13,15 +13,18 @@ export type RootStackParamsList = {
   Login: undefined;
   Register: undefined;
   AppNavigator: undefined;
+  Settings: undefined;
 };
 
 export type ExpensesStackParamsList = {
   Expenses: undefined;
   AddExpense: undefined;
+  // Settings: undefined;
 };
 
 export type HomeStackParamsList = {
   Home: undefined;
+  Settings: undefined;
 };
 
 export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;
@@ -37,5 +40,7 @@ export type AddExpenseNavigationProps = NativeStackScreenProps<
   ExpensesStackParamsList,
   'AddExpense'
 >;
+// export type SettingsNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Settings'>;
 
 export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Home'>;
+// export type HomeSettingsNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Settings'>;
