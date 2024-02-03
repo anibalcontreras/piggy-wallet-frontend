@@ -1,8 +1,8 @@
 import type { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '../types';
 
-type BottomTabRouteMap = Record<Navigation.ScreenValue, string>;
-type BottomTabIconMap = Record<Navigation.ScreenValue, keyof typeof Entypo.glyphMap>;
+type BottomTabRouteMap = Record<Navigation.TabValue, string>;
+type BottomTabIconMap = Record<Navigation.TabValue, keyof typeof Entypo.glyphMap>;
 
 const bottomTabBarRoutesMap: BottomTabRouteMap = {
   HOME_SCREEN: 'Home',
@@ -15,11 +15,11 @@ const bottomTabBarIconsMap: BottomTabIconMap = {
 };
 
 export const toBottomBarRouteName = (
-  screen: Navigation.ScreenValue,
+  screen: Navigation.TabValue,
   routesMap: Partial<BottomTabRouteMap> = bottomTabBarRoutesMap
 ): string => routesMap[screen] ?? '';
 
 export const toBottomBarIconName = (
-  screen: Navigation.ScreenValue,
+  screen: Navigation.TabValue,
   iconsMap: Partial<BottomTabIconMap> = bottomTabBarIconsMap
 ): keyof typeof Entypo.glyphMap => iconsMap[screen] ?? 'home';

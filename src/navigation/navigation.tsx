@@ -16,8 +16,8 @@ export default function AppNavigator({
         headerShown: false,
       }}
     >
-      <Tab.Screen name={Navigation.Screen.Home} component={HomeTab} />
-      <Tab.Screen name={Navigation.Screen.Expenses} component={ExpensesTab} />
+      <Tab.Screen name={Navigation.Tab.Home} component={HomeTab} />
+      <Tab.Screen name={Navigation.Tab.Expenses} component={ExpensesTab} />
     </Tab.Navigator>
   );
 }

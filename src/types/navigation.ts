@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export const enum Screen {
+export const enum Tab {
   Home = 'HOME_SCREEN',
   Expenses = 'EXPENSES_SCREEN',
 }
 
-export type ScreenValue = (typeof Screen)[keyof typeof Screen];
+export type TabValue = (typeof Tab)[keyof typeof Tab];
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamsList = {
   Landing: undefined;
   Login: undefined;
@@ -15,13 +15,11 @@ export type RootStackParamsList = {
   AppNavigator: undefined;
 };
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type ExpensesStackParamsList = {
   Expenses: undefined;
   AddExpense: undefined;
 };
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type HomeStackParamsList = {
   Home: undefined;
 };
