@@ -9,7 +9,7 @@ export type ScreenValue = (typeof Screen)[keyof typeof Screen];
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type RootStackParamsList = {
-  Home: undefined;
+  Landing: undefined;
   Login: undefined;
   Register: undefined;
   AppNavigator: undefined;
@@ -21,7 +21,12 @@ export type ExpensesStackParamsList = {
   AddExpense: undefined;
 };
 
-export type HomeNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type HomeStackParamsList = {
+  Home: undefined;
+};
+
+export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;
 export type LoginNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Login'>;
 export type RegisterNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Register'>;
 export type AppNavigatorNavigationProps = NativeStackScreenProps<
@@ -34,3 +39,5 @@ export type AddExpenseNavigationProps = NativeStackScreenProps<
   ExpensesStackParamsList,
   'AddExpense'
 >;
+
+export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Home'>;

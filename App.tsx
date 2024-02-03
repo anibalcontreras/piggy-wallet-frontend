@@ -2,11 +2,12 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { Colors } from './src/styles';
-import HomeScreen from './src/screens/HomeScreen';
+// import HomeScreen from './src/screens/LandingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import { type RootStackParamsList } from './src/types/navigation';
 import AppNavigator from './src/navigation/navigation';
+import LandingScreen from './src/screens/LandingScreen';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -29,14 +30,14 @@ const Layout = (): JSX.Element => {
   const Stack = createNativeStackNavigator<RootStackParamsList>();
   return (
     <NavigationContainer theme={defaultTheme}>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false }}>
         {authState?.authenticated ?? false ? (
           <>
             <Stack.Screen name="AppNavigator" component={AppNavigator} />
           </>
         ) : (
           <>
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Landing" component={LandingScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
           </>

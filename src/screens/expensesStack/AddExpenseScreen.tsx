@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Colors } from '../styles';
+import { Colors } from '../../styles';
 
 export default function AddExpenseScreen(): JSX.Element {
   return <View style={styles.container}></View>;

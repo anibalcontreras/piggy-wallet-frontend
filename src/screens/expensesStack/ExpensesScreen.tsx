@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Colors, Sizing } from '../styles';
-import type { Navigation } from '../types';
+import { Colors, Sizing } from '../../styles';
+import type { Navigation } from '../../types';
 
 export default function ExpensesScreen({
   navigation,
