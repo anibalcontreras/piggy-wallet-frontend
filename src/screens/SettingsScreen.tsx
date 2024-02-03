@@ -1,13 +1,13 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors, Sizing, Typography } from '../styles';
 import { useAuth } from '../context/AuthContext';
+import { Colors, Sizing, Typography } from '../styles';
 
 export default function SettingsScreen(): JSX.Element {
   const { onLogout } = useAuth();
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <TouchableOpacity onPress={onLogout} style={styles.logoutContainer}>
         <MaterialIcons name="logout" size={Sizing.x50} color={Colors.palette.border} />
         <Text style={styles.logoutText}>Cerrar sesión</Text>
@@ -17,11 +17,14 @@ export default function SettingsScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   logoutContainer: {
     flexDirection: 'row',
-    gap: Sizing.x10,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    gap: Sizing.x10,
     position: 'absolute',
     bottom: Sizing.x40,
     left: Sizing.x20,

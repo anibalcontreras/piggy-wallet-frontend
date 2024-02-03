@@ -1,11 +1,11 @@
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, useAuth } from './src/context/AuthContext';
+import { type RootStackParamsList } from './src/types/navigation';
 import { Colors } from './src/styles';
+import AppNavigator from './src/navigation/AppNavigator';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
-import { type RootStackParamsList } from './src/types/navigation';
-import AppNavigator from './src/navigation/navigation';
 import LandingScreen from './src/screens/LandingScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 

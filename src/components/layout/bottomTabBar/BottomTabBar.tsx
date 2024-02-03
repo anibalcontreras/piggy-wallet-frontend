@@ -1,10 +1,9 @@
 import React from 'react';
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
-import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import type { Navigation } from '../../../types';
+import type { Components, Navigation } from '../../../types';
 import { Colors, Sizing } from '../../../styles';
 import { toBottomBarIconName, toBottomBarRouteName } from '../../../navigation/utils';
 import TabBarIndicator from './TabBarIndicator';
@@ -12,12 +11,10 @@ import TabBarItem from './TabBarItem';
 
 const { width } = Dimensions.get('window');
 
-type BottomTabBarProps = ReactNavigationBottomTabBarProps;
-
-const BottomTabBar = ({
+function BottomTabBar({
   state: { routeNames, index: selectedTab },
   navigation,
-}: BottomTabBarProps): JSX.Element => {
+}: Components.BottomTabBarProps): JSX.Element {
   const tabWidth = width / routeNames.length;
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: withTiming(tabWidth * selectedTab) }, { translateY: withTiming(4) }],
@@ -27,7 +24,7 @@ const BottomTabBar = ({
   return (
     <>
       <TouchableOpacity style={styles.settingsIcon} onPress={() => navigation.navigate('Settings')}>
-        <MaterialIcons name="settings" size={Sizing.x30} color="white" />
+        <MaterialIcons name="settings" size={Sizing.x30} color={Colors.palette.text} />
       </TouchableOpacity>
       <TabBarIndicator tabCount={routeNames.length} animatedStyle={animatedStyle} />
       <View style={[styles.tabsContainer, { paddingBottom: bottom }]}>
@@ -43,9 +40,7 @@ const BottomTabBar = ({
       </View>
     </>
   );
-};
-
-export default BottomTabBar;
+}
 
 const styles = StyleSheet.create({
   tabsContainer: {
@@ -59,3 +54,5 @@ const styles = StyleSheet.create({
     right: Sizing.x20,
   },
 });
+
+export default BottomTabBar;

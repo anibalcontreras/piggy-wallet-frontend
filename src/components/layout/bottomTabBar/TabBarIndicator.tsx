@@ -1,23 +1,22 @@
-import { Dimensions, type StyleProp, type ViewStyle } from 'react-native';
+import { Dimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { Colors } from '../../../styles';
-
-interface TabBarIndicatorProps {
-  tabCount: number;
-  animatedStyle: StyleProp<ViewStyle>;
-}
+import type { Components } from '../../../types';
+import { Colors, Sizing } from '../../../styles';
 
 const { width } = Dimensions.get('window');
 
-function TabBarIndicator({ tabCount, animatedStyle }: TabBarIndicatorProps): JSX.Element {
+function TabBarIndicator({
+  tabCount,
+  animatedStyle,
+}: Components.TabBarIndicatorProps): JSX.Element {
   return (
     <Animated.View
       style={[
         {
-          height: 4,
+          height: Sizing.x4,
           width: width / tabCount,
           backgroundColor: Colors.palette.primary,
-          borderRadius: 1,
+          borderRadius: Sizing.x1,
           zIndex: 1,
         },
         animatedStyle,

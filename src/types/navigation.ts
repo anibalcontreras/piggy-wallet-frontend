@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { Entypo } from '@expo/vector-icons';
 
 export const enum Tab {
   Home = 'HOME_SCREEN',
@@ -7,6 +8,8 @@ export const enum Tab {
 }
 
 export type TabValue = (typeof Tab)[keyof typeof Tab];
+export type BottomTabRouteMap = Record<TabValue, string>;
+export type BottomTabIconMap = Record<TabValue, keyof typeof Entypo.glyphMap>;
 
 export type RootStackParamsList = {
   Landing: undefined;

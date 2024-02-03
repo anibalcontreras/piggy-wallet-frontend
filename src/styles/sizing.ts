@@ -11,6 +11,7 @@ type Layout =
   | 'x1'
   | 'x2'
   | 'x3'
+  | 'x4'
   | 'x5'
   | 'x7'
   | 'x10'
@@ -34,6 +35,7 @@ export const layout: Record<Layout, number> = {
   x1: 1,
   x2: 2,
   x3: 3,
+  x4: 4,
   x5: 5,
   x7: 7,
   x10: 10,
@@ -58,6 +60,7 @@ export const layout: Record<Layout, number> = {
 export const x1 = layout.x1;
 export const x2 = layout.x2;
 export const x3 = layout.x3;
+export const x4 = layout.x4;
 export const x5 = layout.x5;
 export const x7 = layout.x7;
 export const x10 = layout.x10;
