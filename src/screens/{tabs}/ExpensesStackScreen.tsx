@@ -20,6 +20,7 @@ export default function ExpensesStackScreen(): JSX.Element {
         component={AddExpenseScreen}
         options={{
           presentation: 'modal',
+          title: 'Nuevo gasto',
         }}
       />
     </ExpensesStack.Navigator>
