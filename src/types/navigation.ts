@@ -13,9 +13,12 @@ export type RootStackParamsList = {
   Login: undefined;
   Register: undefined;
   AppNavigator: undefined;
-  // AddExpense: undefined;
-  // HomeTab: undefined;
-  // ExpensesTab: undefined;
+};
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type ExpensesStackParamsList = {
+  Expenses: undefined;
+  AddExpense: undefined;
 };
 
 export type HomeNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Home'>;
@@ -25,12 +28,6 @@ export type AppNavigatorNavigationProps = NativeStackScreenProps<
   RootStackParamsList,
   'AppNavigator'
 >;
-
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-export type ExpensesStackParamsList = {
-  Expenses: undefined;
-  AddExpense: undefined;
-};
 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
 export type AddExpenseNavigationProps = NativeStackScreenProps<

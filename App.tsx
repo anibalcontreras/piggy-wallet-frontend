@@ -6,7 +6,6 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import { type RootStackParamsList } from './src/types/navigation';
-// import AddExpenseScreen from './src/screens/AddExpenseScreen';
 import AppNavigator from './src/navigation/navigation';
 
 const defaultTheme = {
@@ -34,12 +33,6 @@ const Layout = (): JSX.Element => {
         {authState?.authenticated ?? false ? (
           <>
             <Stack.Screen name="AppNavigator" component={AppNavigator} />
-            {/* Este lo quiero meter dentrode HomeTab */}
-            {/* <Stack.Screen
-              name="AddExpense"
-              options={{ presentation: 'modal' }}
-              component={AddExpenseScreen}
-            /> */}
           </>
         ) : (
           <>
