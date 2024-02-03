@@ -5,8 +5,8 @@ type BottomTabRouteMap = Record<Navigation.TabValue, string>;
 type BottomTabIconMap = Record<Navigation.TabValue, keyof typeof Entypo.glyphMap>;
 
 const bottomTabBarRoutesMap: BottomTabRouteMap = {
-  HOME_SCREEN: 'Home',
-  EXPENSES_SCREEN: 'Expenses',
+  HOME_SCREEN: 'Inicio',
+  EXPENSES_SCREEN: 'Gastos',
 };
 
 const bottomTabBarIconsMap: BottomTabIconMap = {
