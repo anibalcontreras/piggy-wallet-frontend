@@ -104,7 +104,7 @@ export const bodyStyles: Record<Body, TextStyle> = {
     color: Colors.palette.text,
   },
   highlight: {
-    ...fontSize.medium,
+    ...fontSize.small,
     ...fontWeight.bold,
     ...lineHeight.medium,
     color: Colors.palette.primary,
