@@ -26,7 +26,7 @@ export type ExpensesStackParamsList = {
 
 export type HomeStackParamsList = {
   Home: undefined;
-  Settings: undefined;
+  Budget: undefined;
 };
 
 export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;

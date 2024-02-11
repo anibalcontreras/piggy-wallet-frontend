@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
-import { Colors, Outlines, Sizing, Typography } from '../../styles';
+import { Colors, Forms, Typography } from '../../styles';
 import { type Components } from '../../types';
 
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
@@ -33,14 +33,7 @@ function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
 
 const styles = StyleSheet.create({
   input: {
-    height: Sizing.layout.x60,
-    width: Sizing.screen.width - Sizing.layout.x30,
-    padding: Sizing.layout.x20,
-    margin: Sizing.layout.x10,
-    borderColor: Colors.palette.border,
-    borderRadius: Outlines.borderRadius.base,
-    borderWidth: Outlines.borderWidth.thin,
-    color: Colors.palette.primary,
+    ...Forms.input.primary,
   },
   inputError: {
     borderColor: Colors.palette.error,
