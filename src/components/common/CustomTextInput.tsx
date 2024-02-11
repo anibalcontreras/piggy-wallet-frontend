@@ -1,29 +1,42 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
-import { Colors, Forms, Typography } from '../../styles';
+import { Colors, Forms, Sizing, Typography } from '../../styles';
 import { type Components } from '../../types';
 
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
   const {
+    variant = 'primary',
     field: { name, onBlur, onChange, value },
     form: { errors, touched, setFieldTouched },
     ...inputProps
   } = props;
   const hasError = Boolean(errors[name]) && touched[name];
+  let inputStyle;
+  let textColor;
+  switch (variant) {
+    case 'primary':
+      inputStyle = styles.primaryInput;
+      textColor = Colors.palette.primary;
+      break;
+    case 'secondary':
+      inputStyle = styles.secondaryInput;
+      textColor = Colors.palette.border;
+      break;
+  }
 
   return (
     <>
       <TextInput
-        style={[styles.input, hasError && styles.inputError]}
+        style={[inputStyle, hasError && styles.inputError]}
         value={value}
         onChangeText={(text) => onChange(name)(text)}
         onBlur={() => {
           setFieldTouched(name);
           onBlur(name);
         }}
-        placeholderTextColor={Colors.palette.primary}
+        placeholderTextColor={textColor}
         keyboardAppearance="dark"
-        selectionColor={Colors.palette.primary}
+        selectionColor={textColor}
         {...inputProps}
       />
       {Boolean(hasError) && <Text style={styles.validationBody}>{errors[name]}</Text>}
@@ -32,8 +45,12 @@ function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  input: {
+  primaryInput: {
     ...Forms.input.primary,
+  },
+  secondaryInput: {
+    ...Forms.input.secondary,
+    fontSize: Sizing.x20,
   },
   inputError: {
     borderColor: Colors.palette.error,

@@ -26,8 +26,9 @@ export default function BudgetScreen(): JSX.Element {
           <>
             <Field
               component={CustomTextInput}
+              variant="secondary"
               name="budget"
-              placeholder="Presupuesto"
+              placeholder="¿Cuál es tu presupuesto mensual?"
               keyboardType="numeric"
               inputMode="numeric"
               textContentType="none"
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    gap: Sizing.x40,
+    gap: Sizing.x20,
     marginTop: Sizing.x20,
   },
 });

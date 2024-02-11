@@ -13,7 +13,7 @@ import * as Typography from './typography';
 // };
 
 const baseInputStyle = {
-  height: Sizing.layout.x60,
+  // height: Sizing.layout.x60,
   width: Sizing.screen.width - Sizing.layout.x30,
   padding: Sizing.layout.x20,
   margin: Sizing.layout.x10,
@@ -28,6 +28,7 @@ export const input: Record<Input, TextStyle> = {
   primary: {
     borderColor: Colors.palette.border,
     color: Colors.palette.primary,
+    height: Sizing.layout.x60,
     // ...Typography.bodyStyles.highlight,
     // borderColor: Colors.palette.secondary,
     ...baseInputStyle,
@@ -35,6 +36,7 @@ export const input: Record<Input, TextStyle> = {
   secondary: {
     borderColor: Colors.palette.primary,
     color: Colors.palette.border,
+    height: Sizing.layout.x80,
     // ...Typography.bodyStyles.muted,
     // borderColor: Colors.palette.primary,
     ...baseInputStyle,

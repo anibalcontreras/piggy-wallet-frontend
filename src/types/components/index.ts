@@ -10,6 +10,7 @@ export interface ButtonProps extends PressableProps {
 }
 
 export interface CustomTextInputProps extends TextInputProps {
+  variant?: 'primary' | 'secondary';
   field: FieldProps['field'];
   form: {
     errors: Record<string, string>;
