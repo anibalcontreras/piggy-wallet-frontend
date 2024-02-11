@@ -3,6 +3,12 @@ import { StyleSheet, Text, TextInput } from 'react-native';
 import { Colors, Forms, Sizing, Typography } from '../../styles';
 import { type Components } from '../../types';
 
+function formatCurrency(value: string): string {
+  const numberValue = parseInt(value.replace(/\D/g, ''), 10);
+  if (isNaN(numberValue)) return '';
+  return '$' + numberValue.toLocaleString('es-CL');
+}
+
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
   const {
     variant = 'primary',
@@ -11,6 +17,9 @@ function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
     ...inputProps
   } = props;
   const hasError = Boolean(errors[name]) && touched[name];
+
+  const displayValue = variant === 'secondary' ? formatCurrency(value as string) : value;
+
   let inputStyle;
   let textColor;
   switch (variant) {
@@ -28,8 +37,15 @@ function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
     <>
       <TextInput
         style={[inputStyle, hasError && styles.inputError]}
-        value={value}
-        onChangeText={(text) => onChange(name)(text)}
+        value={displayValue}
+        onChangeText={(text) => {
+          if (variant === 'secondary') {
+            const unformattedValue = text.replace(/\D/g, '');
+            onChange(name)(unformattedValue);
+          } else {
+            onChange(name)(text);
+          }
+        }}
         onBlur={() => {
           setFieldTouched(name);
           onBlur(name);
