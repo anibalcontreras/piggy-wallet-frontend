@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: Sizing.x20,
     marginBottom: Sizing.x20,
+    gap: Sizing.x20,
   },
   contentBox: {
     position: 'relative',
     width: '80%',
-    height: '45%',
+    height: '47%',
     borderRadius: Sizing.x15,
     backgroundColor: Colors.palette.secondary,
     justifyContent: 'center',
