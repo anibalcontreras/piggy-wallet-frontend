@@ -1,14 +1,16 @@
-// Importa las dependencias necesarias
-import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { VictoryPie } from 'victory-native';
 import { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '../../types';
 import { Colors, Sizing, Typography } from '../../styles';
+import * as FormatFunctions from '../../utils/userBudget';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
-  // Define un valor arbitrario para el porcentaje del gráfico de donut
+  const userBudget = 10000000;
+  const formattedUserBudget = FormatFunctions.formatCurrency(userBudget.toString());
   const donutPercentage = 57;
+  const donutNumber = Math.round((donutPercentage / 100) * userBudget);
+  const formattedDonutNumber = FormatFunctions.formatCurrency(donutNumber.toString());
   const budgetConfigurated = true;
 
   return (
@@ -31,7 +33,8 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
         </View>
         {budgetConfigurated ? (
           <>
-            <Text style={styles.totalText}>Total: $100.000</Text>
+            <Text style={styles.totalText}>Total: {formattedUserBudget}</Text>
+            {/* Debiera pasar este donutContainer a un componente aparte. Podria implementar context. */}
             <View style={styles.donutContainer}>
               <VictoryPie
                 colorScale={[Colors.palette.primary, Colors.palette.border]}
@@ -39,18 +42,15 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
                   { x: 1, y: donutPercentage },
                   { x: 2, y: 100 - donutPercentage },
                 ]}
-                innerRadius={70}
-                labelRadius={10}
-                // style={{ labels: { fontSize: 0 } }} // Oculta las etiquetas
-                width={200}
-                height={200}
+                innerRadius={Sizing.x75}
+                labelRadius={Sizing.x10}
+                width={Sizing.x130}
+                height={Sizing.x130}
                 padding={Sizing.x5}
-                // startAngle={0}
-                // endAngle={360}
               />
               <View style={styles.centeredText}>
                 <Text style={styles.boxText}>Disponible</Text>
-                <Text style={styles.boxText}>{`${donutPercentage}.000`}</Text>
+                <Text style={styles.boxText}>{formattedDonutNumber}</Text>
               </View>
             </View>
           </>
