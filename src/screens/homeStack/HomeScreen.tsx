@@ -4,6 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '../../types';
 import { Colors, Sizing, Typography } from '../../styles';
 import * as FormatFunctions from '../../utils/userBudget';
+import FilterComponent from '../../components/charts/FilterComponent';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
   const userBudget = 10000000;
@@ -19,6 +20,7 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
         <View style={styles.hr}>
           <Text style={styles.boxText}>Gastos del mes</Text>
         </View>
+        <FilterComponent />
       </View>
       <View style={[styles.contentBox, styles.contentBoxTwo]}>
         <View style={styles.hr}>
