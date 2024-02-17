@@ -40,14 +40,15 @@ const FilterComponent = ({ ...props }) => {
   );
 };
 
+// Revisar si lso estilos deben ir hardcodeados aqui
 const styles = StyleSheet.create({
   filterContainer: {
     flexDirection: 'row',
     backgroundColor: Colors.palette.text,
     borderRadius: Sizing.x10,
-    position: 'relative',
-    top: -Sizing.x80, // Esto no deberia. Esto tampoco esta bien, hay que calcularlo
-    margin: Sizing.x10, // ir en el componente
+    position: 'absolute',
+    top: Sizing.x50,
+    margin: Sizing.x10,
   },
   filterTab: {
     paddingVertical: Sizing.x10,
