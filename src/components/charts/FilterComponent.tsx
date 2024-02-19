@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -7,24 +5,20 @@ import { Sizing, Colors, Typography } from '../../styles';
 
 const { width } = Dimensions.get('window');
 
-const FilterComponent = ({ ...props }) => {
-  const [selectedFilter, setSelectedFilter] = useState('todo');
-  const [selectedTab, setSelectedTab] = useState(
-    selectedFilter === 'todo' ? 0 : selectedFilter === 'mensual' ? 1 : 2
-  );
+const FilterComponent = (): JSX.Element => {
+  const filterWidth = (width * 0.8) / 3 - Sizing.x5;
 
-  const handlePress = (filter: string) => {
-    setSelectedFilter(filter);
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handlePress = (filter: string): void => {
     setSelectedTab(filter === 'todo' ? 0 : filter === 'mensual' ? 1 : 2);
   };
-
-  const filterWidth = (width * 0.8) / 3 - Sizing.x5;
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: withTiming(filterWidth * selectedTab) }],
   }));
 
   return (
-    <View style={[styles.filterContainer, props]}>
+    <View style={styles.filterContainer}>
       <Animated.View style={[styles.highlight, animatedStyle]} />
       {['Todo', 'Mensual', 'Ahorro'].map((filter) => (
         <Pressable
@@ -32,7 +26,6 @@ const FilterComponent = ({ ...props }) => {
           style={styles.filterTab}
           onPress={() => handlePress(filter.toLowerCase())}
         >
-          {/* No esta centrado */}
           <Text style={styles.filterText}>{filter}</Text>
         </Pressable>
       ))}
@@ -40,19 +33,18 @@ const FilterComponent = ({ ...props }) => {
   );
 };
 
-// Revisar si lso estilos deben ir hardcodeados aqui
 const styles = StyleSheet.create({
   filterContainer: {
+    position: 'absolute',
     flexDirection: 'row',
     backgroundColor: Colors.palette.text,
     borderRadius: Sizing.x10,
-    position: 'absolute',
     top: Sizing.x50,
     margin: Sizing.x10,
   },
   filterTab: {
-    paddingVertical: Sizing.x10,
     flex: 1,
+    paddingVertical: Sizing.x10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -61,11 +53,11 @@ const styles = StyleSheet.create({
   },
   highlight: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    width: '33.33%',
     backgroundColor: Colors.palette.primary,
     borderRadius: Sizing.x10,
+    width: '33.33%',
+    bottom: 0,
+    top: 0,
   },
 });
 

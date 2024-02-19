@@ -122,9 +122,5 @@ const styles = StyleSheet.create({
   },
   centeredText: {
     position: 'absolute',
-    // top: '50%',
-    // left: '50%',
-    // alignItems: 'center',
-    // // transform: [{ translateX: -50 }, { translateY: -50 }], // Ajusta según sea necesario
   },
 });
