@@ -32,3 +32,8 @@ export interface TabBarItemProps {
   isSelected: boolean;
   onPress: () => void;
 }
+
+export interface DonutChartProps {
+  donutPercentage: number;
+  userBudget: number;
+}
