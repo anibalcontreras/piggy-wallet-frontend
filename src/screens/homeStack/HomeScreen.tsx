@@ -19,6 +19,11 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
           <Text style={styles.boxText}>Gastos del mes</Text>
         </View>
         <FilterComponent />
+        <DonutChart
+          donutPercentage={donutPercentage}
+          userBudget={userBudget}
+          marginTop={Sizing.x80}
+        />
       </View>
       <View style={[styles.contentBox, styles.contentBoxTwo]}>
         <View style={styles.hr}>

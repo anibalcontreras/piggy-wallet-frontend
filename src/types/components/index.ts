@@ -36,4 +36,5 @@ export interface TabBarItemProps {
 export interface DonutChartProps {
   donutPercentage: number;
   userBudget: number;
+  marginTop?: number;
 }
