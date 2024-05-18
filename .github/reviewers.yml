@@ -8,9 +8,6 @@ addAssignees: author
 reviewers:
   - DaHunterTime
   - vcrb18
-  - sofiagiagnoni
-  - anibalcontreras
   - JJVergara
-  - ebenstom
 
-numberOfReviewers: 2
+numberOfReviewers: 1
