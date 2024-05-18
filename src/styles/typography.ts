@@ -89,7 +89,7 @@ export const subheaderStyles: Record<SubheaderStyle, TextStyle> = {
   },
 };
 
-type Body = 'primary' | 'secondary' | 'highlight' | 'muted' | 'error';
+type Body = 'primary' | 'secondary' | 'tertiary' | 'highlight' | 'muted' | 'error';
 export const bodyStyles: Record<Body, TextStyle> = {
   primary: {
     ...fontSize.medium,
@@ -102,6 +102,12 @@ export const bodyStyles: Record<Body, TextStyle> = {
     ...fontWeight.semibold,
     ...lineHeight.medium,
     color: Colors.palette.text,
+  },
+  tertiary: {
+    ...fontSize.medium,
+    ...fontWeight.regular,
+    ...lineHeight.medium,
+    color: Colors.palette.secondary,
   },
   highlight: {
     ...fontSize.small,

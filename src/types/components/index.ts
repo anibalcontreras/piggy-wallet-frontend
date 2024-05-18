@@ -10,6 +10,7 @@ export interface ButtonProps extends PressableProps {
 }
 
 export interface CustomTextInputProps extends TextInputProps {
+  variant?: 'primary' | 'secondary';
   field: FieldProps['field'];
   form: {
     errors: Record<string, string>;
@@ -30,4 +31,10 @@ export interface TabBarItemProps {
   iconName: keyof typeof Entypo.glyphMap;
   isSelected: boolean;
   onPress: () => void;
+}
+
+export interface DonutChartProps {
+  donutPercentage: number;
+  userBudget: number;
+  marginTop?: number;
 }

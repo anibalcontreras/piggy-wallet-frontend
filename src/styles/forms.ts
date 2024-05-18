@@ -5,23 +5,40 @@ import * as Outlines from './outlines';
 import * as Sizing from './sizing';
 import * as Typography from './typography';
 
+// const baseInputStyle = {
+//   lineHeight: 0,
+//   padding: Sizing.x20,
+//   borderWidth: Outlines.borderWidth.hairline,
+//   borderRadius: Outlines.borderRadius.small,
+// };
+
 const baseInputStyle = {
-  lineHeight: 0,
-  padding: Sizing.x20,
-  borderWidth: Outlines.borderWidth.hairline,
-  borderRadius: Outlines.borderRadius.small,
+  // height: Sizing.layout.x60,
+  width: Sizing.screen.width - Sizing.layout.x30,
+  padding: Sizing.layout.x20,
+  margin: Sizing.layout.x10,
+  borderRadius: Outlines.borderRadius.base,
+  borderWidth: Outlines.borderWidth.thin,
+  // borderColor: Colors.palette.border,
+  // color: Colors.palette.primary,
 };
 
 type Input = 'primary' | 'secondary';
 export const input: Record<Input, TextStyle> = {
   primary: {
-    ...Typography.bodyStyles.highlight,
-    borderColor: Colors.palette.secondary,
+    borderColor: Colors.palette.border,
+    color: Colors.palette.primary,
+    height: Sizing.layout.x60,
+    // ...Typography.bodyStyles.highlight,
+    // borderColor: Colors.palette.secondary,
     ...baseInputStyle,
   },
   secondary: {
-    ...Typography.bodyStyles.muted,
     borderColor: Colors.palette.primary,
+    color: Colors.palette.border,
+    height: Sizing.layout.x80,
+    // ...Typography.bodyStyles.muted,
+    // borderColor: Colors.palette.primary,
     ...baseInputStyle,
   },
 };
