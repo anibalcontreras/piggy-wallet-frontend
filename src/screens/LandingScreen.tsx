@@ -3,7 +3,9 @@ import { type Navigation } from '../types';
 import { Sizing, Typography } from '../styles';
 import Button from '../components/common/Button';
 
-export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
+export default function LandingScreen({
+  navigation,
+}: Navigation.LandingNavigationProps): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
