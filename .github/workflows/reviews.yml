@@ -1,0 +1,15 @@
+name: "Pull Request Assigner"
+
+on:
+  pull_request:
+    types: [ opened, ready_for_review ]
+
+jobs:
+  add-reviewers:
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - uses: examedi/pull-request-assigner@v0.1.2
+        with:
+          configuration-path: ".github/reviewers.yml"

@@ -1,0 +1,31 @@
+name: jest
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  lint:
+    name: "jest"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: .nvmrc
+          cache: "npm"
+
+      - name: Install dependencies
+        shell: bash
+        run: npm ci
+
+      - name: jest
+        run: npm run test
+
