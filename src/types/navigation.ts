@@ -28,7 +28,12 @@ export type HomeStackParamsList = {
 
 export type ExpensesStackParamsList = {
   Expenses: undefined;
-  AddExpense: undefined;
+  AddExpense: { onAddExpense: (newExpense: any) => void };
+  Amount: { onSave: (amount: string) => void };
+  ExpenseType: { onSave: (type: string) => void };
+  Category: { onSave: (category: string) => void };
+  Description: { onSave: (description: string) => void };
+  SharedExpenseDetails: { onSave: (sharedWith: any) => void };
 };
 
 export type DebtsStackParamsList = {
@@ -47,6 +52,12 @@ export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'H
 export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Budget'>;
 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
+export type AmountNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Amount'>;
+export type ExpenseTypeNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'ExpenseType'>;
+export type CategoryNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Category'>;
+export type DescriptionNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Description'>;
+export type SharedExpenseDetailsNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'SharedExpenseDetails'>;
+export type AddExpenseNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'AddExpense'>;
 
 export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
 
