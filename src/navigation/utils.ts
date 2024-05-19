@@ -4,11 +4,15 @@ import type { Navigation } from '../types';
 const bottomTabBarRoutesMap: Navigation.BottomTabRouteMap = {
   HOME_SCREEN: 'Inicio',
   EXPENSES_SCREEN: 'Gastos',
+  DEBTS_SCREEN: 'Deudas',
+  PROFILE_SCREEN: 'Perfil',
 };
 
 const bottomTabBarIconsMap: Navigation.BottomTabIconMap = {
   HOME_SCREEN: 'home',
   EXPENSES_SCREEN: 'wallet',
+  DEBTS_SCREEN: 'credit',
+  PROFILE_SCREEN: 'user',
 };
 
 export const toBottomBarRouteName = (
