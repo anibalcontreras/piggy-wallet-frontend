@@ -2,14 +2,14 @@
 // If more colors are added, layout should change as shown in documentation.
 
 type Colors = 'almostBlack' | 'darkBlue' | 'seaGreen' | 'grey' | 'white' | 'orange';
-  const colors: Record<Colors, string> = {
-    almostBlack: '#191E29',
-    darkBlue: '#132D46',
-    seaGreen: '#01C38D',
-    grey: '#696E79',
-    white: '#FFFFFF',
-    orange: '#E67E22',
-  };
+const colors: Record<Colors, string> = {
+  almostBlack: '#191E29',
+  darkBlue: '#132D46',
+  seaGreen: '#01C38D',
+  grey: '#696E79',
+  white: '#FFFFFF',
+  orange: '#E67E22',
+};
 
 type Palette = 'primary' | 'secondary' | 'background' | 'text' | 'border' | 'error';
 export const palette: Record<Palette, string> = {

@@ -5,6 +5,8 @@ import type { Entypo } from '@expo/vector-icons';
 export const enum Tab {
   Home = 'HOME_SCREEN',
   Expenses = 'EXPENSES_SCREEN',
+  Debts = 'DEBTS_SCREEN',
+  Profile = 'PROFILE_SCREEN',
 }
 
 export type TabValue = (typeof Tab)[keyof typeof Tab];
@@ -19,21 +21,33 @@ export type RootStackParamsList = {
   Settings: undefined;
 };
 
+export type HomeStackParamsList = {
+  Home: undefined;
+  Budget: undefined;
+};
+
 export type ExpensesStackParamsList = {
   Expenses: undefined;
   AddExpense: undefined;
 };
 
-export type HomeStackParamsList = {
-  Home: undefined;
-  Budget: undefined;
+export type DebtsStackParamsList = {
+  Debts: undefined;
+};
+
+export type ProfileStackParamsList = {
+  Profile: undefined;
 };
 
 export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;
 export type LoginNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Login'>;
 export type RegisterNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Register'>;
 
-export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
-
 export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Home'>;
 export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Budget'>;
+
+export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
+
+export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
+
+export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
