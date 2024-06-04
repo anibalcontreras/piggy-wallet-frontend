@@ -5,12 +5,23 @@ import { Colors, Sizing, Typography } from '../../styles';
 import * as FormatFunctions from '../../utils/userBudget';
 import FilterComponent from '../../components/charts/FilterComponent';
 import DonutChart from '../../components/charts/donutChart';
+import { useEffect } from 'react';
+import httpService from '../../service/api';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
   const userBudget = 10000000;
   const formattedUserBudget = FormatFunctions.formatCurrency(userBudget.toString());
   const donutPercentage = 57;
   const budgetConfigurated = true;
+
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      console.log('HomeScreen mounted');
+      await httpService.get('playground/hello-world');
+    };
+
+    void fetchData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
