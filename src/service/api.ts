@@ -11,6 +11,10 @@ class HttpService {
     this.instance = axios.create({ baseURL: BASE_URL });
   }
 
+  get axiosInstance(): AxiosInstance {
+    return this.instance;
+  }
+
   setAuthorizationHeader(token: string | null): void {
     if (token != null) {
       this.defaultHeaders.Authorization = `Bearer ${token}`;
