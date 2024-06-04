@@ -1,8 +1,6 @@
 import axios, { type AxiosRequestConfig, type AxiosInstance, type AxiosResponse } from 'axios';
 import { BASE_URL } from './constant';
 
-// export const axiosInstance = axios.create({ baseURL: BASE_URL });
-
 class HttpService {
   private readonly instance: AxiosInstance;
   private readonly defaultHeaders: Record<string, string> = {
@@ -30,8 +28,7 @@ class HttpService {
     const headers = { ...this.defaultHeaders, ...customHeaders };
     const config: AxiosRequestConfig = { method, url, headers };
 
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (data) {
+    if (data != null) {
       config.data = data;
     }
 

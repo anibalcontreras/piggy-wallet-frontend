@@ -54,17 +54,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
         email,
         password,
       });
-      // return await axiosInstance.request({
-      //   method: 'POST',
-      //   url: END_POINT.register,
-      //   data: {
-      //     firstName,
-      //     lastName,
-      //     secondLastName,
-      //     email,
-      //     password,
-      //   },
-      // });
     } catch (error) {
       return { error: true, msg: (error as Error).message };
     }
@@ -76,23 +65,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
       const result = await httpService.post(END_POINT.login, { email, password });
-      // const result = await axiosInstance.request({
-      //   method: 'POST',
-      //   url: END_POINT.login,
-      //   data: {
-      //     email,
-      //     password,
-      //   },
-      // });
-
       setAuthState({
         token: result.data.token,
         authenticated: true,
       });
-
-      httpService.setAuthorizationHeader(result.data.token as string);
-      // axios.defaults.headers.common.Authorization = `Bearer ${result.data.token}`; // Revisar header y Bearer
-
+      httpService.setAuthorizationHeader(String(result.data.token));
       await SecureStore.setItemAsync(TOKEN_KEY, String(result.data.token));
 
       return result;
@@ -104,7 +81,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   const logout = async (): Promise<void> => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
     httpService.setAuthorizationHeader(null);
-    // axios.defaults.headers.common.Authorization = ''; // Revisar Header
 
     setAuthState({
       token: null,
