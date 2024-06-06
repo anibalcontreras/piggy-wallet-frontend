@@ -8,6 +8,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+import AxiosInterceptor from './src/context/AxiosInterceptor';
 
 const defaultTheme = {
   ...DefaultTheme,
@@ -20,7 +21,9 @@ const defaultTheme = {
 export default function App(): JSX.Element {
   return (
     <AuthProvider>
-      <Layout />
+      <AxiosInterceptor>
+        <Layout />
+      </AxiosInterceptor>
     </AuthProvider>
   );
 }
