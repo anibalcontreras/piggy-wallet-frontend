@@ -14,25 +14,28 @@ export default function RegisterScreen({
   navigation,
 }: Navigation.RegisterNavigationProps): JSX.Element {
   const signUpValidationSchema = yup.object().shape({
-    firstName: yup
+    fullName: yup
       .string()
-      .matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, 'Ingresa tu nombre')
-      .required('El nombre es requerido'),
-    lastName: yup
+      .matches(/^[A-Za-z]+ [A-Za-z]+$/, 'Ingresa tu nombre y apellido')
+      .required('El nombre y apellido son requeridos'),
+    phoneNumber: yup
       .string()
-      .matches(/^[A-Za-z]+$/, 'Ingresa tu primer apellido')
-      .required('El primer apellido es requerido'),
-    secondLastName: yup
-      .string()
-      .matches(/^[A-Za-z]+$/, 'Ingresa tu segundo apellido')
-      .required('El segundo apellido es requerido'),
+      .matches(/^\+569\d{8}$/, 'Ingresa un número de teléfono válido. Ejemplo: +56912345678')
+      .required('El número de teléfono es requerido'),
     email: yup
       .string()
       .email('Ingresa tu dirección de correo electrónico')
       .required('Dirección de correo es requerida'),
     password: yup
       .string()
-      .min(8, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
+      .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
+      .matches(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula')
+      .matches(/[a-z]/, 'La contraseña debe contener al menos una letra minúscula')
+      // .matches(
+      //   /[\^$*.[\]{}()?\-"!@#%&/\\,><':;|_~`+=]/,
+      //   'La contraseña debe contener al menos un carácter especial'
+      // )
       .required('Contraseña es requerida'),
     confirmPassword: yup
       .string()
@@ -40,7 +43,7 @@ export default function RegisterScreen({
       .required('Confirmar contraseña es requerido'),
   });
 
-  const { onLogin, onRegister } = useAuth();
+  const { onRegister } = useAuth();
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,22 +56,25 @@ export default function RegisterScreen({
     }
   };
 
-  const login = async (email: string, password: string): Promise<void> => {
-    const result = await onLogin?.(email, password);
-    if (Boolean(result) && Boolean(result.error)) {
-      Alert.alert('Error', 'Ingresa los datos en el formato correcto');
-    }
-  };
+  // const login = async (email: string, password: string): Promise<void> => {
+  //   const result = await onLogin?.(email, password);
+  //   if (Boolean(result) && Boolean(result.error)) {
+  //     Alert.alert('Error', 'Ingresa los datos en el formato correcto');
+  //   }
+  // };
 
   const register = async (userRegister: Authorization.UserRegister): Promise<void> => {
     setIsSigningUp(true);
     const result = await onRegister?.(userRegister);
     setIsSigningUp(false);
-    if (Boolean(result) && Boolean(result.error)) {
-      Alert.alert('Error', 'Ingresa los datos en el formato correcto');
+    console.log('result', result);
+    if (result.status === 201) {
+      Alert.alert('¡Cuenta creada con éxito!', 'Por favor, iniciar sesión para continuar');
+      navigation.navigate('Login');
+      // const { email, password } = userRegister;
+      // await login(email, password);
     } else {
-      const { email, password } = userRegister;
-      await login(email, password);
+      Alert.alert('Error', 'Ha ocurrido un error, por favor intenta nuevamente más tarde');
     }
   };
 
@@ -87,18 +93,22 @@ export default function RegisterScreen({
           <Formik
             validationSchema={signUpValidationSchema}
             initialValues={{
-              firstName: '',
-              lastName: '',
-              secondLastName: '',
+              fullName: '',
+              phoneNumber: '',
+              // firstName: '',
+              // lastName: '',
+              // secondLastName: '',
               email: '',
               password: '',
               confirmPassword: '',
             }}
             onSubmit={async (values) => {
               const userRegister: Authorization.UserRegister = {
-                firstName: values.firstName,
-                lastName: values.lastName,
-                secondLastName: values.secondLastName,
+                fullName: values.fullName,
+                phoneNumber: values.phoneNumber,
+                // firstName: values.firstName,
+                // lastName: values.lastName,
+                // secondLastName: values.secondLastName,
                 email: values.email,
                 password: values.password,
               };
@@ -108,13 +118,19 @@ export default function RegisterScreen({
           >
             {({ handleSubmit, isValid }) => (
               <>
-                <Field component={CustomTextInput} name="firstName" placeholder="Nombre(s)" />
-                <Field component={CustomTextInput} name="lastName" placeholder="Primer apellido" />
+                <Field component={CustomTextInput} name="fullName" placeholder="Nombre completo" />
                 <Field
+                  component={CustomTextInput}
+                  name="phoneNumber"
+                  placeholder="Número de teléfono (+569 XXXX-XXXX)"
+                />
+                {/* <Field component={CustomTextInput} name="firstName" placeholder="Nombre(s)" />
+                <Field component={CustomTextInput} name="lastName" placeholder="Primer apellido" /> */}
+                {/* <Field
                   component={CustomTextInput}
                   name="secondLastName"
                   placeholder="Segundo apellido"
-                />
+                /> */}
                 <Field
                   component={CustomTextInput}
                   name="email"

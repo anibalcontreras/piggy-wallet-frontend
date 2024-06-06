@@ -11,9 +11,11 @@ export interface ServiceError {
 }
 
 export interface UserRegister {
-  firstName: string;
-  lastName: string;
-  secondLastName: string;
+  fullName: string;
+  phoneNumber: string;
+  // firstName: string;
+  // lastName: string;
+  // secondLastName: string;
   email: string;
   password: string;
 }
