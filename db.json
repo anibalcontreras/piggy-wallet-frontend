@@ -1,0 +1,130 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "password": "password123",
+      "email": "john.doe@example.com",
+      "created_at": "2023-01-01",
+      "updated_at": "2023-06-01",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "username": "jane_doe",
+      "password": "password456",
+      "email": "jane.doe@example.com",
+      "created_at": "2023-02-01",
+      "updated_at": "2023-06-01",
+      "enabled": true
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "enabled": true
+    }
+  ],
+  "bankcards": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "account_number": 123456789,
+      "bank_name": "Bank A",
+      "type_card": "Credit",
+      "created_at": "2023-03-01",
+      "updated_at": "2023-06-01"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "account_number": 987654321,
+      "bank_name": "Bank B",
+      "type_card": "Debit",
+      "created_at": "2023-04-01",
+      "updated_at": "2023-06-01"
+    }
+  ],
+  "userexpensetypes": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "name": "Food",
+      "description": "Expenses on food",
+      "set_by_user": true,
+      "category_name": "Groceries",
+      "created_at": "2023-01-01",
+      "updated_at": "2023-06-01"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "name": "Transport",
+      "description": "Expenses on transport",
+      "set_by_user": true,
+      "category_name": "Travel",
+      "created_at": "2023-02-01",
+      "updated_at": "2023-06-01"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "userexpensetype_id": 1,
+      "category_id": 1,
+      "bankcard_id": 1,
+      "amount": 100,
+      "created_at": "2023-03-01",
+      "updated_at": "2023-06-01"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "userexpensetype_id": 2,
+      "category_id": 2,
+      "bankcard_id": 2,
+      "amount": 50,
+      "created_at": "2023-04-01",
+      "updated_at": "2023-06-01"
+    }
+  ],
+  "debts": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "debtor_id": 2,
+      "amount": 200,
+      "ispaid": false
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "debtor_id": 1,
+      "amount": 100,
+      "ispaid": true
+    }
+  ],
+  "budgets": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "amount": 500,
+      "created_at": "2023-05-01",
+      "updated_at": "2023-06-01"
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "amount": 300,
+      "created_at": "2023-05-01",
+      "updated_at": "2023-06-01"
+    }
+  ]
+}
