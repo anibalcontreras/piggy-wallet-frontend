@@ -47,20 +47,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
       const { fullName, phoneNumber, email, password } = userRegister;
-      // const { firstName, lastName, secondLastName, email, password } = userRegister;
       return await httpService.post(END_POINT.register, {
         name: fullName,
         phone: phoneNumber,
         email,
         password,
       });
-      // return await httpService.post(END_POINT.register, {
-      //   firstName,
-      //   lastName,
-      //   secondLastName,
-      //   email,
-      //   password,
-      // });
     } catch (error) {
       return { error: true, msg: (error as Error).message };
     }
@@ -72,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
   ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
       const result = await httpService.post(END_POINT.login, { email, password });
-      const { token } = result.data.access_token;
+      const token = result.data.access_token;
       console.log('token', token);
       setAuthState({
         token,

@@ -32,10 +32,6 @@ export default function RegisterScreen({
       .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
       .matches(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula')
       .matches(/[a-z]/, 'La contraseña debe contener al menos una letra minúscula')
-      // .matches(
-      //   /[\^$*.[\]{}()?\-"!@#%&/\\,><':;|_~`+=]/,
-      //   'La contraseña debe contener al menos un carácter especial'
-      // )
       .required('Contraseña es requerida'),
     confirmPassword: yup
       .string()
@@ -56,13 +52,6 @@ export default function RegisterScreen({
     }
   };
 
-  // const login = async (email: string, password: string): Promise<void> => {
-  //   const result = await onLogin?.(email, password);
-  //   if (Boolean(result) && Boolean(result.error)) {
-  //     Alert.alert('Error', 'Ingresa los datos en el formato correcto');
-  //   }
-  // };
-
   const register = async (userRegister: Authorization.UserRegister): Promise<void> => {
     setIsSigningUp(true);
     const result = await onRegister?.(userRegister);
@@ -71,8 +60,6 @@ export default function RegisterScreen({
     if (result.status === 201) {
       Alert.alert('¡Cuenta creada con éxito!', 'Por favor, iniciar sesión para continuar');
       navigation.navigate('Login');
-      // const { email, password } = userRegister;
-      // await login(email, password);
     } else {
       Alert.alert('Error', 'Ha ocurrido un error, por favor intenta nuevamente más tarde');
     }
@@ -95,9 +82,6 @@ export default function RegisterScreen({
             initialValues={{
               fullName: '',
               phoneNumber: '',
-              // firstName: '',
-              // lastName: '',
-              // secondLastName: '',
               email: '',
               password: '',
               confirmPassword: '',
@@ -106,9 +90,6 @@ export default function RegisterScreen({
               const userRegister: Authorization.UserRegister = {
                 fullName: values.fullName,
                 phoneNumber: values.phoneNumber,
-                // firstName: values.firstName,
-                // lastName: values.lastName,
-                // secondLastName: values.secondLastName,
                 email: values.email,
                 password: values.password,
               };
@@ -124,13 +105,6 @@ export default function RegisterScreen({
                   name="phoneNumber"
                   placeholder="Número de teléfono (+569 XXXX-XXXX)"
                 />
-                {/* <Field component={CustomTextInput} name="firstName" placeholder="Nombre(s)" />
-                <Field component={CustomTextInput} name="lastName" placeholder="Primer apellido" /> */}
-                {/* <Field
-                  component={CustomTextInput}
-                  name="secondLastName"
-                  placeholder="Segundo apellido"
-                /> */}
                 <Field
                   component={CustomTextInput}
                   name="email"
