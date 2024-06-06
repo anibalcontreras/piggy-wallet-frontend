@@ -65,13 +65,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     try {
       const result = await httpService.post(END_POINT.login, { email, password });
       const token = result.data.access_token;
-      console.log('token', token);
       setAuthState({
         token,
         authenticated: true,
       });
-      httpService.setAuthorizationHeader(String(result.data.token));
-      await SecureStore.setItemAsync(TOKEN_KEY, String(result.data.token));
+      httpService.setAuthorizationHeader(String(token));
+      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
 
       return result;
     } catch (error) {
