@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useAuth } from '../context/AuthContext';
-import { Colors, Sizing, Typography } from '../styles';
+import { useAuth } from '@/context/AuthContext';
+import { Colors, Sizing, Typography } from '@/styles';
 
 export default function SettingsScreen(): JSX.Element {
   const { onLogout } = useAuth();

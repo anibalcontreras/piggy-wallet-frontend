@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
-import { type Components } from '../../types';
-import { Buttons, Colors } from '../../styles';
+import { type Components } from '@/types';
+import { Buttons, Colors } from '@/styles';
 
 function Button({
   variant = 'contained',

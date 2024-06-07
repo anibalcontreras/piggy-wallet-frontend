@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import type { AxiosResponse } from 'axios';
-import type { Authorization } from '../types';
-import httpService from '../service/api';
-import { END_POINT } from '../service/constant';
+import type { Authorization } from '@/types';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 const TOKEN_KEY = process.env.EXPO_PUBLIC_TOKEN_KEY ?? '';
 const AuthContext = createContext<Authorization.AuthProps>({});

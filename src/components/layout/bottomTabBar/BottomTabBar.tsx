@@ -3,9 +3,9 @@ import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import type { Components, Navigation } from '../../../types';
-import { Colors, Sizing } from '../../../styles';
-import { toBottomBarIconName, toBottomBarRouteName } from '../../../navigation/utils';
+import type { Components, Navigation } from '@/types';
+import { Colors, Sizing } from '@/styles';
+import { toBottomBarIconName, toBottomBarRouteName } from '@/navigation/utils';
 import TabBarIndicator from './TabBarIndicator';
 import TabBarItem from './TabBarItem';
 

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import httpService from '../service/api';
+import httpService from '@/service/api';
 import { useAuth } from './AuthContext';
 import type { AxiosResponse } from 'axios';
 

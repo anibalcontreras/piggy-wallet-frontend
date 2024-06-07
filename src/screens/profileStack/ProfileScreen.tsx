@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
-import type { Navigation } from '../../types';
+import type { Navigation } from '@/types';
 
 export default function ProfileScreen({
   navigation,

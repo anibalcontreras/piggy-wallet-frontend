@@ -1,8 +1,8 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
 import { VictoryPie } from 'victory-native';
-import type { DonutChartProps } from '../../types/components';
-import * as FormatFunctions from '../../utils/userBudget';
+import { Colors, Sizing, Typography } from '@/styles';
+import type { DonutChartProps } from '@/types/components';
+import * as FormatFunctions from '@/utils/userBudget';
 
 const DonutChart = ({
   donutPercentage,

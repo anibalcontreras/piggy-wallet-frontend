@@ -1,5 +1,5 @@
 import type { Entypo } from '@expo/vector-icons';
-import type { Navigation } from '../types';
+import type { Navigation } from '@/types';
 
 const bottomTabBarRoutesMap: Navigation.BottomTabRouteMap = {
   HOME_SCREEN: 'Inicio',
