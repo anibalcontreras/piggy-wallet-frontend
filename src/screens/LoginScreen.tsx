@@ -38,7 +38,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
     const result = await onLogin?.(email, password);
     setIsLoggingIn(false);
     if (Boolean(result) && Boolean(result.error)) {
-      Alert.alert('Error', 'Ha ocurrido un error, por favor intenta nuevamente más tarde.');
+      Alert.alert('Error', 'Ha ocurrido un error, por favor intente de nuevo.');
     }
   };
 
