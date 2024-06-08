@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
-import { Colors, Forms, Sizing, Typography } from '../../styles';
-import { type Components } from '../../types';
+import { Colors, Forms, Sizing, Typography } from '@/styles';
+import { type Components } from '@/types';
 
 function formatCurrency(value: string): string {
   const numberValue = parseInt(value.replace(/\D/g, ''), 10);

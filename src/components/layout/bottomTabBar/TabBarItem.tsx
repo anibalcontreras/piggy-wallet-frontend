@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import type { Components } from '../../../types';
-import { Colors, Sizing, Typography } from '../../../styles';
+import type { Components } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
 
 function TabBarItem({
   title,

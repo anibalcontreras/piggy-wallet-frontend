@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import type { Navigation } from '../../types';
-import { Sizing } from '../../styles';
-import Button from '../../components/common/Button';
-import CustomTextInput from '../../components/common/CustomTextInput';
+import type { Navigation } from '@/types';
+import { Sizing } from '@/styles';
+import Button from '@/components/common/Button';
+import CustomTextInput from '@/components/common/CustomTextInput';
 
 export default function BudgetScreen({
   navigation,

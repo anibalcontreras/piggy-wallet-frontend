@@ -1,10 +1,10 @@
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import type { Navigation } from '../../types';
-import { Colors, Sizing, Typography } from '../../styles';
-import * as FormatFunctions from '../../utils/userBudget';
-import FilterComponent from '../../components/charts/FilterComponent';
-import DonutChart from '../../components/charts/donutChart';
+import type { Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
+import * as FormatFunctions from '@/utils/userBudget';
+import FilterComponent from '@/components/charts/FilterComponent';
+import DonutChart from '@/components/charts/donutChart';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
   const userBudget = 10000000;

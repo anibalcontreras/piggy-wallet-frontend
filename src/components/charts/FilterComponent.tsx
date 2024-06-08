@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Sizing, Colors, Typography } from '../../styles';
+import { Sizing, Colors, Typography } from '@/styles';
 
 const { width } = Dimensions.get('window');
 

@@ -1,7 +1,7 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
-import { type Navigation } from '../types';
-import { Sizing, Typography } from '../styles';
-import Button from '../components/common/Button';
+import { type Navigation } from '@/types';
+import { Sizing, Typography } from '@/styles';
+import Button from '@/components/common/Button';
 
 export default function LandingScreen({
   navigation,

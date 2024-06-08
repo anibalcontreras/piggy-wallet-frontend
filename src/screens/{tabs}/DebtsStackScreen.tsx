@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type { DebtsStackParamsList } from '../../types/navigation';
-import DebtsScreen from '../debtsStack/DebtsScreen';
+import type { DebtsStackParamsList } from '@/types/navigation';
+import DebtsScreen from '@/screens/debtsStack/DebtsScreen';
 
 const DebtsStack = createNativeStackNavigator<DebtsStackParamsList>();
 

@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type { HomeStackParamsList } from '../../types/navigation';
-import HomeScreen from '../homeStack/HomeScreen';
-import BudgetScreen from '../homeStack/BudgetScreen';
-import { Colors } from '../../styles';
+import type { HomeStackParamsList } from '@/types/navigation';
+import HomeScreen from '@/screens/homeStack/HomeScreen';
+import BudgetScreen from '@/screens/homeStack/BudgetScreen';
+import { Colors } from '@/styles';
 
 const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
 
