@@ -1,4 +1,15 @@
 {
+  "profile": {
+    "full_name": "Vicente Cruz"
+  },
+  "piggies": [
+    {
+      "full_name": "Anibal Contreras"
+    },
+    {
+      "full_name": "Gabriel Quiroz"
+    }
+  ],
   "users": [
     {
       "id": 1,

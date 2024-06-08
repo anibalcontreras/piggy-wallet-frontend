@@ -12,7 +12,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest -u",
-    "json-server": "json-server --watch db.json --port 8000",
+    "json-server": "json-server --watch db.json --port 8001",
     "tunnel": "expo start --tunnel",
     "start:prod": "expo start --no-dev",
     "tunnel:prod": "expo start --no-dev --tunnel",
