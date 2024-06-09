@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
-import { Navigation } from '../../types';
+import type { Navigation } from '../../types';
 
 const expenseTypes = ['Gasto personal', 'Gasto de vacaciones'];
 
 export default function ExpenseTypeScreen({ navigation, route }: Navigation.ExpenseTypeNavigationProps): JSX.Element {
   const [selectedType, setSelectedType] = useState('');
 
-  const handleSelectType = (type: React.SetStateAction<string>) => {
+  const handleSelectType = (type: React.SetStateAction<string>):void => {
     setSelectedType(type);
   };
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     route.params.onSave(selectedType);
     navigation.goBack();
   };

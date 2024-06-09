@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
-import { Navigation } from '../../types';
+import type { Navigation } from '../../types';
 
 export default function SharedExpenseDetailsScreen({ navigation, route }: Navigation.SharedExpenseDetailsNavigationProps): JSX.Element {
   const [sharedWith, setSharedWith] = useState([{ id: '1', name: '', amount: '' }]);
 
-  const handleAddPerson = () => {
+  const handleAddPerson = ():void  => {
     setSharedWith([...sharedWith, { id: Date.now().toString(), name: '', amount: '' }]);
   };
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     route.params.onSave(sharedWith);
     navigation.goBack();
   };
