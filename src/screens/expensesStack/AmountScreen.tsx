@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
-import { Navigation } from '../../types';
+import type { Navigation } from '../../types';
 
 export default function AmountScreen({ navigation, route }: Navigation.AmountNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     route.params.onSave(amount);
     navigation.goBack();
   };

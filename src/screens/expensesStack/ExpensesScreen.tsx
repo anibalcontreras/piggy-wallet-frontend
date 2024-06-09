@@ -1,53 +1,44 @@
-import { Alert, View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
-import type { Navigation } from '../../types';
-import { Colors, Sizing, Typography } from '../../styles';
+import { Colors, Sizing } from '../../styles';
 import FilterComponent from '../../components/charts/FilterComponent';
 import ExpenseCard from '../../components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '../../types/navigation';
+import db from '../../../db.json';
+import type { Expense, UserExpenseType } from '../../types/components';
 
-const expensesData = [
-  {
-    id: '1',
-    amount: 17800,
-    date: '04-12-2023',
-    category: 'Transporte',
-    description: 'Uber vuelta de bar jueves social',
-  },
-  {
-    id: '2',
-    amount: 17800,
-    date: '07-12-2023',
-    category: 'Transporte',
-    description: 'Uber vuelta de bar jueves social',
-  },
-  {
-    id: '3',
-    amount: 17800,
-    date: '12-12-2023',
-    category: 'Transporte',
-    description: 'Uber vuelta de bar jueves social',
-  },
-  {
-    id: '4',
-    amount: 17800,
-    date: '14-12-2023',
-    category: 'Transporte',
-    description: 'Uber vuelta de bar jueves social',
-  },
-];
 
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const [expenses, setExpenses] = useState(expensesData);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]);
 
-  const handleDelete = (id: string) => {
+  useEffect(() => {
+    setExpenses(db.expenses.map((expense) => ({ ...expense, description: '' }))); // Algo malo acá
+    setUserExpenseTypes(db.userexpensetypes);
+  }, []);
+
+  const handleDelete = (id: number): void => {
     setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
     Alert.alert('Gasto eliminado');
   };
 
-  const handleAddExpense = (newExpense: any) => {
+  const handleAddExpense = (newExpense: Expense): void => {
     setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+  };
+
+  const handleEditExpense = (updatedExpense: Expense): void => {
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((expense) =>
+        expense.id === updatedExpense.id ? updatedExpense : expense
+      )
+    );
+    Alert.alert('Gasto editado');
+  };
+
+  const getUserExpenseTypeDescription = (id: number): string => {
+    const userExpenseType = userExpenseTypes.find((type) => type.id === id);
+    return userExpenseType?.description ?? 'Unknown';
   };
 
   return (
@@ -62,7 +53,15 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
       <FilterComponent />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {expenses.map((expense) => (
-          <ExpenseCard key={expense.id} expense={expense} onDelete={handleDelete} />
+          <ExpenseCard 
+          key={expense.id} 
+          expense={{
+            ...expense, 
+            userexpensetype_id: getUserExpenseTypeDescription(expense.userexpensetype_id)
+          }} 
+          onDelete={() => handleDelete(expense.id)} 
+          onEdit={(expense : Expense) => navigation.navigate('EditExpense', { expense, onSave: handleEditExpense })}
+        />
         ))}
       </ScrollView>
     </SafeAreaView>
