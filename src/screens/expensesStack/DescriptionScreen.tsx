@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
-import { Navigation } from '../../types';
 
-export default function DescriptionScreen({ navigation, route }: Navigation.DescriptionNavigationProps): JSX.Element {
+export default function DescriptionScreen({ navigation, route }: { navigation: any, route: any }): JSX.Element {
   const [description, setDescription] = useState('');
 
-  const handleSave = () => {
+  const handleSave = () : void => {
     route.params.onSave(description);
     navigation.goBack();
   };
@@ -27,7 +26,8 @@ export default function DescriptionScreen({ navigation, route }: Navigation.Desc
         style={styles.input}
         value={description}
         onChangeText={setDescription}
-        placeholder="Ingresa la descripción"
+        keyboardType="numeric"
+        placeholder="Ingresa el valor"
       />
     </View>
   );

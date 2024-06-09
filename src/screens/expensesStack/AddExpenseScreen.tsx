@@ -1,27 +1,38 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Alert} from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
-import { Navigation } from '../../types';
 import { AntDesign } from '@expo/vector-icons';
-import { Route } from '@react-navigation/native';
-
+import type { Navigation } from '../../types';
 export default function AddExpenseScreen({ navigation, route }: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [sharedExpense, setSharedExpense] = useState(false);
 
+  const handleAddExpense = (): void => {
+    if (amount === '' || category === '' || description === '') {
+      Alert.alert('Error', 'Todos los campos son obligatorios.');
+      return;
+    }
 
-  const handleAddExpense = () => {
     const newExpense = {
       id: Date.now().toString(),
       amount: parseInt(amount, 10),
-      date: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       category,
       description,
+      "user_id": 1,
+      "userexpensetype_id": 1,
+      "category_id": 1,
+      "bankcard_id": 1,
     };
-    (route.params as unknown as { onAddExpense: (expense: any)=> void })?.onAddExpense(newExpense);
-    navigation.goBack();
+    try {
+      (route.params as unknown as { onAddExpense: (expense: any) => void })?.onAddExpense(newExpense);
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
+    }
   };
 
   return (
@@ -35,14 +46,14 @@ export default function AddExpenseScreen({ navigation, route }: Navigation.Expen
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate({ name: 'Category', params: { onSave: setCategory } })}>
-        <Text style={styles.inputLabel}>Categoría</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Category', { onSave: setCategory })} >
+        <Text style={styles.inputLabel}>Categoría: {category}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate({ name: 'Description', params: { onSave: setDescription } })}>
-        <Text style={styles.inputLabel}>Descripción</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Description', { onSave: setDescription })}>
+        <Text style={styles.inputLabel}>Descripción: {description}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate({ name: 'Amount', params: { onSave: setAmount } })}>
-        <Text style={styles.inputLabel}>Valor</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Amount', { onSave: setAmount })}>
+        <Text style={styles.inputLabel}>Valor: {amount}</Text>
       </TouchableOpacity>
       <View style={styles.sharedExpenseContainer}>
         <Text style={styles.inputLabel}>¿Es un gasto compartido?</Text>

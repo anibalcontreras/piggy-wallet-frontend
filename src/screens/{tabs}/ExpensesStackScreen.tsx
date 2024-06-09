@@ -7,8 +7,58 @@ import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';
 import CategoryScreen from '../expensesStack/CategoryScreen';
 import DescriptionScreen from '../expensesStack/DescriptionScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
-
+import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
 const ExpensesStack = createNativeStackNavigator<ExpensesStackParamsList>();
+const AddExpenseStack = createNativeStackNavigator<AddExpenseStackParamsList>();
+
+function AddExpenseStackScreen(): JSX.Element {
+  return (
+    <AddExpenseStack.Navigator>
+      <AddExpenseStack.Screen
+        name="AddExpense"
+        component={AddExpenseScreen}
+        options={{
+          title: 'Nuevo gasto',
+        }}
+      />
+      <AddExpenseStack.Screen
+        name="Amount"
+        component={AmountScreen}
+        options={{
+          title: 'Valor',
+        }}
+      />
+      <AddExpenseStack.Screen
+        name="ExpenseType"
+        component={ExpenseTypeScreen}
+        options={{
+          title: 'Tipo de Gasto',
+        }}
+      />
+      <AddExpenseStack.Screen
+        name="Category"
+        component={CategoryScreen}
+        options={{
+          title: 'Categoría',
+        }}
+      />
+      <AddExpenseStack.Screen
+        name="Description"
+        component={DescriptionScreen}
+        options={{
+          title: 'Descripción',
+        }}
+      />
+      <AddExpenseStack.Screen
+        name="SharedExpenseDetails"
+        component={SharedExpenseDetailsScreen}
+        options={{
+          title: 'Detalles del Gasto Compartido',
+        }}
+      />
+    </AddExpenseStack.Navigator>
+  );
+}
 
 export default function ExpensesStackScreen(): JSX.Element {
   return (
@@ -22,45 +72,18 @@ export default function ExpensesStackScreen(): JSX.Element {
       />
       <ExpensesStack.Screen
         name="AddExpense"
-        component={AddExpenseScreen}
+        component={AddExpenseStackScreen}
         options={{
           presentation: 'modal',
-          title: 'Nuevo gasto',
+          headerShown: false,
         }}
       />
+
       <ExpensesStack.Screen
-        name="Amount"
-        component={AmountScreen}
+        name="EditExpense"
+        component={EditExpenseScreen}
         options={{
-          title: 'Valor',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="ExpenseType"
-        component={ExpenseTypeScreen}
-        options={{
-          title: 'Tipo de Gasto',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="Category"
-        component={CategoryScreen}
-        options={{
-          title: 'Categoría',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="Description"
-        component={DescriptionScreen}
-        options={{
-          title: 'Descripción',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="SharedExpenseDetails"
-        component={SharedExpenseDetailsScreen}
-        options={{
-          title: 'Detalles del Gasto Compartido',
+          title: 'Editar Gasto',
         }}
       />
     </ExpensesStack.Navigator>
