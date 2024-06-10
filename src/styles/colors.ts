@@ -1,7 +1,21 @@
 // This file has a really basic way of defining colors and palettes.
 // If more colors are added, layout should change as shown in documentation.
 
-type Colors = 'almostBlack' | 'darkBlue' | 'seaGreen' | 'grey' | 'white' | 'orange' | 'metal' | 'slate' | 'cream' | 'mango' | 'cerulean' | 'prussianBlue' | 'darkGreen' | 'black';
+type Colors =
+  | 'almostBlack'
+  | 'darkBlue'
+  | 'seaGreen'
+  | 'grey'
+  | 'white'
+  | 'orange'
+  | 'metal'
+  | 'slate'
+  | 'cream'
+  | 'mango'
+  | 'cerulean'
+  | 'prussianBlue'
+  | 'darkGreen'
+  | 'black';
 const colors: Record<Colors, string> = {
   almostBlack: '#191E29',
   darkBlue: '#132D46',

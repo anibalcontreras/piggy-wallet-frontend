@@ -19,13 +19,40 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
   const budgetConfigurated = true;
 
   // Get categories from the backend
-  const categories: string[] = ["Vacaciones", "Cumpleaños"];
+  const categories: string[] = ['Vacaciones', 'Cumpleaños'];
 
   // Get the expenses from the backend
   const allExpensesByCategories: Record<string, Record<string, number>> = {
-    Personal: { comida: 253750, vivienda: 400000, 'educación': 0, salud: 20000, entretenimiento: 18620, ahorro: 0, 'inversión': 520000, transporte: 5000 },
-    Vacaciones: { comida: 120430, vivienda: 60000, 'educación': 0, salud: 0, entretenimiento: 23610, ahorro: 0, 'inversión': 0, transporte: 12500 },
-    'Cumpleaños': { comida: 50000, vivienda: 0, 'educación': 0, salud: 0, entretenimiento: 30000, ahorro: 0, 'inversión': 0, transporte: 0 },
+    Personal: {
+      comida: 253750,
+      vivienda: 400000,
+      educación: 0,
+      salud: 20000,
+      entretenimiento: 18620,
+      ahorro: 0,
+      inversión: 520000,
+      transporte: 5000,
+    },
+    Vacaciones: {
+      comida: 120430,
+      vivienda: 60000,
+      educación: 0,
+      salud: 0,
+      entretenimiento: 23610,
+      ahorro: 0,
+      inversión: 0,
+      transporte: 12500,
+    },
+    Cumpleaños: {
+      comida: 50000,
+      vivienda: 0,
+      educación: 0,
+      salud: 0,
+      entretenimiento: 30000,
+      ahorro: 0,
+      inversión: 0,
+      transporte: 0,
+    },
   };
 
   // We compute the total expenses by user expense type
@@ -38,15 +65,17 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
     expensesByCategory.push([]);
 
     for (const category in allExpensesByCategories[expenseType]) {
-      expensesByExpenseType[expensesByExpenseType.length - 1].amount += allExpensesByCategories[expenseType][category];
-      expensesByCategory[expensesByCategory.length - 1].push({ amount: allExpensesByCategories[expenseType][category], label: category });
+      expensesByExpenseType[expensesByExpenseType.length - 1].amount +=
+        allExpensesByCategories[expenseType][category];
+      expensesByCategory[expensesByCategory.length - 1].push({
+        amount: allExpensesByCategories[expenseType][category],
+        label: category,
+      });
     }
   }
 
   // We compute the global total expenses
-  const allExpenses = [
-    { amount: 0, label: 'Gastos' },
-  ];
+  const allExpenses = [{ amount: 0, label: 'Gastos' }];
 
   for (let i = 0; i < expensesByExpenseType.length; i++) {
     allExpenses[0].amount += expensesByExpenseType[i].amount;
@@ -58,7 +87,7 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
     }
 
     return expensesByCategory[selectedTab + page - 1];
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

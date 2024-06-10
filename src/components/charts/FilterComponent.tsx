@@ -7,18 +7,26 @@ const { width } = Dimensions.get('window');
 
 const FilterComponent = ({
   categories = [],
-  defaultCategories = ["Todo", "Personal"],
+  defaultCategories = ['Todo', 'Personal'],
   selectedTab = 0,
-  setSelectedTab = (tab) => { selectedTab = tab; },
+  setSelectedTab = (tab) => {
+    selectedTab = tab;
+  },
   page = 0,
-  setPage = (pg) => { page = pg; },
+  setPage = (pg) => {
+    page = pg;
+  },
 }: FilterComponentProps): JSX.Element => {
   const categoryValues = [...defaultCategories, ...categories];
 
-  const filterWidth = (width * 0.8) / (categoryValues.length === 2 ? 2 : 3) - (categoryValues.length === 3 ? Sizing.x6 : Sizing.x10);
+  const filterWidth =
+    (width * 0.8) / (categoryValues.length === 2 ? 2 : 3) -
+    (categoryValues.length === 3 ? Sizing.x6 : Sizing.x10);
 
   const handlePress = (filter: string): void => {
-    setSelectedTab(filter === categoryValues[page] ? 0 : (filter === categoryValues[page + 1] ? 1 : 2));
+    setSelectedTab(
+      filter === categoryValues[page] ? 0 : filter === categoryValues[page + 1] ? 1 : 2
+    );
   };
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -59,25 +67,30 @@ const FilterComponent = ({
 
   const dynamicStyles = StyleSheet.create({
     highlight: {
-      width: categoryValues.length > 3 ? '26.66%' : (categoryValues.length === 3 ? '33.33%' : '50%'),
-      marginStart: categoryValues.length <= 3 ? 0 : (selectedTab === 0 ? '10%' : (selectedTab === 1 ? '4%' : '-1.5%')),
+      width: categoryValues.length > 3 ? '26.66%' : categoryValues.length === 3 ? '33.33%' : '50%',
+      marginStart:
+        categoryValues.length <= 3
+          ? 0
+          : selectedTab === 0
+            ? '10%'
+            : selectedTab === 1
+              ? '4%'
+              : '-1.5%',
     },
   });
 
   return (
     <View style={styles.filterContainer}>
-      <Animated.View style={[{...styles.highlight, ...dynamicStyles.highlight}, animatedStyle]} />
-      {categoryValues.length > 3 ? <ChangeCategoryPressable move='<' /> : <></>}
+      <Animated.View style={[{ ...styles.highlight, ...dynamicStyles.highlight }, animatedStyle]} />
+      {categoryValues.length > 3 ? <ChangeCategoryPressable move="<" /> : <></>}
       {categoryValues.slice(page, page + 3).map((filter) => (
-        <Pressable
-          key={filter}
-          style={styles.filterTab}
-          onPress={() => handlePress(filter)}
-        >
-          <Text style={styles.filterText} numberOfLines={1}>{filter}</Text>
+        <Pressable key={filter} style={styles.filterTab} onPress={() => handlePress(filter)}>
+          <Text style={styles.filterText} numberOfLines={1}>
+            {filter}
+          </Text>
         </Pressable>
       ))}
-      {categoryValues.length > 3 ? <ChangeCategoryPressable move='>' /> : <></>}
+      {categoryValues.length > 3 ? <ChangeCategoryPressable move=">" /> : <></>}
     </View>
   );
 };

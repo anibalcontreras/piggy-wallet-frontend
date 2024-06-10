@@ -10,7 +10,7 @@ const ChartTooltipLabel = (props: ChartTooltipProps): JSX.Element => {
   const text = [`${datum?.label}`, `${amount} (${datum?.y}%)`];
 
   return <VictoryLabel {...props} text={text} />;
-}
+};
 
 const DonutChart = ({
   values,
@@ -31,9 +31,14 @@ const DonutChart = ({
     }
   }
 
-  const data = [{ amount: disableAvailable ? 0 : userBudget - total, label: "Disponible" }, ...filteredValues];
+  const data = [
+    { amount: disableAvailable ? 0 : userBudget - total, label: 'Disponible' },
+    ...filteredValues,
+  ];
 
-  const formattedAvailableBudget = FormatFunctions.formatCurrency((disableAvailable ? total : userBudget - total).toString());
+  const formattedAvailableBudget = FormatFunctions.formatCurrency(
+    (disableAvailable ? total : userBudget - total).toString()
+  );
 
   return (
     <View style={[styles.container, { marginTop }]}>
@@ -44,15 +49,17 @@ const DonutChart = ({
             constrainToVisibleArea
             labelComponent={<ChartTooltipLabel />}
             flyoutWidth={100}
-          />}
+          />
+        }
         colorScale={Colors.chartColors}
-        data={data.map((val) => (
-          {
-            x: val.amount,
-            y: Math.max(Math.round((val.amount / (disableAvailable ? total : userBudget)) * 100), val.label !== 'Disponible' ? 1 : 0),
-            label: val.label,
-          }
-        ))}
+        data={data.map((val) => ({
+          x: val.amount,
+          y: Math.max(
+            Math.round((val.amount / (disableAvailable ? total : userBudget)) * 100),
+            val.label !== 'Disponible' ? 1 : 0
+          ),
+          label: val.label,
+        }))}
         innerRadius={Sizing.x75}
         labelRadius={Sizing.x80}
         width={Sizing.x130}

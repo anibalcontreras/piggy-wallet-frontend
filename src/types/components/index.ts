@@ -56,5 +56,5 @@ export interface FilterComponentProps {
 }
 
 export interface ChartTooltipProps extends VictoryTooltipProps {
-  datum?: { x: number, y: number, label: string };
+  datum?: { x: number; y: number; label: string };
 }
