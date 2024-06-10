@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Sizing, Colors, Typography } from '@/styles';
@@ -6,13 +5,17 @@ import type { FilterComponentProps } from '@/types/components';
 
 const { width } = Dimensions.get('window');
 
-const FilterComponent = ({ categories = [] }: FilterComponentProps): JSX.Element => {
-  const categoryValues = ["Todo", "Personal", ...categories];
+const FilterComponent = ({
+  categories = [],
+  defaultCategories = ["Todo", "Personal"],
+  selectedTab = 0,
+  setSelectedTab = (tab) => { selectedTab = tab; },
+  page = 0,
+  setPage = (pg) => { page = pg; },
+}: FilterComponentProps): JSX.Element => {
+  const categoryValues = [...defaultCategories, ...categories];
 
   const filterWidth = (width * 0.8) / (categoryValues.length === 2 ? 2 : 3) - (categoryValues.length === 3 ? Sizing.x6 : Sizing.x10);
-
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [page, setPage] = useState(0);
 
   const handlePress = (filter: string): void => {
     setSelectedTab(filter === categoryValues[page] ? 0 : (filter === categoryValues[page + 1] ? 1 : 2));

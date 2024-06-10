@@ -1,34 +1,63 @@
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '@/types';
+import type { DonutChartValue } from '@/types/components';
 import { Colors, Sizing, Typography } from '@/styles';
 import * as FormatFunctions from '@/utils/userBudget';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
+  // We set the state values for the filter component outside so we know what to pass to the donut chart
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [page, setPage] = useState(0);
+
   // Request budget from backend
-  const userBudget = 10000000;
+  const userBudget = 3000000;
   const formattedUserBudget = FormatFunctions.formatCurrency(userBudget.toString());
   const budgetConfigurated = true;
 
   // Get categories from the backend
   const categories: string[] = ["Vacaciones", "Cumpleaños"];
 
-  // Call the api to get the actual expenses data
-  const expensesByCategory = [
-    { amount: 5250000, label: 'Personal' },
-    { amount: 1750000, label: 'Vacaciones' },
-    { amount: 15000, label: 'Cumpleaños' },
-  ];
+  // Get the expenses from the backend
+  const allExpensesByCategories: Record<string, Record<string, number>> = {
+    Personal: { comida: 253750, vivienda: 400000, 'educación': 0, salud: 20000, entretenimiento: 18620, ahorro: 0, 'inversión': 520000, transporte: 5000 },
+    Vacaciones: { comida: 120430, vivienda: 60000, 'educación': 0, salud: 0, entretenimiento: 23610, ahorro: 0, 'inversión': 0, transporte: 12500 },
+    'Cumpleaños': { comida: 50000, vivienda: 0, 'educación': 0, salud: 0, entretenimiento: 30000, ahorro: 0, 'inversión': 0, transporte: 0 },
+  };
 
-  // We compute the total expenses
+  // We compute the total expenses by user expense type
+  const expensesByExpenseType: DonutChartValue[] = [];
+  // And we format the expenses by category
+  const expensesByCategory: DonutChartValue[][] = [];
+
+  for (const expenseType in allExpensesByCategories) {
+    expensesByExpenseType.push({ amount: 0, label: expenseType });
+    expensesByCategory.push([]);
+
+    for (const category in allExpensesByCategories[expenseType]) {
+      expensesByExpenseType[expensesByExpenseType.length - 1].amount += allExpensesByCategories[expenseType][category];
+      expensesByCategory[expensesByCategory.length - 1].push({ amount: allExpensesByCategories[expenseType][category], label: category });
+    }
+  }
+
+  // We compute the global total expenses
   const allExpenses = [
     { amount: 0, label: 'Gastos' },
   ];
 
-  for (let i = 0; i < expensesByCategory.length; i++) {
-    allExpenses[0].amount += expensesByCategory[i].amount;
+  for (let i = 0; i < expensesByExpenseType.length; i++) {
+    allExpenses[0].amount += expensesByExpenseType[i].amount;
+  }
+
+  const getChartValue = (): DonutChartValue[] => {
+    if (page === 0) {
+      return selectedTab === 0 ? expensesByExpenseType : expensesByCategory[selectedTab - 1];
+    }
+
+    return expensesByCategory[selectedTab + page - 1];
   }
 
   return (
@@ -38,12 +67,19 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
           <Text style={styles.boxText}>Gastos del mes</Text>
         </View>
 
-        <FilterComponent categories={categories} />
+        <FilterComponent
+          categories={categories}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          page={page}
+          setPage={setPage}
+        />
 
         <DonutChart
-          values={expensesByCategory}
+          values={getChartValue()}
           userBudget={userBudget}
           marginTop={Sizing.x80}
+          disableAvailable={page > 0 || selectedTab > 0}
         />
       </View>
 

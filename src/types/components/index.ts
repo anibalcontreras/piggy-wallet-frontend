@@ -2,6 +2,7 @@ import type { FieldProps } from 'formik';
 import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react-native';
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
+import type { VictoryTooltipProps } from 'victory-tooltip';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -42,8 +43,18 @@ export interface DonutChartProps {
   values: DonutChartValue[];
   userBudget: number;
   marginTop?: number;
+  disableAvailable?: boolean;
 }
 
 export interface FilterComponentProps {
   categories?: string[];
+  defaultCategories?: string[];
+  selectedTab?: number;
+  setSelectedTab?: (tab: number) => void;
+  page?: number;
+  setPage?: (pg: number) => void;
+}
+
+export interface ChartTooltipProps extends VictoryTooltipProps {
+  datum?: { x: number, y: number, label: string };
 }
