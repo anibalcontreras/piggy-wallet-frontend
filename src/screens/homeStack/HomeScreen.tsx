@@ -13,17 +13,23 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
   const budgetConfigurated = true;
 
   // Get categories from the backend
-  const categories = ["Vacaciones"];
+  const categories: string[] = ["Vacaciones", "Cumpleaños"];
 
   // Call the api to get the actual expenses data
   const expensesByCategory = [
-    { amount: 5250000, label: "Personal" },
-    { amount: 1750000, label: "Vacaciones" },
+    { amount: 5250000, label: 'Personal' },
+    { amount: 1750000, label: 'Vacaciones' },
+    { amount: 15000, label: 'Cumpleaños' },
   ];
 
+  // We compute the total expenses
   const allExpenses = [
-    { amount: 7000000, label: "Gastos" },
+    { amount: 0, label: 'Gastos' },
   ];
+
+  for (let i = 0; i < expensesByCategory.length; i++) {
+    allExpenses[0].amount += expensesByCategory[i].amount;
+  }
 
   return (
     <SafeAreaView style={styles.container}>

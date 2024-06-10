@@ -15,7 +15,7 @@ const DonutChart = ({
     total += values[i].amount;
   }
 
-  values.unshift({ amount: userBudget - total, label: "Disponible" });
+  const data = [{ amount: userBudget - total, label: "Disponible" }, ...values];
 
   const formattedAvailableBudget = FormatFunctions.formatCurrency((userBudget - total).toString());
 
@@ -24,8 +24,8 @@ const DonutChart = ({
       <VictoryPie
         labelComponent={<VictoryTooltip renderInPortal={false} constrainToVisibleArea />}
         colorScale={Colors.chartColors}
-        data={values.map((val, idx) => (
-          { x: idx + 1, y: Math.round((val.amount / total) * 100), label: val.label }
+        data={data.map((val, idx) => (
+          { x: idx + 1, y: Math.max(Math.round((val.amount / total) * 100), 1), label: val.label }
         ))}
         innerRadius={Sizing.x75}
         labelRadius={Sizing.x80}
