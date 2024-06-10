@@ -82,7 +82,7 @@ const FilterComponent = ({
   return (
     <View style={styles.filterContainer}>
       <Animated.View style={[{ ...styles.highlight, ...dynamicStyles.highlight }, animatedStyle]} />
-      {categoryValues.length > 3 ? <ChangeCategoryPressable move='<' /> : <></>}
+      {categoryValues.length > 3 ? <ChangeCategoryPressable move="<" /> : <></>}
       {categoryValues.slice(page, page + 3).map((filter) => (
         <Pressable key={filter} style={styles.filterTab} onPress={() => handlePress(filter)}>
           <Text style={styles.filterText} numberOfLines={1}>
@@ -90,7 +90,7 @@ const FilterComponent = ({
           </Text>
         </Pressable>
       ))}
-      {categoryValues.length > 3 ? <ChangeCategoryPressable move='>' /> : <></>}
+      {categoryValues.length > 3 ? <ChangeCategoryPressable move=">" /> : <></>}
     </View>
   );
 };
