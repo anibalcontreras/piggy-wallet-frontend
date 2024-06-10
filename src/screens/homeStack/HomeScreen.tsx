@@ -7,10 +7,23 @@ import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 
 export default function HomeScreen({ navigation }: Navigation.HomeNavigationProps): JSX.Element {
+  // Request budget from backend
   const userBudget = 10000000;
   const formattedUserBudget = FormatFunctions.formatCurrency(userBudget.toString());
-  const donutPercentage = 57;
   const budgetConfigurated = true;
+
+  // Get categories from the backend
+  const categories = ["Vacaciones"];
+
+  // Call the api to get the actual expenses data
+  const expensesByCategory = [
+    { amount: 5250000, label: "Personal" },
+    { amount: 1750000, label: "Vacaciones" },
+  ];
+
+  const allExpenses = [
+    { amount: 7000000, label: "Gastos" },
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,13 +31,16 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
         <View style={styles.hr}>
           <Text style={styles.boxText}>Gastos del mes</Text>
         </View>
-        <FilterComponent />
+
+        <FilterComponent categories={categories} />
+
         <DonutChart
-          donutPercentage={donutPercentage}
+          values={expensesByCategory}
           userBudget={userBudget}
           marginTop={Sizing.x80}
         />
       </View>
+
       <View style={[styles.contentBox, styles.contentBoxTwo]}>
         <View style={styles.hr}>
           <Text style={styles.boxText}>Presupuesto mensual</Text>
@@ -36,10 +52,11 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
             />
           </TouchableOpacity>
         </View>
+
         {budgetConfigurated ? (
           <>
             <Text style={styles.totalText}>Total: {formattedUserBudget}</Text>
-            <DonutChart donutPercentage={donutPercentage} userBudget={userBudget} />
+            <DonutChart values={allExpenses} userBudget={userBudget} />
           </>
         ) : (
           <Text style={[styles.totalText, styles.noBudgetText]}>

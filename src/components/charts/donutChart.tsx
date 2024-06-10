@@ -1,34 +1,41 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { VictoryPie } from 'victory-native';
+import { VictoryPie, VictoryTooltip } from 'victory-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { DonutChartProps } from '@/types/components';
 import * as FormatFunctions from '@/utils/userBudget';
 
 const DonutChart = ({
-  donutPercentage,
+  values,
   userBudget,
   marginTop = Sizing.x70,
 }: DonutChartProps): JSX.Element => {
-  const donutNumber = Math.round((donutPercentage / 100) * userBudget); //
-  const formattedDonutNumber = FormatFunctions.formatCurrency(donutNumber.toString()); //
+  let total = 0;
+
+  for (let i = 0; i < values.length; i++) {
+    total += values[i].amount;
+  }
+
+  values.unshift({ amount: userBudget - total, label: "Disponible" });
+
+  const formattedAvailableBudget = FormatFunctions.formatCurrency((userBudget - total).toString());
 
   return (
     <View style={[styles.container, { marginTop }]}>
       <VictoryPie
-        colorScale={[Colors.palette.primary, Colors.palette.border]}
-        data={[
-          { x: 1, y: donutPercentage },
-          { x: 2, y: 100 - donutPercentage },
-        ]}
+        labelComponent={<VictoryTooltip renderInPortal={false} constrainToVisibleArea />}
+        colorScale={Colors.chartColors}
+        data={values.map((val, idx) => (
+          { x: idx + 1, y: Math.round((val.amount / total) * 100), label: val.label }
+        ))}
         innerRadius={Sizing.x75}
-        labelRadius={Sizing.x10}
+        labelRadius={Sizing.x80}
         width={Sizing.x130}
         height={Sizing.x130}
         padding={Sizing.x5}
       />
       <View style={styles.centeredText}>
         <Text style={styles.boxText}>Disponible</Text>
-        <Text style={styles.boxText}>{formattedDonutNumber}</Text>
+        <Text style={styles.boxText}>{formattedAvailableBudget}</Text>
       </View>
     </View>
   );

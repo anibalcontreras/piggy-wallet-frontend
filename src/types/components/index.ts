@@ -33,8 +33,17 @@ export interface TabBarItemProps {
   onPress: () => void;
 }
 
+export interface DonutChartValue {
+  amount: number;
+  label: string;
+}
+
 export interface DonutChartProps {
-  donutPercentage: number;
+  values: DonutChartValue[];
   userBudget: number;
   marginTop?: number;
+}
+
+export interface FilterComponentProps {
+  categories?: string[];
 }
