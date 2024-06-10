@@ -2,6 +2,7 @@ import type { FieldProps } from 'formik';
 import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react-native';
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
+import type { Backend } from '..';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -37,4 +38,13 @@ export interface DonutChartProps {
   donutPercentage: number;
   userBudget: number;
   marginTop?: number;
+}
+
+export interface PiggiesListProps {
+  piggies: Backend.User[];
+}
+
+export interface ProfileProps {
+  user?: Backend.User;
+  handleClick?: () => void;
 }
