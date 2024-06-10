@@ -59,7 +59,7 @@ const DonutChart = ({
         height={Sizing.x130}
         padding={Sizing.x5}
       />
-      <View style={{ ...styles.centeredText, zIndex: -1 }}>
+      <View style={{ ...styles.centeredText, ...styles.behind }}>
         <Text style={styles.boxText}>{disableAvailable ? 'Total' : 'Disponible'}</Text>
         <Text style={styles.boxText}>{formattedAvailableBudget}</Text>
       </View>
@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
   },
   boxText: {
     ...Typography.bodyStyles.secondary,
+  },
+  behind: {
+    zIndex: -1,
   },
 });
 
