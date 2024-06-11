@@ -17,7 +17,7 @@ function Profile({ user, handleClick }: ProfileProps): JSX.Element {
           style={styles.image}
         />
         <Text style={styles.text}>{user?.fullName}</Text>
-        <Button disabled variant="text" onPress={handleClick}>
+        <Button variant="text" onPress={handleClick}>
           Editar perfil
         </Button>
       </View>

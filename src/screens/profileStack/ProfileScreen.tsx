@@ -15,7 +15,7 @@ export default function ProfileScreen({
   const { error: piggiesError, loading: piggiesLoading, piggies } = usePiggies();
 
   const handleEditProfileClick = (): void => {
-    navigation.navigate('Profile');
+    navigation.navigate('EditProfile');
   };
 
   const handleAddPiggyClick = (): void => {

@@ -1,10 +1,13 @@
 import { StyleSheet, View, Text } from 'react-native';
+import React from 'react';
 import { Typography } from '@/styles';
 
-export default function AddPiggyScreen(): JSX.Element {
+export default function EditProfileScreen(): JSX.Element {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Agrega Piggies</Text>
+      <Text style={styles.text}>
+        Proximamente podras editar tu perfil, por favor ten paciencia!
+      </Text>
     </View>
   );
 }

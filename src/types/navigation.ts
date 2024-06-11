@@ -38,6 +38,7 @@ export type DebtsStackParamsList = {
 export type ProfileStackParamsList = {
   Profile: undefined;
   AddPiggy: undefined;
+  EditProfile: undefined;
 };
 
 export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;
