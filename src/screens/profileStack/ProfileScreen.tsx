@@ -1,10 +1,11 @@
-import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
 import usePiggies from '@/hooks/usePiggies';
 import useUser from '@/hooks/useUser';
 import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
 import ErrorText from '@/components/common/ErrorText';
+import { Colors, Sizing, Typography } from '@/styles';
 
 export default function ProfileScreen({
   navigation,
@@ -27,6 +28,9 @@ export default function ProfileScreen({
   return (
     <SafeAreaView style={styles.container}>
       <Profile user={user} handleClick={handleClick} />
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>Tus Piggies</Text>
+      </View>
       <PiggiesList piggies={piggies} />
     </SafeAreaView>
   );
@@ -37,5 +41,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    padding: Sizing.x10,
+  },
+  textContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '90%',
+    backgroundColor: Colors.palette.text,
+    borderRadius: Sizing.x3,
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x5,
+    padding: Sizing.x2,
+  },
+  text: {
+    ...Typography.bodyStyles.tertiary,
   },
 });

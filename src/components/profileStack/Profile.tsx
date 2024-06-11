@@ -17,7 +17,7 @@ function Profile({ user, handleClick }: ProfileProps): JSX.Element {
           style={styles.image}
         />
         <Text style={styles.text}>{user?.fullName}</Text>
-        <Button variant="text" onPress={handleClick}>
+        <Button disabled variant="text" onPress={handleClick}>
           Editar perfil
         </Button>
       </View>
@@ -28,10 +28,10 @@ function Profile({ user, handleClick }: ProfileProps): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     marginTop: Sizing.x20,
-    padding: Sizing.x20,
     alignItems: 'center',
     borderBottomColor: Colors.palette.border,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: Sizing.x1,
+    width: '90%',
   },
   image: {
     width: 100,
@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   text: {
-    ...Typography.subheaderStyles.regular,
-    marginTop: Sizing.x10,
+    ...Typography.headerStyles.medium,
   },
 });
 

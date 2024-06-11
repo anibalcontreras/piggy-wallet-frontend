@@ -20,6 +20,10 @@ export interface CustomTextInputProps extends TextInputProps {
   };
 }
 
+export interface ErrorTextProps {
+  message: string;
+}
+
 export type BottomTabBarProps = ReactNavigationBottomTabBarProps;
 
 export interface TabBarIndicatorProps {

@@ -1,3 +1,4 @@
+// PiggiesList.tsx
 import React from 'react';
 import { Image, View, Text, StyleSheet, FlatList } from 'react-native';
 import type { Backend } from '@/types';
@@ -16,28 +17,23 @@ function PiggiesList({ piggies }: PiggiesListProps): JSX.Element {
         }}
         style={styles.image}
       />
-      <Text>{item.fullName}</Text>
+      <Text style={styles.text}>{item.fullName}</Text>
     </View>
   );
 
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Tus Piggies</Text>
-        </View>
-        {piggies.length > 0 ? (
-          <FlatList
-            data={piggies}
-            renderItem={renderPiggie}
-            keyExtractor={(piggie) => piggie.id.toString()}
-            contentContainerStyle={styles.listContainer}
-          />
-        ) : (
-          <Text>No has agregado piggies</Text>
-        )}
-      </View>
-    </>
+    <View style={styles.container}>
+      {piggies.length > 0 ? (
+        <FlatList
+          data={piggies}
+          renderItem={renderPiggie}
+          keyExtractor={(piggie) => piggie.id.toString()}
+          contentContainerStyle={styles.listContainer}
+        />
+      ) : (
+        <Text>No has agregado piggies</Text>
+      )}
+    </View>
   );
 }
 
@@ -45,19 +41,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.palette.secondary,
     margin: Sizing.x10,
-    width: '90%',
-  },
-  textContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: Colors.palette.text,
-    borderRadius: Sizing.x3,
-    margin: Sizing.x20,
-    padding: Sizing.x2,
+    padding: Sizing.x20,
+    width: '100%',
   },
   listContainer: {
-    padding: Sizing.x10,
+    padding: Sizing.x5,
     ...Typography.bodyStyles.tertiary,
   },
   piggyContainer: {
@@ -69,7 +57,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   text: {
-    ...Typography.bodyStyles.tertiary,
+    ...Typography.bodyStyles.primary,
   },
   image: {
     width: 50,
