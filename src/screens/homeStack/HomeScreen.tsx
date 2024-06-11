@@ -2,7 +2,7 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import * as FormatFunctions from '@/utils/userBudget';
+import * as FormatFunctions from '@/utils';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 

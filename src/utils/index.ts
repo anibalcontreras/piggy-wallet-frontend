@@ -4,7 +4,6 @@ export function formatCurrency(value: string): string {
   return '$' + numberValue.toLocaleString('es-CL');
 }
 
-// COrregir el archivo utils
 export function snakeToCamel(obj: Record<string, any>): Record<string, any> {
   const camelCaseObj: Record<string, any> = {};
   for (const key in obj) {

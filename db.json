@@ -4,39 +4,51 @@
   },
   "piggies": [
     {
+      "id": 1,
       "full_name": "Anibal Contreras"
     },
     {
+      "id": 2,
       "full_name": "Gabriel Quiroz"
     },
     {
+      "id": 3,
       "full_name": "Javier Pinto"
     },
     {
+      "id": 4,
       "full_name": "Jorge Pinto"
     },
     {
+      "id": 5,
       "full_name": "Juan Pablo Pinto"
     },
     {
+      "id": 6,
       "full_name": "Luis Pinto"
     },
     {
+      "id": 7,
       "full_name": "Mauricio Pinto"
     },
     {
+      "id": 8,
       "full_name": "Nelson Pinto"
     },
     {
+      "id": 9,
       "full_name": "Pablo Pinto"
     },
     {
+      "id": 10,
       "full_name": "Rodrigo Pinto"
     },
     {
+      "id": 11,
       "full_name": "Sebastian Pinto"
     },
     {
+      "id": 12,
       "full_name": "Vicente Pinto"
     }
   ],

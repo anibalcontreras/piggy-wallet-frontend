@@ -1,9 +1,10 @@
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
 import type { Navigation } from '@/types';
 import usePiggies from '@/hooks/usePiggies';
 import useUser from '@/hooks/useUser';
 import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function ProfileScreen({
   navigation,
@@ -20,7 +21,7 @@ export default function ProfileScreen({
   }
 
   if (userError || piggiesError) {
-    return <Text>Ha ocurrido un error al cargar tus Piggies</Text>; // Crear pagina de error
+    return <ErrorText message="Ha ocurrido un error al cargar tus Piggies" />;
   }
 
   return (

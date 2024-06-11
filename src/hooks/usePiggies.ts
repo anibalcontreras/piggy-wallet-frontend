@@ -2,7 +2,7 @@ import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { Backend } from '@/types';
 import type { UsePiggies } from '@/types/hooks';
-import { snakeToCamel } from '@/utils/userBudget';
+import { snakeToCamel } from '@/utils';
 import { useEffect, useState } from 'react';
 
 const usePiggies = (): UsePiggies => {
