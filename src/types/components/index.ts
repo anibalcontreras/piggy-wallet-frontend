@@ -52,3 +52,10 @@ export interface ProfileProps {
   user?: Backend.User;
   handleClick?: () => void;
 }
+
+export interface SearchBarProps {
+  clicked: boolean;
+  searchPhrase: string;
+  setSearchPhrase: (searchPhrase: string) => void;
+  setClicked: (clicked: boolean) => void;
+}

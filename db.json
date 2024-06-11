@@ -55,21 +55,11 @@
   "users": [
     {
       "id": 1,
-      "username": "john_doe",
-      "password": "password123",
-      "email": "john.doe@example.com",
-      "created_at": "2023-01-01",
-      "updated_at": "2023-06-01",
-      "enabled": true
+      "username": "Juan Vergara"
     },
     {
       "id": 2,
-      "username": "jane_doe",
-      "password": "password456",
-      "email": "jane.doe@example.com",
-      "created_at": "2023-02-01",
-      "updated_at": "2023-06-01",
-      "enabled": true
+      "username": "Ignacio Huntley"
     }
   ],
   "contacts": [
