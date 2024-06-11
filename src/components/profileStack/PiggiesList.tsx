@@ -1,4 +1,3 @@
-// PiggiesList.tsx
 import React from 'react';
 import { Image, View, Text, StyleSheet, FlatList } from 'react-native';
 import type { Backend } from '@/types';

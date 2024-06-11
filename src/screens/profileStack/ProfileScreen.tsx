@@ -14,8 +14,12 @@ export default function ProfileScreen({
   const { error: userError, loading: userLoading, user } = useUser();
   const { error: piggiesError, loading: piggiesLoading, piggies } = usePiggies();
 
-  const handleClick = (): void => {
+  const handleEditProfileClick = (): void => {
     navigation.navigate('Profile');
+  };
+
+  const handleAddPiggyClick = (): void => {
+    navigation.navigate('AddPiggy');
   };
 
   if (userLoading || piggiesLoading) {
@@ -28,13 +32,15 @@ export default function ProfileScreen({
 
   return (
     <SafeAreaView style={styles.container}>
-      <Profile user={user} handleClick={handleClick} />
+      <Profile user={user} handleClick={handleEditProfileClick} />
       <View style={styles.textContainer}>
         <Text style={styles.text}>Tus Piggies</Text>
       </View>
       <PiggiesList piggies={piggies} />
       <View>
-        <Button variant="text">Agregar Piggie</Button>
+        <Button variant="text" onPress={handleAddPiggyClick}>
+          Agregar Piggie
+        </Button>
       </View>
     </SafeAreaView>
   );
