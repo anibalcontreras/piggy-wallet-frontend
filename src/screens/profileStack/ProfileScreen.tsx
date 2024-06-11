@@ -6,6 +6,7 @@ import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
 import ErrorText from '@/components/common/ErrorText';
 import { Colors, Sizing, Typography } from '@/styles';
+import Button from '@/components/common/Button';
 
 export default function ProfileScreen({
   navigation,
@@ -32,6 +33,9 @@ export default function ProfileScreen({
         <Text style={styles.text}>Tus Piggies</Text>
       </View>
       <PiggiesList piggies={piggies} />
+      <View>
+        <Button variant="text">Agregar Piggie</Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -53,6 +57,9 @@ const styles = StyleSheet.create({
     marginTop: Sizing.x10,
     marginBottom: Sizing.x5,
     padding: Sizing.x2,
+  },
+  buttonContainer: {
+    marginTop: Sizing.x20,
   },
   text: {
     ...Typography.bodyStyles.tertiary,

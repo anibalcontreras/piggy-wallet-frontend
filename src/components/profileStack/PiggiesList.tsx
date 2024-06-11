@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     margin: Sizing.x10,
     padding: Sizing.x20,
     width: '100%',
+    height: '51%',
   },
   listContainer: {
     padding: Sizing.x5,
