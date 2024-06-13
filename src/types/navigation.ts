@@ -36,6 +36,7 @@ export type ExpensesStackParamsList = {
   Category: { onSave: (category: string) => void };
   Description: { onSave: (description: string) => void };
   SharedExpenseDetails: { onSave: (sharedWith: any) => void };
+  ExpenseDetails: { expense: Expense };
 };
 
 export type DebtsStackParamsList = {
@@ -65,3 +66,4 @@ export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
 export type EditExpenseNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'EditExpense'>;
+export type ExpenseDetailsNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'ExpenseDetails'>;

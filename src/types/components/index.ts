@@ -49,7 +49,7 @@ export interface Expense {
   created_at: string;
   updated_at: string;
   description: string;
-}
+};
 
 export interface UserExpenseType {
   id: number;

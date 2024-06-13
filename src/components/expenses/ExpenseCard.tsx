@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
 
-const ExpenseCard = ({ expense, onDelete, onEdit }: { expense: any, onDelete: any, onEdit: any }): JSX.Element => {
+const ExpenseCard = ({ expense, onDelete, onEdit, onLook}: { expense: any, onDelete: any, onEdit: any, onLook: any}): JSX.Element => {
   return (
+    <TouchableOpacity onPress={() => onLook(expense)}>
     <View style={styles.card}>
         <View style={styles.cardContent}>
             <Image source={require('../../assets/images/logo.png')} style={styles.icon} />
@@ -22,6 +23,7 @@ const ExpenseCard = ({ expense, onDelete, onEdit }: { expense: any, onDelete: an
             </TouchableOpacity>
         </View>
     </View>
+    </TouchableOpacity>
   );
 };
 

@@ -8,55 +8,55 @@ import CategoryScreen from '../expensesStack/CategoryScreen';
 import DescriptionScreen from '../expensesStack/DescriptionScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
 import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
+import ExpenseDetailsScreen from '../expensesStack/ExpenseDetailsScreen';
 const ExpensesStack = createNativeStackNavigator<ExpensesStackParamsList>();
-const AddExpenseStack = createNativeStackNavigator<AddExpenseStackParamsList>();
 
 function AddExpenseStackScreen(): JSX.Element {
   return (
-    <AddExpenseStack.Navigator>
-      <AddExpenseStack.Screen
-        name="AddExpense"
+    <ExpensesStack.Navigator>
+      <ExpensesStack.Screen
+        name="Expenses"
         component={AddExpenseScreen}
         options={{
           title: 'Nuevo gasto',
         }}
       />
-      <AddExpenseStack.Screen
+      <ExpensesStack.Screen
         name="Amount"
         component={AmountScreen}
         options={{
           title: 'Valor',
         }}
       />
-      <AddExpenseStack.Screen
+      <ExpensesStack.Screen
         name="ExpenseType"
         component={ExpenseTypeScreen}
         options={{
           title: 'Tipo de Gasto',
         }}
       />
-      <AddExpenseStack.Screen
+      <ExpensesStack.Screen
         name="Category"
         component={CategoryScreen}
         options={{
           title: 'Categoría',
         }}
       />
-      <AddExpenseStack.Screen
+      <ExpensesStack.Screen
         name="Description"
         component={DescriptionScreen}
         options={{
           title: 'Descripción',
         }}
       />
-      <AddExpenseStack.Screen
+      <ExpensesStack.Screen
         name="SharedExpenseDetails"
         component={SharedExpenseDetailsScreen}
         options={{
           title: 'Detalles del Gasto Compartido',
         }}
       />
-    </AddExpenseStack.Navigator>
+    </ExpensesStack.Navigator>
   );
 }
 
@@ -84,6 +84,14 @@ export default function ExpensesStackScreen(): JSX.Element {
         component={EditExpenseScreen}
         options={{
           title: 'Editar Gasto',
+        }}
+      />
+
+      <ExpensesStack.Screen
+        name="ExpenseDetails"
+        component={ExpenseDetailsScreen}
+        options={{
+          title: 'Valor',
         }}
       />
     </ExpensesStack.Navigator>

@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity} from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { EditExpenseNavigationProps} from '../../types/navigation';
 import type { Expense } from '../../types/components';
+import RNPickerSelect from 'react-native-picker-select';
+import db from '../../../db.json';
 
 export default function EditExpenseScreen({ navigation, route }: EditExpenseNavigationProps): JSX.Element {
   const { expense, onSave } = route.params;
   const [amount, setAmount] = useState(expense.amount.toString());
-  const [category, setCategory] = useState(expense.userexpensetype_id);
+  const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState(expense.description);
+  const [userExpenseTypeId, setUserExpenseTypeId] = useState(db.userexpensetypes);
+
+  const categories = db.userexpensetypes.map((cat) => ({
+    label: cat.name,
+    value: cat.name,
+    key: cat.id,
+  }));
+
+  useEffect(() => {
+    const initialCategory = db.userexpensetypes.find(cat => cat.id === expense.userexpensetype_id)?.name ?? '';
+    setCategoryName(initialCategory);
+  }, [expense.userexpensetype_id]);
 
   const handleSave = (): void => {
     if (amount === '' || description === '') {
@@ -20,7 +34,7 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
     const updatedExpense: Expense = {
       ...expense,
       amount: parseInt(amount, 10),
-      userexpensetype_id: category,
+      userexpensetype_id: expense.userexpensetype_id,
       description,
     };
 
@@ -39,6 +53,8 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
       </View>
+
+      <Text style={styles.title}>Monto</Text>
       <TextInput
         style={styles.input}
         placeholder="Monto"
@@ -46,14 +62,16 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
         value={amount}
         onChangeText={setAmount}
       />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Categoría"
-        value={category.toString()}
-        onChangeText={(text: string) => setCategory(2)}  // Acá tengo que poner text
+
+      <Text style={styles.title}>Categoría</Text>
+      <RNPickerSelect
+        style={pickerSelectStyles}
+        value={userExpenseTypeId}
+        onValueChange={(value) => setUserExpenseTypeId(value)}
+        items={categories}
       />
 
+      <Text style={styles.title}>Descripción</Text>
       <TextInput
         style={styles.input}
         placeholder="Descripción"
@@ -85,5 +103,31 @@ const styles = StyleSheet.create({
     padding: Sizing.x10,
     marginVertical: Sizing.x10,
     borderRadius: Sizing.x5,
+    color: 'white',
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+    marginBottom: 10,
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'gray',
+    borderRadius: 8,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+    marginBottom: 10,
   },
 });
