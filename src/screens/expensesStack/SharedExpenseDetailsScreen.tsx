@@ -7,7 +7,7 @@ import type { Navigation } from '../../types';
 export default function SharedExpenseDetailsScreen({ navigation, route }: Navigation.SharedExpenseDetailsNavigationProps): JSX.Element {
   const [sharedWith, setSharedWith] = useState([{ id: '1', name: '', amount: '' }]);
 
-  const handleAddPerson = ():void  => {
+  const handleAddPerson = (): void => {
     setSharedWith([...sharedWith, { id: Date.now().toString(), name: '', amount: '' }]);
   };
 
@@ -16,13 +16,19 @@ export default function SharedExpenseDetailsScreen({ navigation, route }: Naviga
     navigation.goBack();
   };
 
+  const formatAmount = (amount: string): string => {
+    const cleanedAmount = amount.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    const formattedAmount = cleanedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Add thousand separators
+    return `$${formattedAmount}`;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="close" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Detalles del Gasto Compartido</Text>
+        <Text style={styles.title}>Detalles del Gasto</Text>
         <TouchableOpacity onPress={handleSave}>
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
@@ -31,7 +37,8 @@ export default function SharedExpenseDetailsScreen({ navigation, route }: Naviga
         <View key={person.id} style={styles.personContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Nombre"
+            placeholder="Nombre deudor"
+            placeholderTextColor={Colors.palette.border} // Asegúrate de que el color del placeholder sea visible
             value={person.name}
             onChangeText={(text) => {
               const newSharedWith = [...sharedWith];
@@ -41,11 +48,13 @@ export default function SharedExpenseDetailsScreen({ navigation, route }: Naviga
           />
           <TextInput
             style={styles.input}
-            placeholder="Monto"
+            placeholder="Monto deuda"
+            placeholderTextColor={Colors.palette.border} // Asegúrate de que el color del placeholder sea visible
             value={person.amount}
             onChangeText={(text) => {
+              const formattedAmount = formatAmount(text);
               const newSharedWith = [...sharedWith];
-              newSharedWith[index].amount = text;
+              newSharedWith[index].amount = formattedAmount;
               setSharedWith(newSharedWith);
             }}
             keyboardType="numeric"
@@ -81,13 +90,15 @@ const styles = StyleSheet.create({
     marginBottom: Sizing.x10,
   },
   input: {
-    ...Typography.bodyStyles.primary,
-    padding: Sizing.x10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.palette.border,
+    borderWidth: 1,
+    borderColor: Colors.palette.border,
+    paddingVertical: Sizing.x10,
+    paddingHorizontal: Sizing.x20,
+    marginBottom: Sizing.x20,
+    marginHorizontal: Sizing.x10,
+    borderRadius: Sizing.x5,
+    color: Colors.palette.text,
     flex: 1,
-    marginRight: Sizing.x10,
-    color: Colors.palette.primary,
   },
   addPersonButton: {
     marginTop: Sizing.x20,

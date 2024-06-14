@@ -2,10 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { ExpensesStackParamsList } from '../../types/navigation';
 import ExpensesScreen from '../expensesStack/ExpensesScreen';
 import AddExpenseScreen from '../expensesStack/AddExpenseScreen';
-import AmountScreen from '../expensesStack/AmountScreen';
 import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';
 import CategoryScreen from '../expensesStack/CategoryScreen';
-import DescriptionScreen from '../expensesStack/DescriptionScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
 import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
 import ExpenseDetailsScreen from '../expensesStack/ExpenseDetailsScreen';
@@ -22,13 +20,6 @@ function AddExpenseStackScreen(): JSX.Element {
         }}
       />
       <ExpensesStack.Screen
-        name="Amount"
-        component={AmountScreen}
-        options={{
-          title: 'Valor',
-        }}
-      />
-      <ExpensesStack.Screen
         name="ExpenseType"
         component={ExpenseTypeScreen}
         options={{
@@ -40,13 +31,6 @@ function AddExpenseStackScreen(): JSX.Element {
         component={CategoryScreen}
         options={{
           title: 'Categoría',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="Description"
-        component={DescriptionScreen}
-        options={{
-          title: 'Descripción',
         }}
       />
       <ExpensesStack.Screen

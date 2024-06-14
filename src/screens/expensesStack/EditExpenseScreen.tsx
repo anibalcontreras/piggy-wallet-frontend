@@ -45,10 +45,7 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="close" size={Sizing.x40} color={Colors.palette.primary} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Editar gasto</Text>
+        <Text style={styles.pageTitle}>Editar gasto</Text>
         <TouchableOpacity onPress={handleSave}>
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
@@ -97,6 +94,10 @@ const styles = StyleSheet.create({
   title: {
     ...Typography.headerStyles.medium,
   },
+  pageTitle: {
+    ...Typography.headerStyles.medium,
+    marginLeft: Sizing.x80,
+  },
   input: {
     borderWidth: 1,
     borderColor: Colors.palette.border,
@@ -118,6 +119,7 @@ const pickerSelectStyles = StyleSheet.create({
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
     marginBottom: 10,
+    marginTop: 10,
   },
   inputAndroid: {
     fontSize: 16,
