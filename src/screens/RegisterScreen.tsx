@@ -56,7 +56,6 @@ export default function RegisterScreen({
     setIsSigningUp(true);
     const result = await onRegister?.(userRegister);
     setIsSigningUp(false);
-    console.log('result', result);
     if (result.status === 201) {
       Alert.alert('¡Cuenta creada con éxito!', 'Por favor, iniciar sesión para continuar');
       navigation.navigate('Login');

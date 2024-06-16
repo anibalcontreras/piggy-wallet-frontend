@@ -11,3 +11,7 @@ export interface UsePiggies extends UseHookBase {
 export interface UseUser extends UseHookBase {
   user?: Backend.User;
 }
+
+export interface UseAllUsers extends UseHookBase {
+  allUsers?: Backend.User[];
+}

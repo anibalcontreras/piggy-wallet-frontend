@@ -59,3 +59,10 @@ export interface SearchBarProps {
   setSearchPhrase: (searchPhrase: string) => void;
   setClicked: (clicked: boolean) => void;
 }
+
+export interface SearchAllPigiesListProps {
+  searchPhrase: string;
+  setClicked: (clicked: boolean) => void;
+  // data: Array<{ name: string; id: string }>;
+  data?: Backend.User[];
+}

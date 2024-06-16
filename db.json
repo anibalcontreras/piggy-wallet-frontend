@@ -55,11 +55,15 @@
   "users": [
     {
       "id": 1,
-      "username": "Juan Vergara"
+      "full_name": "Juan Vergara"
     },
     {
       "id": 2,
-      "username": "Ignacio Huntley"
+      "full_name": "Ignacio Huntley"
+    },
+    {
+      "id": 3,
+      "full_name": "Anibal Contreras"
     }
   ],
   "contacts": [

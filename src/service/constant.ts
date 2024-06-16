@@ -5,4 +5,5 @@ export const END_POINT = {
   register: 'auth/register/',
   profile: 'profile/',
   piggies: 'piggies/',
+  allUsers: 'users/',
 };
