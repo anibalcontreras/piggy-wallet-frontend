@@ -8,7 +8,6 @@ import { Sizing, Typography } from '@/styles';
 
 export default function AddPiggyScreen(): JSX.Element {
   const { loading, error, allUsers } = useAllUsers();
-  console.log(allUsers);
 
   const [searchPiggy, setSearchPiggy] = useState('');
   const [clicked, setClicked] = useState(false);
@@ -23,7 +22,7 @@ export default function AddPiggyScreen(): JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!clicked && <Text style={styles.title}>Busca a otros Piggies</Text>}
+      {!clicked && <Text style={styles.title}>Busca a otros Usuarios</Text>}
       <SearchBar
         clicked={clicked}
         searchPhrase={searchPiggy}
