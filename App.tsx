@@ -49,6 +49,7 @@ const Layout = (): JSX.Element => {
                   borderTopColor: Colors.palette.border,
                   borderTopWidth: 1,
                 },
+                headerBackTitle: 'Atrás',
               }}
               name="Settings"
               component={SettingsScreen}

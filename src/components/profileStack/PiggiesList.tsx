@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.palette.secondary,
     margin: Sizing.x10,
     padding: Sizing.x20,
+    borderRadius: Sizing.x3,
     width: '90%',
     height: '51%',
   },
