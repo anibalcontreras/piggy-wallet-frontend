@@ -33,6 +33,7 @@ export type ExpensesStackParamsList = {
 
 export type DebtsStackParamsList = {
   Debts: undefined;
+  DebtDetails: undefined;
 };
 
 export type ProfileStackParamsList = {
@@ -51,6 +52,10 @@ export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
 
 export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
+export type DebtsDetailsNavigationProps = NativeStackScreenProps<
+  DebtsStackParamsList,
+  'DebtDetails'
+>;
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
 export type AddPiggyNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'AddPiggy'>;

@@ -1,8 +1,8 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import usePiggies from '@/hooks/usePiggies';
-import useUser from '@/hooks/useUser';
+import usePiggies from '@/hooks/profileStack/usePiggies';
+import useUser from '@/hooks/profileStack/useUser';
 import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
 import ErrorText from '@/components/common/ErrorText';

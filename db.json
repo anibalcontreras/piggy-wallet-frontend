@@ -194,6 +194,16 @@
       "ispaid": true
     }
   ],
+  "usersWithDebts": [
+    {
+      "id": "1",
+      "full_name": "John Doe"
+    },
+    {
+      "id": "2",
+      "full_name": "Jane Smith"
+    }
+  ],
   "budgets": [
     {
       "id": "1",

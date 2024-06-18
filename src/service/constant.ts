@@ -9,4 +9,5 @@ export const END_POINT = {
   profile: 'profile/',
   piggies: 'piggies/',
   allUsers: 'users/',
+  usersWithDebts: 'usersWithDebts/',
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ActivityIndicator, StyleSheet, SafeAreaView, Text } from 'react-native';
 import type { Navigation } from '@/types';
 import { Sizing, Typography } from '@/styles';
-import useAllUsers from '@/hooks/useAllUsers';
+import useAllUsers from '@/hooks/profileStack/useAllUsers';
 import SearchBar from '@/components/profileStack/SearchBar';
 import ErrorText from '@/components/common/ErrorText';
 import UsersList from '@/components/profileStack/UsersList';
