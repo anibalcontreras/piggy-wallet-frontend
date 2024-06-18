@@ -17,5 +17,5 @@ export interface UseAllUsers extends UseHookBase {
 }
 
 export interface UseUsersWithDebts extends UseHookBase {
-  usersWithDebts?: Backend.User[];
+  usersWithDebts: Backend.User[];
 }
