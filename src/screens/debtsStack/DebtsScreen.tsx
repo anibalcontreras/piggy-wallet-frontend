@@ -20,8 +20,8 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
 
   const { error, loading, usersWithDebts } = useUsersWithDebts();
 
-  const handleClick = () => {
-    navigation.navigate('DebtDetails');
+  const handleClick = (fullName: string) => {
+    navigation.navigate('DebtDetails', { debtorName: fullName });
   };
 
   if (loading) {
@@ -48,7 +48,7 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
                     style={styles.image}
                   />
                   <Text style={styles.text}>{user.fullName}</Text>
-                  <TouchableOpacity style={styles.icon} onPress={handleClick}>
+                  <TouchableOpacity style={styles.icon} onPress={() => handleClick(user.fullName)}>
                     <AntDesign name="right" size={24} color="#696E79" />
                   </TouchableOpacity>
                 </View>

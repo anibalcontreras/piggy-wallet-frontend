@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
 import type { DebtsStackParamsList } from '@/types/navigation';
 import { Colors } from '@/styles';
 import DebtsScreen from '@/screens/debtsStack/DebtsScreen';
@@ -19,8 +20,8 @@ export default function DebtsStackScreen(): JSX.Element {
       <DebtsStack.Screen
         name="DebtDetails"
         component={DebtDetailsScreen}
-        options={{
-          title: 'Deudas con el pana',
+        options={({ route }: { route: RouteProp<DebtsStackParamsList, 'DebtDetails'> }) => ({
+          title: `Deudas con ${route.params.debtorName}`,
           headerStyle: {
             backgroundColor: Colors.palette.background,
           },
@@ -30,7 +31,7 @@ export default function DebtsStackScreen(): JSX.Element {
             borderTopColor: Colors.palette.border,
             borderTopWidth: 1,
           },
-        }}
+        })}
       />
     </DebtsStack.Navigator>
   );
