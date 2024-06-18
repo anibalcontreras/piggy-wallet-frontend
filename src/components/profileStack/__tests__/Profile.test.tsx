@@ -4,7 +4,7 @@ import { render } from '@testing-library/react-native';
 import Profile from '@/components/profileStack/Profile';
 
 const mockUser = {
-  id: 1,
+  id: '1',
   fullName: 'Test User',
 };
 

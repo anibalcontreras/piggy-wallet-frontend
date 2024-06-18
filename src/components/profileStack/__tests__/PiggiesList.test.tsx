@@ -5,17 +5,11 @@ import PiggiesList from '@/components/profileStack/PiggiesList';
 import type { Backend } from '@/types';
 
 const mockPiggies: Backend.User[] = [
-  { id: 1, fullName: 'Piggy 1' },
-  { id: 2, fullName: 'Piggy 2' },
+  { id: '1', fullName: 'Piggy 1' },
+  { id: '2', fullName: 'Piggy 2' },
 ];
 
 describe('PiggiesList', () => {
-  // it('should render the PiggiesList component', () => {
-  //   const { getByText } = render(<PiggiesList piggies={mockPiggies} />);
-
-  //   expect(getByText('Tus Piggies')).toBeTruthy();
-  // });
-
   it('should display piggies when piggies are provided', () => {
     const { getByText } = render(<PiggiesList piggies={mockPiggies} />);
 

@@ -53,3 +53,4 @@ export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParams
 export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
+export type AddPiggyNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'AddPiggy'>;

@@ -3,7 +3,7 @@ import SearchBar from '@/components/profileStack/SearchBar';
 import { useState } from 'react';
 import useAllUsers from '@/hooks/useAllUsers';
 import ErrorText from '@/components/common/ErrorText';
-import SearchAllPiggiesList from '@/components/profileStack/SearchAllPiggiesList';
+import UsersList from '@/components/profileStack/UsersList';
 import { Sizing, Typography } from '@/styles';
 import { Navigation } from '@/types';
 
@@ -36,7 +36,7 @@ export default function AddPiggyScreen({
         setSearchPhrase={setSearchPiggy}
         setClicked={setClicked}
       />
-      <SearchAllPiggiesList
+      <UsersList
         searchPhrase={searchPiggy}
         setClicked={setClicked}
         data={allUsers}

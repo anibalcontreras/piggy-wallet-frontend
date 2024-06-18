@@ -41,7 +41,7 @@ const Item = ({
 );
 
 // the filter
-function SearchAllPiggiesList({
+function UsersList({
   searchPhrase,
   setClicked,
   data,
@@ -96,7 +96,7 @@ function SearchAllPiggiesList({
   );
 }
 
-export default SearchAllPiggiesList;
+export default UsersList;
 
 const styles = StyleSheet.create({
   list__container: {

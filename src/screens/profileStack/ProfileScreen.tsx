@@ -10,7 +10,7 @@ import Button from '@/components/common/Button';
 
 export default function ProfileScreen({
   navigation,
-}: Navigation.ProfileNavigationProps): JSX.Element {
+}: Navigation.AddPiggyNavigationProps): JSX.Element {
   const { error: userError, loading: userLoading, user } = useUser();
   const { error: piggiesError, loading: piggiesLoading, piggies } = usePiggies();
 
