@@ -1,8 +1,8 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text } from 'react-native';
 import type { Navigation } from '@/types';
+import { Sizing, Typography } from '@/styles';
 import useUsersWithDebts from '@/hooks/debtsStack/useUsersWithDebts';
 import ErrorText from '@/components/common/ErrorText';
-import { Sizing, Typography } from '@/styles';
 import DebtorsList from '@/components/debtsStack/DebtorsList';
 
 export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationProps): JSX.Element {

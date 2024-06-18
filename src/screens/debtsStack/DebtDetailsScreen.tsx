@@ -1,12 +1,15 @@
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { Colors, Sizing, Typography } from '@/styles';
 
 export default function DebtDetailsScreen({
   navigation,
+  route,
 }: Navigation.DebtDetailsNavigationProps): JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Buena bro estas son tus deudas con el pana</Text>
+      <Text style={styles.primaryText}>Tu saldo con {route.params.debtorName}</Text>
+      <View style={styles.balanceContainer}></View>
     </SafeAreaView>
   );
 }
@@ -14,5 +17,19 @@ export default function DebtDetailsScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+  },
+  balanceContainer: {
+    backgroundColor: Colors.palette.secondary,
+    padding: Sizing.x20,
+    elevation: Sizing.x5,
+    height: Sizing.x80,
+  },
+  primaryText: {
+    margin: Sizing.x20,
+    ...Typography.bodyStyles.primary,
+  },
+  secondaryText: {
+    ...Typography.bodyStyles.secondary,
   },
 });
