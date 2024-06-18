@@ -90,7 +90,7 @@ function SearchAllPiggiesList({
           return true;
         }}
       >
-        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.id.toString()} />
+        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.id} />
       </View>
     </SafeAreaView>
   );

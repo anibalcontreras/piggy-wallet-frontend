@@ -3,9 +3,12 @@ import { END_POINT } from '@/service/constant';
 import type { Backend } from '@/types';
 import type { UsePiggies } from '@/types/hooks';
 import { snakeToCamel } from '@/utils';
+import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 
 const usePiggies = (): UsePiggies => {
+  const isFocused = useIsFocused();
+
   const [piggies, setPiggies] = useState<Backend.User[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,7 +32,7 @@ const usePiggies = (): UsePiggies => {
 
   useEffect(() => {
     void fetchPiggies();
-  }, []);
+  }, [isFocused]);
 
   return { error, loading, piggies };
 };

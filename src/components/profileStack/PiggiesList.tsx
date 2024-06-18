@@ -26,7 +26,7 @@ function PiggiesList({ piggies }: PiggiesListProps): JSX.Element {
         <FlatList
           data={piggies}
           renderItem={renderPiggie}
-          keyExtractor={(piggie) => piggie.id.toString()}
+          keyExtractor={(piggie) => piggie.id}
           contentContainerStyle={styles.listContainer}
         />
       ) : (
