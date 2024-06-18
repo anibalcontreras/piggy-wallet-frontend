@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosInstance, type AxiosResponse } from 'axios';
-// import { BASE_URL } from './constant';
+import { BASE_URL } from '@/service/constant';
 
 class HttpService {
   private readonly instance: AxiosInstance;
@@ -8,8 +8,7 @@ class HttpService {
   };
 
   constructor() {
-    // this.instance = axios.create({ baseURL: BASE_URL });
-    this.instance = axios.create({ baseURL: 'http://localhost:8001' });
+    this.instance = axios.create({ baseURL: BASE_URL });
   }
 
   get axiosInstance(): AxiosInstance {

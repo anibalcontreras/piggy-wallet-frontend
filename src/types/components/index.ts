@@ -2,7 +2,7 @@ import type { FieldProps } from 'formik';
 import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react-native';
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
-import type { Backend } from '..';
+import type { Backend } from '@/types';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';

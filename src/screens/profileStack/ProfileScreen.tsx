@@ -27,7 +27,7 @@ export default function ProfileScreen({
   }
 
   if (userError || piggiesError) {
-    return <ErrorText message="Ha ocurrido un error al cargar tus Piggies" />;
+    return <ErrorText message="Ha ocurrido un error al cargar tu Perfil" />;
   }
 
   return (

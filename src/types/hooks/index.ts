@@ -1,4 +1,4 @@
-import type { Backend } from '..';
+import type { Backend } from '@/types';
 
 interface UseHookBase {
   error: boolean;
