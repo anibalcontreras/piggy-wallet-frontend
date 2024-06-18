@@ -8,7 +8,7 @@ import DebtorsList from '@/components/debtsStack/DebtorsList';
 export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationProps): JSX.Element {
   const { error, loading, usersWithDebts } = useUsersWithDebts();
 
-  const handleClick = (fullName: string) => {
+  const handleClick = (fullName: string): void => {
     navigation.navigate('DebtDetails', { debtorName: fullName });
   };
 

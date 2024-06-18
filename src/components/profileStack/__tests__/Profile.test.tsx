@@ -1,4 +1,3 @@
-// Profile.test.tsx
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import Profile from '@/components/profileStack/Profile';

@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import type { DebtsStackParamsList } from '@/types/navigation';
 import { Colors } from '@/styles';
 import DebtsScreen from '@/screens/debtsStack/DebtsScreen';

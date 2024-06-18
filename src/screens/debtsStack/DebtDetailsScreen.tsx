@@ -1,4 +1,4 @@
-import { Navigation } from '@/types';
+import type { Navigation } from '@/types';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
 export default function DebtDetailsScreen({

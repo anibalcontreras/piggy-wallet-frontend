@@ -1,4 +1,4 @@
-// UserList.test.tsx
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import DebtorsList from '@/components/debtsStack/DebtorsList';
