@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig, type AxiosInstance, type AxiosResponse } from 'axios';
-import { BASE_URL } from './constant';
+import { BASE_URL } from '@/service/constant';
 
 class HttpService {
   private readonly instance: AxiosInstance;

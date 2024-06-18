@@ -2,6 +2,7 @@ import type { FieldProps } from 'formik';
 import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react-native';
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
+import type { Backend } from '@/types';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -17,6 +18,10 @@ export interface CustomTextInputProps extends TextInputProps {
     touched: Record<string, boolean>;
     setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
   };
+}
+
+export interface ErrorTextProps {
+  message: string;
 }
 
 export type BottomTabBarProps = ReactNavigationBottomTabBarProps;
@@ -37,4 +42,27 @@ export interface DonutChartProps {
   donutPercentage: number;
   userBudget: number;
   marginTop?: number;
+}
+
+export interface PiggiesListProps {
+  piggies: Backend.User[];
+}
+
+export interface ProfileProps {
+  user?: Backend.User;
+  handleClick?: () => void;
+}
+
+export interface SearchBarProps {
+  clicked: boolean;
+  searchPhrase: string;
+  setSearchPhrase: (searchPhrase: string) => void;
+  setClicked: (clicked: boolean) => void;
+}
+
+export interface SearchAllPigiesListProps {
+  searchPhrase: string;
+  setClicked: (clicked: boolean) => void;
+  data?: Backend.User[];
+  onPiggyAdded: () => void;
 }
