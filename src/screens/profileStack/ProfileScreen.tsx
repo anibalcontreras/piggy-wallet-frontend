@@ -1,11 +1,11 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
 import usePiggies from '@/hooks/usePiggies';
 import useUser from '@/hooks/useUser';
 import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
 import ErrorText from '@/components/common/ErrorText';
-import { Colors, Sizing, Typography } from '@/styles';
 import Button from '@/components/common/Button';
 
 export default function ProfileScreen({

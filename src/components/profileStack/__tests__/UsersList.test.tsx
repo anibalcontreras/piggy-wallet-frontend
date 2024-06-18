@@ -1,4 +1,4 @@
-// SearchAllPiggiesList.test.tsx
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import UsersList from '@/components/profileStack/UsersList';

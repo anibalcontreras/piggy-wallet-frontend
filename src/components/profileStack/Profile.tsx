@@ -27,16 +27,16 @@ function Profile({ user, handleClick }: ProfileProps): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Sizing.x20,
     alignItems: 'center',
+    width: '90%',
+    marginTop: Sizing.x20,
     borderBottomColor: Colors.palette.border,
     borderBottomWidth: Sizing.x1,
-    width: '90%',
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: Sizing.x85,
+    height: Sizing.x85,
+    borderRadius: Sizing.x60,
   },
   text: {
     ...Typography.headerStyles.medium,

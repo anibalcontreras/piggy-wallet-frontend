@@ -1,5 +1,4 @@
 import { StyleSheet, View, Text } from 'react-native';
-import React from 'react';
 import { Typography } from '@/styles';
 
 export default function EditProfileScreen(): JSX.Element {

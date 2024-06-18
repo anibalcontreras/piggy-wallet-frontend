@@ -1,6 +1,6 @@
-// SearchBar.test.tsx
+/* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import SearchBar from '@/components/profileStack/SearchBar';
 
 jest.mock('@expo/vector-icons', () => {
