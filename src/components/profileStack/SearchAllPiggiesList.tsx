@@ -45,6 +45,7 @@ function SearchAllPiggiesList({
   searchPhrase,
   setClicked,
   data,
+  onPiggyAdded,
 }: Components.SearchAllPigiesListProps): JSX.Element {
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     // when no input, show all
@@ -75,6 +76,7 @@ function SearchAllPiggiesList({
     try {
       await httpService.post(END_POINT.piggies, { full_name: user.fullName });
       Alert.alert('Piggy Agregado', `${user.fullName} ha sido agregado a tus piggies`);
+      onPiggyAdded();
     } catch (error) {
       console.error('Error:', error);
     }

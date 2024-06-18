@@ -39,7 +39,7 @@ export default function ProfileScreen({
       <PiggiesList piggies={piggies} />
       <View>
         <Button variant="text" onPress={handleAddPiggyClick}>
-          Agregar Piggie
+          Agregar Piggy
         </Button>
       </View>
     </SafeAreaView>

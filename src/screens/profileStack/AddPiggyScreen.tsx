@@ -5,12 +5,19 @@ import useAllUsers from '@/hooks/useAllUsers';
 import ErrorText from '@/components/common/ErrorText';
 import SearchAllPiggiesList from '@/components/profileStack/SearchAllPiggiesList';
 import { Sizing, Typography } from '@/styles';
+import { Navigation } from '@/types';
 
-export default function AddPiggyScreen(): JSX.Element {
+export default function AddPiggyScreen({
+  navigation,
+}: Navigation.ProfileNavigationProps): JSX.Element {
   const { loading, error, allUsers } = useAllUsers();
 
   const [searchPiggy, setSearchPiggy] = useState('');
   const [clicked, setClicked] = useState(false);
+
+  const handleAddPiggyClick = (): void => {
+    navigation.navigate('Profile');
+  };
 
   if (loading) {
     return <ActivityIndicator />;
@@ -22,14 +29,19 @@ export default function AddPiggyScreen(): JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!clicked && <Text style={styles.title}>Busca a otros Usuarios</Text>}
+      {!clicked && <Text style={styles.title}>Busca a otros usuarios</Text>}
       <SearchBar
         clicked={clicked}
         searchPhrase={searchPiggy}
         setSearchPhrase={setSearchPiggy}
         setClicked={setClicked}
       />
-      <SearchAllPiggiesList searchPhrase={searchPiggy} setClicked={setClicked} data={allUsers} />
+      <SearchAllPiggiesList
+        searchPhrase={searchPiggy}
+        setClicked={setClicked}
+        data={allUsers}
+        onPiggyAdded={handleAddPiggyClick}
+      />
     </SafeAreaView>
   );
 }
