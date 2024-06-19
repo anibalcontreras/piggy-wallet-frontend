@@ -4,7 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import type { Navigation } from '@/types';
 import type { DonutChartValue } from '@/types/components';
 import { Colors, Sizing, Typography } from '@/styles';
-import * as FormatFunctions from '@/utils/userBudget';
+import * as FormatFunctions from '@/utils';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 

@@ -2,7 +2,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { VictoryLabel, VictoryPie, VictoryTooltip } from 'victory-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { DonutChartProps, DonutChartValue, ChartTooltipProps } from '@/types/components';
-import * as FormatFunctions from '@/utils/userBudget';
+import * as FormatFunctions from '@/utils';
 
 const ChartTooltipLabel = (props: ChartTooltipProps): JSX.Element => {
   const { datum } = props;

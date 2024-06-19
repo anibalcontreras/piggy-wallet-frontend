@@ -3,6 +3,7 @@ import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
+import type { Backend } from '@/types';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -18,6 +19,10 @@ export interface CustomTextInputProps extends TextInputProps {
     touched: Record<string, boolean>;
     setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
   };
+}
+
+export interface ErrorTextProps {
+  message: string;
 }
 
 export type BottomTabBarProps = ReactNavigationBottomTabBarProps;
@@ -57,4 +62,27 @@ export interface FilterComponentProps {
 
 export interface ChartTooltipProps extends VictoryTooltipProps {
   datum?: { x: number; y: number; label: string };
+}
+
+export interface PiggiesListProps {
+  piggies: Backend.User[];
+}
+
+export interface ProfileProps {
+  user?: Backend.User;
+  handleClick?: () => void;
+}
+
+export interface SearchBarProps {
+  clicked: boolean;
+  searchPhrase: string;
+  setSearchPhrase: (searchPhrase: string) => void;
+  setClicked: (clicked: boolean) => void;
+}
+
+export interface SearchAllPigiesListProps {
+  searchPhrase: string;
+  setClicked: (clicked: boolean) => void;
+  data?: Backend.User[];
+  onPiggyAdded: () => void;
 }
