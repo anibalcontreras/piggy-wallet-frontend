@@ -108,7 +108,7 @@ export default function HomeScreen({ navigation }: Navigation.HomeNavigationProp
           values={getChartValue()}
           userBudget={userBudget}
           marginTop={Sizing.x80}
-          disableAvailable={page > 0 || selectedTab > 0}
+          disableAvailable
         />
       </View>
 
