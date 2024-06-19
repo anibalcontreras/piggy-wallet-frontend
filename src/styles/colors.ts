@@ -44,7 +44,7 @@ export const palette: Record<Palette, string> = {
 };
 
 export const chartColors: string[] = [
-  colors.black, // To display the available budget
+  colors.black,
   colors.seaGreen,
   colors.metal,
   colors.slate,
