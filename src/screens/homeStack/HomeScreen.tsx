@@ -68,7 +68,10 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
 
   return (
     <SafeAreaView style={styles.container}>
-      <UserBudget expensesByExpenseType={expensesByExpenseType} expensesByCategory={expensesByCategory} />
+      <UserBudget
+        expensesByExpenseType={expensesByExpenseType}
+        expensesByCategory={expensesByCategory}
+      />
 
       <UserMonthExpenses allExpenses={allExpenses} {...props} />
     </SafeAreaView>
