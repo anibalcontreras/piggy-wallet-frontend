@@ -19,3 +19,7 @@ export interface UseAllUsers extends UseHookBase {
 export interface UseUsersWithDebts extends UseHookBase {
   usersWithDebts: Backend.User[];
 }
+
+export interface UseUserBalance extends UseHookBase {
+  userBalance?: Backend.Balance;
+}

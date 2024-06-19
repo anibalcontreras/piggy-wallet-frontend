@@ -12,8 +12,8 @@ jest.mock('@expo/vector-icons', () => {
 });
 
 const mockData = [
-  { id: '1', fullName: 'First Piggy' },
-  { id: '2', fullName: 'Second Piggy' },
+  { userId: '1', firstName: 'First Piggy' },
+  { userId: '2', firstName: 'Second Piggy' },
 ];
 
 describe('SearchAllPiggiesList', () => {

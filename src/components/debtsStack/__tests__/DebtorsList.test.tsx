@@ -13,12 +13,12 @@ jest.mock('@expo/vector-icons', () => {
 
 const mockUsers = [
   {
-    id: '1',
-    fullName: 'Test User 1',
+    userId: '1',
+    firstName: 'Test User 1',
   },
   {
-    id: '2',
-    fullName: 'Test User 2',
+    userId: '2',
+    firstName: 'Test User 2',
   },
 ];
 

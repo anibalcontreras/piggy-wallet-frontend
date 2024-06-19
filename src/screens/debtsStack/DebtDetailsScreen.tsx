@@ -1,25 +1,41 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import UserBalance from '@/components/debtsStack/UserBalance';
+import useUserBalance from '@/hooks/debtsStack/useUserBalance';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function DebtDetailsScreen({
   navigation,
   route,
 }: Navigation.DebtDetailsNavigationProps): JSX.Element {
-  const balance = -6000;
+  const { error, loading, userBalance } = useUserBalance(route.params.debtorId);
+  console.log('userBalance:', userBalance);
+
+  if (loading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (error) {
+    return <ErrorText message="Ha ocurrido un error al cargar los detalles de tus deudas" />;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.primaryText}>Tu saldo con {route.params.debtorName}</Text>
       <View style={styles.balanceContainer}>
-        {/* Coloca el UserBalance Component aqui */}
-        <UserBalance balance={balance} />
+        <UserBalance userBalance={userBalance} />
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',

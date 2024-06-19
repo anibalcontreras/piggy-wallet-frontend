@@ -4,8 +4,8 @@ import PiggiesList from '@/components/profileStack/PiggiesList';
 import type { Backend } from '@/types';
 
 const mockPiggies: Backend.User[] = [
-  { id: '1', fullName: 'Piggy 1' },
-  { id: '2', fullName: 'Piggy 2' },
+  { userId: '1', firstName: 'Piggy 1' },
+  { userId: '2', firstName: 'Piggy 2' },
 ];
 
 describe('PiggiesList', () => {
@@ -13,7 +13,7 @@ describe('PiggiesList', () => {
     const { getByText } = render(<PiggiesList piggies={mockPiggies} />);
 
     mockPiggies.forEach((piggy) => {
-      expect(getByText(piggy.fullName)).toBeTruthy();
+      expect(getByText(piggy.firstName)).toBeTruthy();
     });
   });
 

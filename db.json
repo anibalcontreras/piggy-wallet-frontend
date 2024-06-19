@@ -1,123 +1,122 @@
 {
   "profile": {
-    "full_name": "Vicente Cruz"
+    "first_name": "Vicente Cruz"
   },
   "piggies": [
     {
-      "id": "1",
-      "full_name": "Anibal Contreras"
+      "user_id": "1",
+      "first_name": "Anibal Contreras"
     },
     {
-      "id": "2",
-      "full_name": "Juan Vergara"
+      "user_id": "2",
+      "first_name": "Juan Vergara"
     },
     {
-      "id": "3",
-      "full_name": "Juan Vergara"
+      "user_id": "3",
+      "first_name": "Juan Vergara"
     },
     {
-      "id": "d2fd",
-      "full_name": "Ignacio Huntley"
+      "user_id": "d2fd",
+      "first_name": "Ignacio Huntley"
     },
     {
-      "id": "3e15",
-      "full_name": "Javier Pinto"
+      "user_id": "3e15",
+      "first_name": "Javier Pinto"
     },
     {
-      "id": "6507",
-      "full_name": "Juan Pablo Pinto"
+      "user_id": "6507",
+      "first_name": "Juan Pablo Pinto"
     },
     {
-      "id": "9bad",
-      "full_name": "Juan Pablo Pinto"
+      "user_id": "9bad",
+      "first_name": "Juan Pablo Pinto"
     },
     {
-      "id": "0549",
-      "full_name": "Gabriel Quiroz"
+      "user_id": "0549",
+      "first_name": "Gabriel Quiroz"
     },
     {
-      "id": "754a",
-      "full_name": "Javier Pinto"
+      "user_id": "754a",
+      "first_name": "Javier Pinto"
     },
     {
-      "id": "031e",
-      "full_name": "Anibal Contreras"
+      "user_id": "031e",
+      "first_name": "Anibal Contreras"
     }
   ],
   "users": [
     {
-      "id": "1",
-      "full_name": "Juan Vergara"
+      "user_id": "1",
+      "first_name": "Juan Vergara"
     },
     {
-      "id": "2",
-      "full_name": "Ignacio Huntley"
+      "user_id": "2",
+      "first_name": "Ignacio Huntley"
     },
     {
-      "id": "3",
-      "full_name": "Anibal Contreras"
+      "user_id": "3",
+      "first_name": "Anibal Contreras"
     },
     {
-      "id": "4",
-      "full_name": "Gabriel Quiroz"
+      "user_id": "4",
+      "first_name": "Gabriel Quiroz"
     },
     {
-      "id": "5",
-      "full_name": "Javier Pinto"
+      "user_id": "5",
+      "first_name": "Javier Pinto"
     },
     {
-      "id": "6",
-      "full_name": "Jorge Pinto"
+      "user_id": "6",
+      "first_name": "Jorge Pinto"
     },
     {
-      "id": "7",
-      "full_name": "Juan Pablo Pinto"
+      "user_id": "7",
+      "first_name": "Juan Pablo Pinto"
     },
     {
-      "id": "8",
-      "full_name": "Luis Pinto"
+      "user_id": "8",
+      "first_name": "Luis Pinto"
     },
     {
-      "id": "9",
-      "full_name": "Mauricio Pinto"
+      "user_id": "9",
+      "first_name": "Mauricio Pinto"
     },
     {
-      "id": "10",
-      "full_name": "Nelson Pinto"
+      "user_id": "10",
+      "first_name": "Nelson Pinto"
     },
     {
-      "id": "11",
-      "full_name": "Pablo Pinto"
+      "user_id": "11",
+      "first_name": "Pablo Pinto"
     },
     {
-      "id": "12",
-      "full_name": "Rodrigo Pinto"
+      "user_id": "12",
+      "first_name": "Rodrigo Pinto"
     },
     {
-      "id": "13",
-      "full_name": "Sebastian Pinto"
+      "user_id": "13",
+      "first_name": "Sebastian Pinto"
     },
     {
-      "id": "14",
-      "full_name": "Vicente Pinto"
+      "user_id": "14",
+      "first_name": "Vicente Pinto"
     }
   ],
   "contacts": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
+
       "enabled": true
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
+
       "enabled": true
     }
   ],
   "bankcards": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
       "account_number": 123456789,
       "bank_name": "Bank A",
       "type_card": "Credit",
@@ -125,8 +124,7 @@
       "updated_at": "2023-06-01"
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
       "account_number": 987654321,
       "bank_name": "Bank B",
       "type_card": "Debit",
@@ -136,8 +134,7 @@
   ],
   "userexpensetypes": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
       "name": "Food",
       "description": "Expenses on food",
       "set_by_user": true,
@@ -146,8 +143,7 @@
       "updated_at": "2023-06-01"
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
       "name": "Transport",
       "description": "Expenses on transport",
       "set_by_user": true,
@@ -158,8 +154,8 @@
   ],
   "expenses": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
+
       "userexpensetype_id": 1,
       "category_id": 1,
       "bankcard_id": 1,
@@ -168,8 +164,8 @@
       "updated_at": "2023-06-01"
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
+
       "userexpensetype_id": 2,
       "category_id": 2,
       "bankcard_id": 2,
@@ -180,15 +176,15 @@
   ],
   "debts": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
+
       "debtor_id": 2,
       "amount": 200,
       "ispaid": false
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
+
       "debtor_id": 1,
       "amount": 100,
       "ispaid": true
@@ -196,57 +192,57 @@
   ],
   "usersWithDebts": [
     {
-      "id": "1",
-      "full_name": "John Doe"
+      "user_id": "1",
+      "first_name": "John Doe"
     },
     {
-      "id": "2",
-      "full_name": "Jane Smith"
+      "user_id": "2",
+      "first_name": "Jane Smith"
     },
     {
-      "id": "3",
-      "full_name": "John Doe"
+      "user_id": "3",
+      "first_name": "John Doe"
     },
     {
-      "id": "4",
-      "full_name": "Jane Smith"
+      "user_id": "4",
+      "first_name": "Jane Smith"
     },
     {
-      "id": "5",
-      "full_name": "John Doe"
+      "user_id": "5",
+      "first_name": "John Doe"
     },
     {
-      "id": "6",
-      "full_name": "Jane Smith"
+      "user_id": "6",
+      "first_name": "Jane Smith"
     },
     {
-      "id": "7",
-      "full_name": "John Doe"
+      "user_id": "7",
+      "first_name": "John Doe"
     },
     {
-      "id": "8",
-      "full_name": "Jane Smith"
+      "user_id": "8",
+      "first_name": "Jane Smith"
     },
     {
-      "id": "9",
-      "full_name": "John Doe"
+      "user_id": "9",
+      "first_name": "John Doe"
     },
     {
-      "id": "10",
-      "full_name": "Jane Smith"
+      "user_id": "10",
+      "first_name": "Jane Smith"
     }
   ],
   "budgets": [
     {
-      "id": "1",
-      "user_id": 1,
+      "user_id": "1",
+
       "amount": 500,
       "created_at": "2023-05-01",
       "updated_at": "2023-06-01"
     },
     {
-      "id": "2",
-      "user_id": 2,
+      "user_id": "2",
+
       "amount": 300,
       "created_at": "2023-05-01",
       "updated_at": "2023-06-01"

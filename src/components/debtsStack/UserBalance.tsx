@@ -1,14 +1,16 @@
 import { Sizing, Typography } from '@/styles';
+import type { Components } from '@/types';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-interface UserBalanceProps {
-  balance: number;
-}
+// Cambiar a function
+// Revisar props, no se por que es de Backend, deberia ser de Component. Puede que justo en este caso calzen. REVISAR
+const UserBalance: React.FC<Components.UserBalanceProps> = ({ userBalance }) => {
+  console.log('userBalance:', userBalance);
+  let isPositive = userBalance ? userBalance.balance > 0 : false; // Revisar
 
-const UserBalance: React.FC<UserBalanceProps> = ({ balance }) => {
-  const isPositive = balance >= 0;
-  const displayValue = Math.abs(balance).toLocaleString('es-CL', {
+  console.log('isPositive:', isPositive);
+  const displayValue = Math.abs(userBalance?.balance ?? 0).toLocaleString('es-CL', {
     style: 'currency',
     currency: 'CLP',
   });

@@ -1,4 +1,8 @@
 export interface User {
-  id: string;
-  fullName: string;
+  userId: string;
+  firstName: string;
+}
+
+export interface Balance {
+  balance: number;
 }

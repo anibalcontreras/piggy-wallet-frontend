@@ -1,5 +1,5 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text } from 'react-native';
-import type { Navigation } from '@/types';
+import type { Backend, Navigation } from '@/types';
 import { Sizing, Typography } from '@/styles';
 import useUsersWithDebts from '@/hooks/debtsStack/useUsersWithDebts';
 import ErrorText from '@/components/common/ErrorText';
@@ -8,12 +8,13 @@ import DebtorsList from '@/components/debtsStack/DebtorsList';
 export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationProps): JSX.Element {
   const { error, loading, usersWithDebts } = useUsersWithDebts();
 
-  const handleClick = (fullName: string): void => {
-    navigation.navigate('DebtDetails', { debtorName: fullName });
+  const handleClick = (debtor: Backend.User): void => {
+    const { userId: debtorId, firstName: debtorName } = debtor;
+    navigation.navigate('DebtDetails', { debtorId: debtorId, debtorName: debtorName });
   };
 
   if (loading) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator style={styles.loading} />;
   }
 
   if (error) {
@@ -35,6 +36,11 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',

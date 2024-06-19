@@ -12,10 +12,10 @@ function DebtorsList({ debtors, onUserPress }: Components.DebtorsListProps): JSX
     <View style={styles.usersList}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {debtors.map((debtor) => (
-          <View style={styles.userContainer} key={debtor.id}>
+          <View style={styles.userContainer} key={debtor.userId}>
             <Image source={{ uri: imageUri }} style={styles.image} />
-            <Text style={styles.text}>{debtor.fullName}</Text>
-            <TouchableOpacity style={styles.icon} onPress={() => onUserPress(debtor.fullName)}>
+            <Text style={styles.text}>{debtor.firstName}</Text>
+            <TouchableOpacity style={styles.icon} onPress={() => onUserPress(debtor)}>
               <AntDesign name="right" size={24} color="#696E79" />
             </TouchableOpacity>
           </View>

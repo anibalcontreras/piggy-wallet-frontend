@@ -30,7 +30,7 @@ const Item = ({
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{user.fullName}</Text>
+      <Text style={styles.text}>{user.firstName}</Text>
     </View>
     <TouchableOpacity style={styles.addButton} onPress={() => onAddPiggy(user)}>
       <AntDesign name="pluscircle" size={Sizing.x40} color={Colors.palette.primary} />
@@ -55,14 +55,14 @@ function UsersList({
   };
 
   const isUserMatched = (item: Backend.User, searchPhrase: string): boolean => {
-    return item.fullName
+    return item.firstName
       .toUpperCase()
       .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''));
   };
 
   const handleAddPiggy = (user: Backend.User): void => {
     // AsyncAlert(user);
-    Alert.alert('Agregar Piggy', `¿Quieres agregar a ${user.fullName} como tu piggy?`, [
+    Alert.alert('Agregar Piggy', `¿Quieres agregar a ${user.firstName} como tu piggy?`, [
       {
         text: 'Cancelar',
         style: 'cancel',
@@ -77,9 +77,9 @@ function UsersList({
 
   const addPiggyRequest = (user: Backend.User): void => {
     httpService
-      .post(END_POINT.piggies, { full_name: user.fullName })
+      .post(END_POINT.piggies, { full_name: user.firstName })
       .then(() => {
-        Alert.alert('Piggy Agregado', `${user.fullName} ha sido agregado a tus piggies`);
+        Alert.alert('Piggy Agregado', `${user.firstName} ha sido agregado a tus piggies`);
         onPiggyAdded();
       })
       .catch((error) => {
@@ -95,7 +95,7 @@ function UsersList({
           return true;
         }}
       >
-        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.id} />
+        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.userId} />
       </View>
     </SafeAreaView>
   );

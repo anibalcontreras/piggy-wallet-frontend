@@ -69,5 +69,9 @@ export interface SearchAllPigiesListProps {
 
 export interface DebtorsListProps {
   debtors: Backend.User[];
-  onUserPress: (fullName: string) => void;
+  onUserPress: (user: Backend.User) => void;
+}
+
+export interface UserBalanceProps {
+  userBalance?: Backend.Balance; // Duplicada con Backend.Balance
 }

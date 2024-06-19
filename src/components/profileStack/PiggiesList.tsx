@@ -15,7 +15,7 @@ function PiggiesList({ piggies }: Components.PiggiesListProps): JSX.Element {
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{item.fullName}</Text>
+      <Text style={styles.text}>{item.firstName}</Text>
     </View>
   );
 
@@ -25,7 +25,7 @@ function PiggiesList({ piggies }: Components.PiggiesListProps): JSX.Element {
         <FlatList
           data={piggies}
           renderItem={renderPiggy}
-          keyExtractor={(piggie) => piggie.id}
+          keyExtractor={(piggie) => piggie.userId}
           contentContainerStyle={styles.listContainer}
         />
       ) : (

@@ -3,8 +3,8 @@ import { render } from '@testing-library/react-native';
 import Profile from '@/components/profileStack/Profile';
 
 const mockUser = {
-  id: '1',
-  fullName: 'Test User',
+  userId: '1',
+  firstName: 'Test User',
 };
 
 const mockHandleClick = jest.fn();
