@@ -1,6 +1,7 @@
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Navigation } from '@/types';
-import { Sizing, Typography } from '@/styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import useUsersWithDebts from '@/hooks/debtsStack/useUsersWithDebts';
 import ErrorText from '@/components/common/ErrorText';
 import DebtorsList from '@/components/debtsStack/DebtorsList';
@@ -31,6 +32,14 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
       ) : (
         <Text style={styles.header}>No tienes deudas pendientes</Text>
       )}
+      <TouchableOpacity onPress={() => navigation.navigate('Debts')}>
+        <AntDesign
+          style={styles.addButton}
+          name="pluscircle"
+          size={Sizing.x40}
+          color={Colors.palette.primary}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -49,5 +58,8 @@ const styles = StyleSheet.create({
   header: {
     ...Typography.bodyStyles.highlight,
     marginTop: Sizing.x10,
+  },
+  addButton: {
+    marginBottom: Sizing.x10,
   },
 });
