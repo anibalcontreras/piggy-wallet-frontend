@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Sizing, Colors, Typography } from '@/styles';
@@ -31,7 +32,7 @@ const FilterComponent = ({
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: withTiming(filterWidth * selectedTab) }],
-  }));
+  }), []);
 
   const ChangeCategoryPressable = ({ move }: { move: '<' | '>' }): JSX.Element => {
     const handleCategoryChange = (): void => {

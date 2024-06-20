@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import type { UserBudgetProps } from '@/types/components';

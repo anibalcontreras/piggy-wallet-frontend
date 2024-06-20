@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { VictoryLabel, VictoryPie, VictoryTooltip } from 'victory-native';
 import { Colors, Sizing, Typography } from '@/styles';
