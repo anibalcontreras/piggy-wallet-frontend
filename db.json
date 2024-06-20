@@ -55,7 +55,8 @@
     },
     {
       "user_id": "417a",
-      "full_name": "Ignacio Huntley"
+      "full_name": "Ignacio Huntley",
+      "id": "5087"
     },
     {
       "id": "8f8f",
@@ -65,59 +66,73 @@
   "users": [
     {
       "user_id": "1",
-      "first_name": "Juan Vergara"
+      "first_name": "Juan Vergara",
+      "id": "fa8b"
     },
     {
       "user_id": "2",
-      "first_name": "Ignacio Huntley"
+      "first_name": "Ignacio Huntley",
+      "id": "ccb0"
     },
     {
       "user_id": "3",
-      "first_name": "Anibal Contreras"
+      "first_name": "Anibal Contreras",
+      "id": "813d"
     },
     {
       "user_id": "4",
-      "first_name": "Gabriel Quiroz"
+      "first_name": "Gabriel Quiroz",
+      "id": "f361"
     },
     {
       "user_id": "5",
-      "first_name": "Javier Pinto"
+      "first_name": "Javier Pinto",
+      "id": "f7d7"
     },
     {
       "user_id": "6",
-      "first_name": "Jorge Pinto"
+      "first_name": "Jorge Pinto",
+      "id": "ad70"
     },
     {
       "user_id": "7",
-      "first_name": "Juan Pablo Pinto"
+      "first_name": "Juan Pablo Pinto",
+      "id": "b414"
     },
     {
       "user_id": "8",
-      "first_name": "Luis Pinto"
+      "first_name": "Luis Pinto",
+      "id": "6575"
     },
     {
       "user_id": "9",
-      "first_name": "Mauricio Pinto"
+      "first_name": "Mauricio Pinto",
+      "id": "0ccb"
     },
     {
       "user_id": "10",
-      "first_name": "Nelson Pinto"
+      "first_name": "Nelson Pinto",
+      "id": "0827"
     },
     {
       "user_id": "11",
-      "first_name": "Pablo Pinto"
+      "first_name": "Pablo Pinto",
+      "id": "8d96"
     },
     {
       "user_id": "12",
-      "first_name": "Rodrigo Pinto"
+      "first_name": "Rodrigo Pinto",
+      "id": "ae3c"
     },
     {
       "user_id": "13",
-      "first_name": "Sebastian Pinto"
+      "first_name": "Sebastian Pinto",
+      "id": "4599"
     },
     {
       "user_id": "14",
-      "first_name": "Vicente Pinto"
+      "first_name": "Vicente Pinto",
+      "id": "a752"
     }
   ],
   "contacts": [
@@ -265,6 +280,11 @@
       "id": "4cea",
       "amount": "123322",
       "debtor_id": "2"
+    },
+    {
+      "id": "3aa4",
+      "amount": "120000",
+      "debtor_id": "12"
     }
   ],
   "usersWithDebts": [
@@ -338,43 +358,53 @@
   "debt_users": [
     {
       "user_id": "1",
-      "first_name": "John Doe"
+      "first_name": "John Doe",
+      "id": "ac09"
     },
     {
       "user_id": "2",
-      "first_name": "Jane Smith"
+      "first_name": "Jane Smith",
+      "id": "80ac"
     },
     {
       "user_id": "3",
-      "first_name": "John Doe"
+      "first_name": "John Doe",
+      "id": "3ef0"
     },
     {
       "user_id": "4",
-      "first_name": "Jane Smith"
+      "first_name": "Jane Smith",
+      "id": "0e2b"
     },
     {
       "user_id": "5",
-      "first_name": "John Doe"
+      "first_name": "John Doe",
+      "id": "dd8e"
     },
     {
       "user_id": "6",
-      "first_name": "Jane Smith"
+      "first_name": "Jane Smith",
+      "id": "5bad"
     },
     {
       "user_id": "7",
-      "first_name": "John Doe"
+      "first_name": "John Doe",
+      "id": "0566"
     },
     {
       "user_id": "8",
-      "first_name": "Jane Smith"
+      "first_name": "Jane Smith",
+      "id": "c57d"
     },
     {
       "user_id": "9",
-      "first_name": "John Doe"
+      "first_name": "John Doe",
+      "id": "2c75"
     },
     {
       "user_id": "10",
-      "first_name": "Jane Smith"
+      "first_name": "Jane Smith",
+      "id": "74c6"
     }
   ]
 }

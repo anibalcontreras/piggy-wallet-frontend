@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-  Alert,
-  View,
-  Keyboard,
-} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from 'react-native';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import Button from '@/components/common/Button';
@@ -102,9 +94,13 @@ export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigati
               {isCreatingDebt ? (
                 <Button variant="fullWidth" loading={true} />
               ) : (
-                <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
-                  Crear
-                </Button>
+                <>
+                  <View style={styles.buttonContainer}>
+                    <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                      Crear
+                    </Button>
+                  </View>
+                </>
               )}
             </KeyboardAwareScrollView>
           </>
@@ -118,6 +114,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  buttonContainer: {
     alignItems: 'center',
   },
   title: {

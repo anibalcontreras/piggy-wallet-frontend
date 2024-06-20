@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Components } from '@/types';
@@ -57,7 +49,7 @@ function UsersList({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <FlatList
         data={data}
         renderItem={renderUser}
@@ -72,9 +64,9 @@ export default UsersList;
 
 const styles = StyleSheet.create({
   container: {
-    height: '55%',
     width: '90%',
     margin: Sizing.x10,
+    height: '45%',
   },
   listContainer: {
     padding: Sizing.x5,

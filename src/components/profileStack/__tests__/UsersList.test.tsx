@@ -24,9 +24,9 @@ describe('SearchAllPiggiesList', () => {
     const { getByText } = render(
       <UsersList
         searchPhrase=""
-        setClicked={mockSetClicked}
         data={mockData}
         onPiggyAdded={mockOnPiggyAdded}
+        listHeight='50%'
       />
     );
 
@@ -38,9 +38,9 @@ describe('SearchAllPiggiesList', () => {
     const { queryByText } = render(
       <UsersList
         searchPhrase="First"
-        setClicked={mockSetClicked}
         data={mockData}
         onPiggyAdded={mockOnPiggyAdded}
+        listHeight='50%'
       />
     );
 

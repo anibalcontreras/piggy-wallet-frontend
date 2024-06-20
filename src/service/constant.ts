@@ -6,7 +6,7 @@ export const BASE_URL =
 export const END_POINT = {
   login: 'auth/login/',
   register: 'auth/register/',
-  profile: 'profile/',
+  profile: 'profile/', // auth/profile
   piggies: 'piggies/',
   allUsers: 'users/',
   // usersWithDebts: 'debt/users/',
