@@ -9,4 +9,7 @@ export const END_POINT = {
   profile: 'profile/',
   piggies: 'piggies/',
   allUsers: 'users/',
+  budget: 'budget/',
+  userExpenseTypes: 'user_expense_type/',
+  expensesByCategories: 'expenses/grouped/',
 };
