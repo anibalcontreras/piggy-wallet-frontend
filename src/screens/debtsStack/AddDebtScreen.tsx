@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import Button from '@/components/common/Button';
-import CustomTextInput from '@/components/common/CustomTextInput';
-import SearchBar from '@/components/profileStack/SearchBar'; // Corregir import
-import UsersList from '@/components/profileStack/UsersList'; // Corregir import
-import useAllUsers from '@/hooks/profileStack/useAllUsers';
+import { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import httpService from '@/service/api';
-import { Backend, Navigation } from '@/types';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import useAllUsers from '@/hooks/profileStack/useAllUsers';
+import Button from '@/components/common/Button';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import SearchBar from '@/components/common/SearchBar';
+import UsersList from '@/components/common/UsersList';
 
 export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigationProps) {
   const debtValidationSchema = yup.object().shape({

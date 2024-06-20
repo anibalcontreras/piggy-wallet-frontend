@@ -1,9 +1,9 @@
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
+import { useEffect, useState } from 'react';
 import type { Backend } from '@/types';
 import type { UseUser } from '@/types/hooks';
 import { snakeToCamel } from '@/utils';
-import { useEffect, useState } from 'react';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 const useUser = (): UseUser => {
   const [user, setUser] = useState<Backend.User>();

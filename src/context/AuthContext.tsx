@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     authenticated: boolean | null;
   }>({
     token: null,
-    authenticated: true, // Change to null
+    authenticated: null,
   });
 
   useEffect(() => {

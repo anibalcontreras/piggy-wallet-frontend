@@ -3,9 +3,9 @@ import { ActivityIndicator, StyleSheet, SafeAreaView, Text, Alert } from 'react-
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import useAllUsers from '@/hooks/profileStack/useAllUsers';
-import SearchBar from '@/components/profileStack/SearchBar';
+import SearchBar from '@/components/common/SearchBar';
 import ErrorText from '@/components/common/ErrorText';
-import UsersList from '@/components/profileStack/UsersList';
+import UsersList from '@/components/common/UsersList';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 

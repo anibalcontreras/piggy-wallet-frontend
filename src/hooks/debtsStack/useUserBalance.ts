@@ -1,10 +1,10 @@
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
+import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import type { Backend } from '@/types';
 import type { UseUserBalance } from '@/types/hooks';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 import { snakeToCamel } from '@/utils';
-import { useIsFocused } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
 
 const userUserBalance = (debtorId: string): UseUserBalance => {
   const isFocused = useIsFocused();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Colors, Sizing, Typography } from '@/styles';
 import type { Components } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
 
 function DebtorsList({ debtors, onUserPress }: Components.DebtorsListProps): JSX.Element {
   const imageUri =

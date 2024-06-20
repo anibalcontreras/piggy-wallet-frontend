@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import UsersList from '@/components/profileStack/UsersList';
+import UsersList from '@/components/common/UsersList';
 
 jest.mock('@expo/vector-icons', () => {
   const { View } = require('react-native');
@@ -17,17 +17,11 @@ const mockData = [
 ];
 
 describe('SearchAllPiggiesList', () => {
-  const mockSetClicked = jest.fn();
   const mockOnPiggyAdded = jest.fn();
 
   it('should render the UsersList component', () => {
     const { getByText } = render(
-      <UsersList
-        searchPhrase=""
-        data={mockData}
-        onPiggyAdded={mockOnPiggyAdded}
-        listHeight='50%'
-      />
+      <UsersList searchPhrase="" data={mockData} onPiggyAdded={mockOnPiggyAdded} />
     );
 
     expect(getByText('First Piggy')).toBeTruthy();
@@ -36,12 +30,7 @@ describe('SearchAllPiggiesList', () => {
 
   it('should filter the list based on searchPhrase', () => {
     const { queryByText } = render(
-      <UsersList
-        searchPhrase="First"
-        data={mockData}
-        onPiggyAdded={mockOnPiggyAdded}
-        listHeight='50%'
-      />
+      <UsersList searchPhrase="First" data={mockData} onPiggyAdded={mockOnPiggyAdded} />
     );
 
     expect(queryByText('First Piggy')).toBeTruthy();
