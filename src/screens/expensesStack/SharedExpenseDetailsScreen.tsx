@@ -4,7 +4,10 @@ import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Navigation } from '../../types';
 
-export default function SharedExpenseDetailsScreen({ navigation, route }: Navigation.SharedExpenseDetailsNavigationProps): JSX.Element {
+export default function SharedExpenseDetailsScreen({
+  navigation,
+  route,
+}: Navigation.SharedExpenseDetailsNavigationProps): JSX.Element {
   const [sharedWith, setSharedWith] = useState([{ id: '1', name: '', amount: '' }]);
 
   const handleAddPerson = (): void => {

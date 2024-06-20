@@ -30,7 +30,7 @@ export type HomeStackParamsList = {
 export type ExpensesStackParamsList = {
   Expenses: undefined;
   AddExpense: { onAddExpense: (newExpense: any) => void };
-  EditExpense: { expense: Expense, onSave: (updatedExpense: Expense) => void };
+  EditExpense: { expense: Expense; onSave: (updatedExpense: Expense) => void };
   Amount: { onSave: (amount: string) => void };
   ExpenseType: { onSave: (type: string) => void };
   Category: { onSave: (category: string) => void };
@@ -58,15 +58,33 @@ export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 
 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
 export type AmountNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Amount'>;
-export type ExpenseTypeNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'ExpenseType'>;
+export type ExpenseTypeNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'ExpenseType'
+>;
 export type CategoryNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Category'>;
-export type DescriptionNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Description'>;
-export type SharedExpenseDetailsNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'SharedExpenseDetails'>;
-export type AddExpenseNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'AddExpense'>;
+export type DescriptionNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'Description'
+>;
+export type SharedExpenseDetailsNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'SharedExpenseDetails'
+>;
+export type AddExpenseNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'AddExpense'
+>;
 
 export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
 export type AddPiggyNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'AddPiggy'>;
-export type EditExpenseNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'EditExpense'>;
-export type ExpenseDetailsNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'ExpenseDetails'>;
+export type EditExpenseNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'EditExpense'
+>;
+export type ExpenseDetailsNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'ExpenseDetails'
+>;
