@@ -8,7 +8,7 @@ export const END_POINT = {
   register: 'auth/register/',
   profile: 'auth/profile/',
   piggies: 'piggies/',
-  allUsers: 'users/',
+  allUsers: 'piggies/users/',
   usersWithDebts: 'debt/users/',
   userBalance: 'debt/balance/',
   debt: 'debt/',

@@ -32,7 +32,7 @@ export default function AddPiggyScreen({
 
   const addPiggyRequest = (user: Backend.User): void => {
     httpService
-      .post(END_POINT.piggies, { full_name: user.firstName })
+      .post(END_POINT.piggies, { piggy: user.userId })
       .then(() => {
         Alert.alert('Piggy Agregado', `${user.firstName} ha sido agregado a tus piggies`);
         navigation.navigate('Profile');
