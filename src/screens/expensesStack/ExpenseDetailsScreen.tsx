@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
-import type { ExpenseDetailsNavigationProps } from '../../types/navigation';
-import type { Expense } from '../../types/components';
+// import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Colors, Sizing, Typography } from '@/styles';
+import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
+import type { Expense } from '@/types/components';
 
-export default function ExpenseDetailsScreen({ navigation, route }: ExpenseDetailsNavigationProps): JSX.Element {
+export default function ExpenseDetailsScreen({
+  navigation,
+  route,
+}: ExpenseDetailsNavigationProps): JSX.Element {
   const { expense }: { expense: Expense } = route.params;
 
   return (
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.palette.border,
   },
-  
+
   label: {
     ...Typography.bodyStyles.primary,
     fontWeight: 'bold',

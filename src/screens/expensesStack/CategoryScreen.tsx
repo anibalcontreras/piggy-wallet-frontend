@@ -5,7 +5,10 @@ import { Colors, Sizing, Typography } from '../../styles';
 import type { Navigation } from '../../types';
 import data from '../../../db.json'; // Asegúrate de que la ruta sea correcta
 
-export default function CategoryScreen({ navigation, route }: Navigation.CategoryNavigationProps): JSX.Element {
+export default function CategoryScreen({
+  navigation,
+  route,
+}: Navigation.CategoryNavigationProps): JSX.Element {
   const [categories, setCategories] = useState(data.userexpensetypes);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,8 +36,8 @@ export default function CategoryScreen({ navigation, route }: Navigation.Categor
     }
 
     const newCategory = {
-      id: Date.now(), 
-      user_id: 1, 
+      id: Date.now(),
+      user_id: 1,
       name: newCategoryName,
       description: '',
       set_by_user: true,
@@ -64,8 +67,13 @@ export default function CategoryScreen({ navigation, route }: Navigation.Categor
       </View>
       {categories.map((category) => (
         <View key={category.id} style={styles.categoryOption}>
-          <TouchableOpacity onPress={() => handleSelectCategory(category.id)} style={styles.checkboxContainer}>
-            <View style={selectedCategoryId === category.id ? styles.checkboxChecked : styles.checkbox} />
+          <TouchableOpacity
+            onPress={() => handleSelectCategory(category.id)}
+            style={styles.checkboxContainer}
+          >
+            <View
+              style={selectedCategoryId === category.id ? styles.checkboxChecked : styles.checkbox}
+            />
           </TouchableOpacity>
           <Text style={styles.categoryText}>{category.category_name}</Text>
           <TouchableOpacity onPress={() => handleDeleteCategory(category.id)}>

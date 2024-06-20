@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity} from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
+// import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
-import type { EditExpenseNavigationProps} from '../../types/navigation';
-import type { Expense } from '../../types/components';
+import type { EditExpenseNavigationProps } from '@/types/navigation';
+import type { Expense } from '@/types/components';
 import RNPickerSelect from 'react-native-picker-select';
-import db from '../../../db.json';
+import db from '../../../db.json'; // Do not
 
-export default function EditExpenseScreen({ navigation, route }: EditExpenseNavigationProps): JSX.Element {
+export default function EditExpenseScreen({
+  navigation,
+  route,
+}: EditExpenseNavigationProps): JSX.Element {
   const { expense, onSave } = route.params;
   const [amount, setAmount] = useState(expense.amount.toString());
-  const [categoryName, setCategoryName] = useState();
-  const [description, setDescription] = useState(expense.userexpensetype_id);
+  // const [categoryName, setCategoryName] = useState();
+  // const [description, setDescription] = useState(expense.userexpensetype_id);
+  const [description, setDescription] = useState('CHANGE ME');
   const [userExpenseTypeId, setUserExpenseTypeId] = useState(db.userexpensetypes[0].id);
-
 
   const categories = db.userexpensetypes.map((cat) => ({
     label: cat.name,
@@ -31,8 +35,7 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
       ...expense,
       amount: parseInt(amount, 10),
       userexpensetype_id: expense.userexpensetype_id,
-      description: description,
-      
+      description,
     };
 
     onSave(updatedExpense);
@@ -61,7 +64,7 @@ export default function EditExpenseScreen({ navigation, route }: EditExpenseNavi
       <RNPickerSelect
         style={pickerSelectStyles}
         value={userExpenseTypeId}
-        onValueChange={(value) => setUserExpenseTypeId(value)}
+        onValueChange={(value: string) => setUserExpenseTypeId(value)}
         items={categories}
       />
 

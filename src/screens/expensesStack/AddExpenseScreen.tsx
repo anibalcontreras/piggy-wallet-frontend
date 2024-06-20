@@ -1,11 +1,13 @@
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Navigation } from '../../types';
 
-export default function AddExpenseScreen({ navigation, route }: Navigation.ExpensesNavigationProps): JSX.Element {
+export default function AddExpenseScreen({
+  navigation,
+  route,
+}: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
@@ -30,13 +32,15 @@ export default function AddExpenseScreen({ navigation, route }: Navigation.Expen
       updated_at: new Date().toISOString(),
       category,
       description,
-      "user_id": 1,
-      "userexpensetype_id": 1,
-      "category_id": 1,
-      "bankcard_id": 1,
+      user_id: 1,
+      userexpensetype_id: 1,
+      category_id: 1,
+      bankcard_id: 1,
     };
     try {
-      (route.params as unknown as { onAddExpense: (expense: any) => void })?.onAddExpense(newExpense);
+      (route.params as unknown as { onAddExpense: (expense: any) => void })?.onAddExpense(
+        newExpense
+      );
       navigation.goBack();
     } catch (error) {
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
@@ -54,8 +58,8 @@ export default function AddExpenseScreen({ navigation, route }: Navigation.Expen
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity onPress={() => navigation.navigate('Category', { onSave: setCategory })} >
+
+      <TouchableOpacity onPress={() => navigation.navigate('Category', { onSave: setCategory })}>
         <Text style={styles.inputLabel}>Categoría: {category}</Text>
       </TouchableOpacity>
 
@@ -83,13 +87,21 @@ export default function AddExpenseScreen({ navigation, route }: Navigation.Expen
         <Text style={styles.inputLabel}>¿Es un gasto compartido?</Text>
         <View style={styles.sharedExpenseOptions}>
           <TouchableOpacity
-            style={[styles.sharedExpenseButton, sharedExpense ? styles.sharedExpenseButtonActive : styles.sharedExpenseButtonInactive]}
+            style={[
+              styles.sharedExpenseButton,
+              sharedExpense ? styles.sharedExpenseButtonActive : styles.sharedExpenseButtonInactive,
+            ]}
             onPress={() => setSharedExpense(true)}
           >
             <Text style={styles.sharedExpenseButtonText}>Sí</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.sharedExpenseButton, !sharedExpense ? styles.sharedExpenseButtonActive : styles.sharedExpenseButtonInactive]}
+            style={[
+              styles.sharedExpenseButton,
+              !sharedExpense
+                ? styles.sharedExpenseButtonActive
+                : styles.sharedExpenseButtonInactive,
+            ]}
             onPress={() => setSharedExpense(false)}
           >
             <Text style={styles.sharedExpenseButtonText}>No</Text>
@@ -97,8 +109,14 @@ export default function AddExpenseScreen({ navigation, route }: Navigation.Expen
         </View>
       </View>
       {sharedExpense && (
-        <TouchableOpacity onPress={() => navigation.navigate('SharedExpenseDetails', { onSave: (sharedWith) => console.log(sharedWith) })}
-        style={styles.sharedExpenseButton2}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('SharedExpenseDetails', {
+              onSave: (sharedWith) => console.log(sharedWith),
+            })
+          }
+          style={styles.sharedExpenseButton2}
+        >
           <Text style={styles.inputLabel}>Detalles del gasto compartido</Text>
         </TouchableOpacity>
       )}
@@ -153,7 +171,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: Sizing.x5,
     height: Sizing.x50,
-
   },
   sharedExpenseButton2: {
     padding: Sizing.x10,
@@ -161,7 +178,6 @@ const styles = StyleSheet.create({
     borderRadius: Sizing.x5,
     alignItems: 'center',
     marginHorizontal: Sizing.x15,
-
   },
   sharedExpenseButtonActive: {
     backgroundColor: Colors.palette.primary,

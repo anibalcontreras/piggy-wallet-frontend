@@ -6,10 +6,13 @@ import type { Navigation } from '../../types';
 
 const expenseTypes = ['Gasto personal', 'Gasto de vacaciones'];
 
-export default function ExpenseTypeScreen({ navigation, route }: Navigation.ExpenseTypeNavigationProps): JSX.Element {
+export default function ExpenseTypeScreen({
+  navigation,
+  route,
+}: Navigation.ExpenseTypeNavigationProps): JSX.Element {
   const [selectedType, setSelectedType] = useState('');
 
-  const handleSelectType = (type: React.SetStateAction<string>):void => {
+  const handleSelectType = (type: React.SetStateAction<string>): void => {
     setSelectedType(type);
   };
 
@@ -30,9 +33,15 @@ export default function ExpenseTypeScreen({ navigation, route }: Navigation.Expe
         </TouchableOpacity>
       </View>
       {expenseTypes.map((type) => (
-        <TouchableOpacity key={type} onPress={() => handleSelectType(type)} style={styles.typeOption}>
+        <TouchableOpacity
+          key={type}
+          onPress={() => handleSelectType(type)}
+          style={styles.typeOption}
+        >
           <Text style={styles.typeText}>{type}</Text>
-          {selectedType === type && <AntDesign name="check" size={Sizing.x20} color={Colors.palette.primary} />}
+          {selectedType === type && (
+            <AntDesign name="check" size={Sizing.x20} color={Colors.palette.primary} />
+          )}
         </TouchableOpacity>
       ))}
     </View>
