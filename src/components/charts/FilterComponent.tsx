@@ -30,9 +30,12 @@ const FilterComponent = ({
     );
   };
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: withTiming(filterWidth * selectedTab) }],
-  }), []);
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [{ translateX: withTiming(filterWidth * selectedTab) }],
+    }),
+    []
+  );
 
   const ChangeCategoryPressable = ({ move }: { move: '<' | '>' }): JSX.Element => {
     const handleCategoryChange = (): void => {

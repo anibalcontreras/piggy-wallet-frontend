@@ -4,24 +4,22 @@ import { render, waitFor } from '@testing-library/react-native';
 import UserBudget from '@/components/homeStack/UserBudget';
 
 jest.mock('@expo/vector-icons', () => {
-    const { View } = require('react-native');
-    return {
-      Entypo: View,
-      Ionicons: View,
-    };
+  const { View } = require('react-native');
+  return {
+    Entypo: View,
+    Ionicons: View,
+  };
 });
 
 jest.mock('@/service/api', () => ({
-    get: async () => ({ data: { amount: 20000 } }),
+  get: async () => ({ data: { amount: 20000 } }),
 }));
 
 const mockNavigation = {
-    addListener: (): void => {},
-}
+  addListener: (): void => {},
+};
 
-const mockAllExpenses = [
-    { amount: 10000, label: 'Gastos' }
-];
+const mockAllExpenses = [{ amount: 10000, label: 'Gastos' }];
 
 describe('UserBudget', () => {
   it('should render the UserBudget component', async () => {
@@ -30,7 +28,7 @@ describe('UserBudget', () => {
     const { getByText } = render(<UserBudget {...props} />);
 
     await waitFor(() => {
-        expect(getByText('Disponible')).toBeTruthy();
+      expect(getByText('Disponible')).toBeTruthy();
     });
   });
 });
