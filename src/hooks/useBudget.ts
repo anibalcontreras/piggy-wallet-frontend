@@ -9,7 +9,7 @@ const useBudget = (navigation: NativeStackNavigationProp<any, string, undefined>
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchExpensesGroup = async (): Promise<void> => {
+    const fetchBudget = async (): Promise<void> => {
         setError(false);
         setLoading(true);
 
@@ -26,10 +26,10 @@ const useBudget = (navigation: NativeStackNavigationProp<any, string, undefined>
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            void fetchExpensesGroup();
+            void fetchBudget();
         });
 
-        void fetchExpensesGroup();
+        void fetchBudget();
 
         return unsubscribe;
     }, [navigation]);

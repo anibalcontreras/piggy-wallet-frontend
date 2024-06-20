@@ -8,7 +8,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes  => {
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchExpensesGroup = async (): Promise<void> => {
+    const fetchUserExpenseTypes = async (): Promise<void> => {
         setError(false);
         setLoading(true);
 
@@ -31,7 +31,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes  => {
     };
 
     useEffect(() => {
-        void fetchExpensesGroup();
+        void fetchUserExpenseTypes();
     }, []);
 
     return { error, loading, categories };
