@@ -23,7 +23,7 @@ export default function CategoryScreen({ navigation, route }: Navigation.Categor
 
     const selectedCategory = categories.find((category) => category.id === selectedCategoryId);
     const onSave = route.params?.onSave ?? (() => {});
-    onSave(selectedCategory?.category_name ?? '');
+    onSave(selectedCategory?.category_name ?? 'No se encontró la categoría');
     navigation.goBack();
   };
 

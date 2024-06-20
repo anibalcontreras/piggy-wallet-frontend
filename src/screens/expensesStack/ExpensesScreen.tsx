@@ -15,7 +15,7 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
   const [filter, setFilter] = useState<string>('todo');
 
   useEffect(() => {
-    setExpenses(db.expenses.map((expense) => ({ ...expense, description: '' }))); 
+    setExpenses(db.expenses.map((expense) => ({ ...expense, description: db.userexpensetypes.find((type) => type.id === expense.userexpensetype_id)?.description ?? 'Unknown'}))); 
     setUserExpenseTypes(db.userexpensetypes);
   }, []);
 
@@ -77,7 +77,7 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
       <TouchableOpacity onPress={() => navigation.navigate('AddExpense', { onAddExpense: handleAddExpense })} style={styles.addButtonContainer}>
         <AntDesign
           name="pluscircle"
-          size={Sizing.x40}
+          size={Sizing.x50}
           color={Colors.palette.primary}
         />
       </TouchableOpacity>
@@ -97,8 +97,10 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     position: 'absolute',
     bottom: Sizing.x20,
-    right: Sizing.x20,
-    zIndex: 1,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollContainer: {
     padding: Sizing.x20,

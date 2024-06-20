@@ -21,6 +21,7 @@
     "prebuild:android": "expo prebuild --platform android"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.2",
     "@react-native-picker/picker": "^2.7.7",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
@@ -37,7 +38,7 @@
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.74.1",
+    "react-native": "^0.74.2",
     "react-native-animated-nav-tab-bar": "^3.1.10",
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

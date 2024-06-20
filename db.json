@@ -126,5 +126,19 @@
       "created_at": "2023-05-01",
       "updated_at": "2023-06-01"
     }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Compras",
+      "created_at": "2023-01-01",
+      "updated_at": "2023-06-01"
+    },
+    {
+      "id": 2,
+      "name": "Viajes",
+      "created_at": "2023-02-01",
+      "updated_at": "2023-06-01"
+    }
   ]
 }

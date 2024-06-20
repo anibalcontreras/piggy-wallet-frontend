@@ -18,11 +18,11 @@ export default function ExpenseDetailsScreen({ navigation, route }: ExpenseDetai
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Categoría:</Text>
-        <Text style={styles.value}>{expense.userexpensetype_id}</Text>
+        <Text style={styles.value}>{expense.category_id}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Descripción:</Text>
-        <Text style={styles.value}>{expense.description}</Text>
+        <Text style={styles.value}>{expense.userexpensetype_id}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Fecha de Creación:</Text>

@@ -2,24 +2,25 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
+import { Expense } from '../../types/components';
 
-const ExpenseCard = ({ expense, onDelete, onEdit, onLook}: { expense: any, onDelete: any, onEdit: any, onLook: any}): JSX.Element => {
+const ExpenseCard = ({ expense, onDelete, onEdit, onLook}: { expense: Expense, onDelete: any, onEdit: any, onLook: any}): JSX.Element => {
   return (
     <TouchableOpacity onPress={() => onLook(expense)}>
     <View style={styles.card}>
         <View style={styles.cardContent}>
-            <Image source={require('../../assets/images/logo.png')} style={styles.icon} />
-            <View style={styles.details}>
+            <Image source={require('../../assets/images/expense.png')} style={styles.icon} />
+            <View style={styles.options}>
                 <Text style={styles.amount}>${expense.amount}</Text>
-                <Text style={styles.created_at}>{expense.created_at}</Text>
-                <Text style={styles.userexpensetype_id}>{expense.userexpensetype_id}</Text>
-                <Text style={styles.description}>{expense.description}</Text>
+                <Text style={styles.details}>{expense.created_at}</Text>
+                <Text style={styles.details}>{expense.userexpensetype_id}</Text>
+                <Text style={styles.details}>{expense.category_id} hola</Text>
             </View>
             <TouchableOpacity onPress={() => onEdit(expense)}>
-                <AntDesign name="edit" size={Sizing.x20} color={Colors.palette.primary} style={styles.iconButton} />
+                <AntDesign name="edit" size={Sizing.x40} color={Colors.palette.primary} style={styles.iconButton} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => onDelete(expense.id)}>
-                <AntDesign name="delete" size={Sizing.x20} color={Colors.palette.primary} style={styles.iconButton} />
+                <AntDesign name="delete" size={Sizing.x40} color={Colors.palette.primary} style={styles.iconButton} />
             </TouchableOpacity>
         </View>
     </View>
@@ -43,25 +44,18 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: Sizing.x40,
-    height: Sizing.x40,
-    marginRight: Sizing.x10,
+    height: Sizing.x50,
+    marginRight: Sizing.x20,
+    marginLeft: Sizing.x10,
   },
-  details: {
+  options: {
     flex: 1,
   },
   amount: {
     ...Typography.headerStyles.medium,
     color: Colors.palette.text,
   },
-  created_at: {
-    ...Typography.bodyStyles.primary,
-    color: Colors.palette.text,
-  },
-  userexpensetype_id: {
-    ...Typography.bodyStyles.primary,
-    color: Colors.palette.text,
-  },
-  description: {
+  details: {
     ...Typography.bodyStyles.primary,
     color: Colors.palette.text,
   },
