@@ -23,3 +23,26 @@ export interface UseUsersWithDebts extends UseHookBase {
 export interface UseUserBalance extends UseHookBase {
   userBalance?: Backend.Balance;
 }
+
+export type ExpensesGroup = Record<string, Record<string, number>>;
+
+export interface UseExpensesGroups extends UseHookBase {
+  allExpensesByCategories: ExpensesGroup;
+}
+
+export interface UserExpense {
+  id: number;
+  name: string;
+}
+
+export interface UseUserExpenseTypes extends UseHookBase {
+  categories: string[];
+}
+
+export interface Budget {
+  amount: number | null;
+}
+
+export interface UseBudget extends UseHookBase {
+  budget: Budget;
+}

@@ -1,7 +1,21 @@
 // This file has a really basic way of defining colors and palettes.
 // If more colors are added, layout should change as shown in documentation.
 
-type Colors = 'almostBlack' | 'darkBlue' | 'seaGreen' | 'grey' | 'white' | 'orange';
+type Colors =
+  | 'almostBlack'
+  | 'darkBlue'
+  | 'seaGreen'
+  | 'grey'
+  | 'white'
+  | 'orange'
+  | 'metal'
+  | 'slate'
+  | 'cream'
+  | 'mango'
+  | 'cerulean'
+  | 'prussianBlue'
+  | 'darkGreen'
+  | 'black';
 const colors: Record<Colors, string> = {
   almostBlack: '#191E29',
   darkBlue: '#132D46',
@@ -9,6 +23,14 @@ const colors: Record<Colors, string> = {
   grey: '#696E79',
   white: '#FFFFFF',
   orange: '#E67E22',
+  metal: '#4C5B61',
+  slate: '#2C423F',
+  cream: '#EDE7E3',
+  mango: '#FFA62B',
+  cerulean: '#007EA7',
+  prussianBlue: '#003249',
+  darkGreen: '#2F4B26',
+  black: '#000000',
 };
 
 type Palette = 'primary' | 'secondary' | 'background' | 'text' | 'border' | 'error';
@@ -20,6 +42,18 @@ export const palette: Record<Palette, string> = {
   border: colors.grey,
   error: colors.orange,
 };
+
+export const chartColors: string[] = [
+  colors.black,
+  colors.seaGreen,
+  colors.metal,
+  colors.slate,
+  colors.cream,
+  colors.mango,
+  colors.cerulean,
+  colors.prussianBlue,
+  colors.darkGreen,
+];
 
 // Utility function to apply opacity to hex colors
 const applyOpacity = (hexColor: string, opacity: number): string => {
