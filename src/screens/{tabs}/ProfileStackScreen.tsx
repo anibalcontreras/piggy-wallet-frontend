@@ -21,7 +21,7 @@ export default function ProfileStackScreen(): JSX.Element {
         name="AddPiggy"
         component={AddPiggyScreen}
         options={{
-          // presentation: 'modal',
+          presentation: 'modal',
           title: 'Agregar Piggy',
           headerStyle: { backgroundColor: Colors.palette.border },
           headerTintColor: Colors.palette.text,

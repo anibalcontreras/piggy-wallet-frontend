@@ -36,9 +36,9 @@ export default function DebtsStackScreen(): JSX.Element {
       />
       <DebtsStack.Screen
         name="AddDebt"
-        component={AddDebtScreen} // Cambiar
+        component={AddDebtScreen}
         options={{
-          // presentation: 'modal',
+          presentation: 'modal',
           title: 'Nueva Deuda',
           headerStyle: {
             backgroundColor: Colors.palette.border,
