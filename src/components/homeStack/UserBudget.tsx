@@ -8,7 +8,7 @@ import useBudget from '@/hooks/useBudget';
 import ErrorText from '@/components/common/ErrorText';
 
 const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element => {
-  const { loading, error, budget } = useBudget();
+  const { loading, error, budget } = useBudget(navigation);
 
   if (loading) {
     return <ActivityIndicator />;

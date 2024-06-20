@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { Budget, UseBudget } from '@/types/hooks';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useBudget = (): UseBudget  => {
+const useBudget = (navigation: NativeStackNavigationProp<any, string, undefined>): UseBudget  => {
     const [budget, setBudget] = useState<Budget>({ amount: null });
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -24,8 +25,14 @@ const useBudget = (): UseBudget  => {
     };
 
     useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            void fetchExpensesGroup();
+        });
+
         void fetchExpensesGroup();
-    }, []);
+
+        return unsubscribe;
+    }, [navigation]);
 
     return { error, loading, budget };
 };
