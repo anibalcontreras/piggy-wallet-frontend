@@ -23,7 +23,7 @@ export default function BudgetScreen({
 
   const saveBudget = async (amount: number): Promise<void> => {
     setIsSavingBudget(true);
-  
+
     try {
       await httpService.put(END_POINT.budget, { amount });
       navigation.goBack();

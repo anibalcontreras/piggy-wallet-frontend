@@ -20,7 +20,9 @@ const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element =
 
   const userBudget = budget.amount;
   const budgetConfigured = userBudget !== null;
-  const formattedUserBudget = budgetConfigured ? FormatFunctions.formatCurrency(userBudget.toString()) : '';
+  const formattedUserBudget = budgetConfigured
+    ? FormatFunctions.formatCurrency(userBudget.toString())
+    : '';
 
   return (
     <View style={[styles.contentBox, styles.contentBoxTwo]}>
