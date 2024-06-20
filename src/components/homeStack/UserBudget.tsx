@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import type { DonutChartValue, UserBudgetProps } from '@/types/components';
 import { Colors, Sizing, Typography } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import ErrorText from '@/components/common/ErrorText';
 
 const UserBudget = ({
   expensesByExpenseType,
@@ -13,8 +15,15 @@ const UserBudget = ({
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  // Get categories from the backend
-  const categories: string[] = ['Vacaciones', 'Cumpleaños'];
+  const { loading, error, categories } = useUserExpenseTypes();
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <ErrorText message="Ha ocurrido un error al cargar tus categorías de gastos" />;
+  }
 
   const getChartValue = (): DonutChartValue[] => {
     if (page === 0) {

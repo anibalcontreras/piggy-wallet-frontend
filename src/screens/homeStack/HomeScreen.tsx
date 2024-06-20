@@ -1,44 +1,22 @@
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
 import type { Navigation } from '@/types';
 import type { DonutChartValue } from '@/types/components';
 import { Sizing } from '@/styles';
 import UserBudget from '@/components/homeStack/UserBudget';
 import UserMonthExpenses from '@/components/homeStack/UserMonthExpenses';
+import useExpensesGroups from '@/hooks/useExpensesGroups';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.Element {
-  // Get the expenses from the backend
-  const allExpensesByCategories: Record<string, Record<string, number>> = {
-    Personal: {
-      Comida: 253750,
-      Vivienda: 400000,
-      Educación: 0,
-      Salud: 20000,
-      Entretenimiento: 18620,
-      Ahorro: 0,
-      Inversión: 520000,
-      Transporte: 5000,
-    },
-    Vacaciones: {
-      Comida: 120430,
-      Vivienda: 60000,
-      Educación: 0,
-      Salud: 0,
-      Entretenimiento: 23610,
-      Ahorro: 0,
-      Inversión: 0,
-      Transporte: 12500,
-    },
-    Cumpleaños: {
-      Comida: 50000,
-      Vivienda: 0,
-      Educación: 0,
-      Salud: 0,
-      Entretenimiento: 30000,
-      Ahorro: 0,
-      Inversión: 0,
-      Transporte: 0,
-    },
-  };
+  const { loading, error, allExpensesByCategories } = useExpensesGroups();
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <ErrorText message="Ha ocurrido un error al cargar tu resumen de gastos" />;
+  }
 
   // We compute the total expenses by user expense type
   const expensesByExpenseType: DonutChartValue[] = [];

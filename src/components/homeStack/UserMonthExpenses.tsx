@@ -1,15 +1,26 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import type { UserMonthExpensesProps } from '@/types/components';
 import { Colors, Sizing, Typography } from '@/styles';
 import DonutChart from '@/components/charts/donutChart';
 import * as FormatFunctions from '@/utils';
+import useBudget from '@/hooks/useBudget';
+import ErrorText from '@/components/common/ErrorText';
 
 const UserMonthExpenses = ({ navigation, allExpenses }: UserMonthExpensesProps): JSX.Element => {
-  // Request budget from backend
-  const userBudget = 3000000;
-  const formattedUserBudget = FormatFunctions.formatCurrency(userBudget.toString());
-  const budgetConfigured = true;
+  const { loading, error, budget } = useBudget();
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <ErrorText message="Ha ocurrido un error al cargar tu presupuesto" />;
+  }
+
+  const userBudget = budget.amount;
+  const budgetConfigured = userBudget !== null;
+  const formattedUserBudget = budgetConfigured ? FormatFunctions.formatCurrency(userBudget.toString()) : '';
 
   return (
     <View style={[styles.contentBox, styles.contentBoxTwo]}>

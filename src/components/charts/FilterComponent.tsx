@@ -7,7 +7,7 @@ const { width } = Dimensions.get('window');
 
 const FilterComponent = ({
   categories = [],
-  defaultCategories = ['Todo', 'Personal'],
+  defaultCategories = ['Todo'],
   selectedTab = 0,
   setSelectedTab = (tab) => {
     selectedTab = tab;
