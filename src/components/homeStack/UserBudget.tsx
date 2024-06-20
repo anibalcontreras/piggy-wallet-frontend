@@ -1,56 +1,55 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import type { DonutChartValue, UserBudgetProps } from '@/types/components';
+import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import type { UserBudgetProps } from '@/types/components';
 import { Colors, Sizing, Typography } from '@/styles';
-import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
-import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import * as FormatFunctions from '@/utils';
+import useBudget from '@/hooks/useBudget';
 import ErrorText from '@/components/common/ErrorText';
 
-const UserBudget = ({
-  expensesByExpenseType,
-  expensesByCategory,
-}: UserBudgetProps): JSX.Element => {
-  // We set the state values for the filter component outside so we know what to pass to the donut chart
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [page, setPage] = useState(0);
-
-  const { loading, error, categories } = useUserExpenseTypes();
+const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element => {
+  const { loading, error, budget } = useBudget();
 
   if (loading) {
     return <ActivityIndicator />;
   }
 
   if (error) {
-    return <ErrorText message="Ha ocurrido un error al cargar tus categorías de gastos" />;
+    return <ErrorText message="Ha ocurrido un error al cargar tu presupuesto" />;
   }
 
-  const getChartValue = (): DonutChartValue[] => {
-    if (page === 0) {
-      return selectedTab === 0 ? expensesByExpenseType : expensesByCategory[selectedTab - 1];
-    }
-
-    return expensesByCategory[selectedTab + page - 1];
-  };
+  const userBudget = budget.amount;
+  const budgetConfigured = userBudget !== null;
+  const formattedUserBudget = budgetConfigured ? FormatFunctions.formatCurrency(userBudget.toString()) : '';
 
   return (
-    <View style={[styles.contentBox, styles.contentBoxOne]}>
+    <View style={[styles.contentBox, styles.contentBoxTwo]}>
       <View style={styles.hr}>
-        <Text style={styles.boxText}>Gastos del mes</Text>
+        <Text style={styles.boxText}>Presupuesto mensual</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Budget')}>
+          <Entypo
+            name="dots-three-vertical"
+            size={Sizing.x25}
+            color={Colors.transparent.lightGrey}
+          />
+        </TouchableOpacity>
       </View>
 
-      <FilterComponent
-        categories={categories}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        page={page}
-        setPage={setPage}
-      />
-
-      <DonutChart values={getChartValue()} userBudget={0} marginTop={Sizing.x80} disableAvailable />
+      {budgetConfigured ? (
+        <>
+          <Text style={styles.totalText}>Total: {formattedUserBudget}</Text>
+          <DonutChart values={allExpenses} userBudget={userBudget} />
+        </>
+      ) : (
+        <Text style={[styles.totalText, styles.noBudgetText]}>
+          No has configurado tu presupuesto
+        </Text>
+      )}
     </View>
   );
 };
+
+export default UserBudget;
 
 const styles = StyleSheet.create({
   contentBox: {
@@ -62,8 +61,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  contentBoxOne: {
-    marginTop: Sizing.x30,
+  contentBoxTwo: {
+    marginBottom: Sizing.x30,
   },
   boxText: {
     ...Typography.bodyStyles.secondary,
@@ -79,6 +78,14 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
+  totalText: {
+    position: 'absolute',
+    padding: Sizing.x10,
+    top: Sizing.x50,
+    left: Sizing.x15,
+    ...Typography.bodyStyles.primary,
+  },
+  noBudgetText: {
+    ...Typography.bodyStyles.highlight,
+  },
 });
-
-export default UserBudget;

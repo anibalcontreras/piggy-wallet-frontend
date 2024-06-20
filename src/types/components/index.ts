@@ -64,12 +64,12 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
   datum?: { x: number; y: number; label: string };
 }
 
-export interface UserBudgetProps {
+export interface UserMonthExpensesProps {
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
 }
 
-export interface UserMonthExpensesProps extends Navigation.HomeNavigationProps {
+export interface UserBudgetProps extends Navigation.HomeNavigationProps {
   allExpenses: DonutChartValue[];
 }
 

@@ -2,8 +2,8 @@ import { SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
 import type { Navigation } from '@/types';
 import type { DonutChartValue } from '@/types/components';
 import { Sizing } from '@/styles';
-import UserBudget from '@/components/homeStack/UserBudget';
 import UserMonthExpenses from '@/components/homeStack/UserMonthExpenses';
+import UserBudget from '@/components/homeStack/UserBudget';
 import useExpensesGroups from '@/hooks/useExpensesGroups';
 import ErrorText from '@/components/common/ErrorText';
 
@@ -46,12 +46,12 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
 
   return (
     <SafeAreaView style={styles.container}>
-      <UserBudget
+      <UserMonthExpenses
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
       />
 
-      <UserMonthExpenses allExpenses={allExpenses} {...props} />
+      <UserBudget allExpenses={allExpenses} {...props} />
     </SafeAreaView>
   );
 }
