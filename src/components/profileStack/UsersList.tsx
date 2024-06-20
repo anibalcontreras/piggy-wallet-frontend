@@ -67,11 +67,9 @@ function UsersList({
           setClicked(false);
           return true;
         }}
-        // style={styles.listContainer}
       >
         <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.userId} />
       </View>
-      //{' '}
     </SafeAreaView>
   );
 }
