@@ -57,7 +57,6 @@ export type DebtDetailsNavigationProps = NativeStackScreenProps<
   DebtsStackParamsList,
   'DebtDetails'
 > & {
-  // Necesario?
   route: { params: { debtorId: string; debtorName: string } };
 };
 export type AddDebtNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'AddDebt'>;

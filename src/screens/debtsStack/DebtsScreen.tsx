@@ -11,7 +11,7 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
 
   const handleClick = (debtor: Backend.User): void => {
     const { userId: debtorId, firstName: debtorName } = debtor;
-    navigation.navigate('DebtDetails', { debtorId: debtorId, debtorName: debtorName });
+    navigation.navigate('DebtDetails', { debtorId, debtorName });
   };
 
   if (loading) {

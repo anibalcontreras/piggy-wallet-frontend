@@ -64,7 +64,6 @@ export interface SearchAllPigiesListProps {
   searchPhrase: string;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;
-  // listHeight: string;
 }
 
 export interface DebtorsListProps {
@@ -73,5 +72,5 @@ export interface DebtorsListProps {
 }
 
 export interface UserBalanceProps {
-  userBalance?: Backend.Balance; // Duplicada con Backend.Balance
+  userBalance?: Backend.Balance;
 }

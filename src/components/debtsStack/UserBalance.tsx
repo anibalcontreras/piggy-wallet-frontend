@@ -4,7 +4,7 @@ import type { Components } from '@/types';
 import { Sizing, Typography } from '@/styles';
 
 function UserBalance({ userBalance }: Components.UserBalanceProps): JSX.Element {
-  let isPositive = userBalance ? userBalance.balance > 0 : false;
+  const isPositive = userBalance != null ? userBalance.balance > 0 : false;
   const displayValue = Math.abs(userBalance?.balance ?? 0).toLocaleString('es-CL', {
     style: 'currency',
     currency: 'CLP',

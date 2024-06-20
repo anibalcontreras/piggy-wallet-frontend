@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from '
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { Backend, Navigation } from '@/types';
+import { type Backend, type Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import httpService from '@/service/api';
 import useAllUsers from '@/hooks/profileStack/useAllUsers';
@@ -12,7 +12,9 @@ import CustomTextInput from '@/components/common/CustomTextInput';
 import SearchBar from '@/components/common/SearchBar';
 import UsersList from '@/components/common/UsersList';
 
-export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigationProps) {
+export default function AddDebtScreen({
+  navigation,
+}: Navigation.AddDebtNavigationProps): JSX.Element {
   const debtValidationSchema = yup.object().shape({
     amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
     debtorId: yup.string().required('Deudor es requerido'),
@@ -22,13 +24,13 @@ export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigati
   const [searchPiggy, setSearchPiggy] = useState('');
   const [clicked, setClicked] = useState(false);
   const [isCreatingDebt, setIsCreatingDebt] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<Backend.User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Backend.User>();
 
   const handleSubmit = async (amount: string, debtorId: string): Promise<void> => {
     setIsCreatingDebt(true);
     try {
       await httpService.post('/debts/', {
-        amount: amount,
+        amount,
         debtor_id: debtorId,
       });
       navigation.goBack();
@@ -67,13 +69,14 @@ export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigati
                 searchPhrase={searchPiggy}
                 data={allUsers}
                 onPiggyAdded={(piggy) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
                   setFieldValue('debtorId', piggy.userId);
                   const user = allUsers?.find((user) => user.userId === piggy.userId);
-                  setSelectedUser(user || null);
+                  setSelectedUser(user);
                 }}
               />
             )}
-            {selectedUser && (
+            {selectedUser != null && (
               <View style={styles.selectedUserContainer}>
                 <Text style={styles.selectedUserText}>
                   Piggy seleccionado: {selectedUser.firstName}

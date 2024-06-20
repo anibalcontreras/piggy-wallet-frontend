@@ -3,6 +3,7 @@ import { render } from '@testing-library/react-native';
 import DebtorsList from '@/components/debtsStack/DebtorsList';
 
 jest.mock('@expo/vector-icons', () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { View } = require('react-native');
   return {
     AntDesign: View,

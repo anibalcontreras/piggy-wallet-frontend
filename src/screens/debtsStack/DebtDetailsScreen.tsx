@@ -1,16 +1,14 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import UserBalance from '@/components/debtsStack/UserBalance';
 import useUserBalance from '@/hooks/debtsStack/useUserBalance';
+import UserBalance from '@/components/debtsStack/UserBalance';
 import ErrorText from '@/components/common/ErrorText';
 
 export default function DebtDetailsScreen({
-  navigation,
   route,
 }: Navigation.DebtDetailsNavigationProps): JSX.Element {
   const { error, loading, userBalance } = useUserBalance(route.params.debtorId);
-  console.log('userBalance:', userBalance);
 
   if (loading) {
     return <ActivityIndicator style={styles.loading} />;
