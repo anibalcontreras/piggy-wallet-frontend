@@ -32,7 +32,10 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
       ) : (
         <Text style={styles.header}>No tienes deudas pendientes</Text>
       )}
-      <TouchableOpacity onPress={() => navigation.navigate('Debts')}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate('AddDebt')}
+      >
         <AntDesign
           style={styles.addButton}
           name="pluscircle"
@@ -54,6 +57,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  buttonContainer: {
+    marginTop: Sizing.x10,
   },
   header: {
     ...Typography.bodyStyles.highlight,

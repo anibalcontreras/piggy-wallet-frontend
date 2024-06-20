@@ -64,7 +64,7 @@ export interface SearchAllPigiesListProps {
   searchPhrase: string;
   setClicked: (clicked: boolean) => void;
   data?: Backend.User[];
-  onPiggyAdded: () => void;
+  onPiggyAdded: (user: Backend.User) => void;
 }
 
 export interface DebtorsListProps {

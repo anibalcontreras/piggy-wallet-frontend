@@ -4,6 +4,7 @@ import type { DebtsStackParamsList } from '@/types/navigation';
 import { Colors } from '@/styles';
 import DebtsScreen from '@/screens/debtsStack/DebtsScreen';
 import DebtDetailsScreen from '@/screens/debtsStack/DebtDetailsScreen';
+import AddDebtScreen from '@/screens/debtsStack/AddDebtScreen';
 
 const DebtsStack = createNativeStackNavigator<DebtsStackParamsList>();
 
@@ -32,6 +33,21 @@ export default function DebtsStackScreen(): JSX.Element {
             borderTopWidth: 1,
           },
         })}
+      />
+      <DebtsStack.Screen
+        name="AddDebt"
+        component={AddDebtScreen} // Cambiar
+        options={{
+          // presentation: 'modal',
+          title: 'Nueva Deuda',
+          headerStyle: {
+            backgroundColor: Colors.palette.border,
+          },
+          headerTintColor: Colors.palette.text,
+          contentStyle: {
+            backgroundColor: Colors.palette.secondary,
+          },
+        }}
       />
     </DebtsStack.Navigator>
   );

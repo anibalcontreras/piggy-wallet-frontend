@@ -8,12 +8,12 @@ import {
   SafeAreaView,
   Alert,
   TouchableOpacity,
+  TouchableHighlight,
+  ScrollView,
 } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Components } from '@/types';
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
 
 const Item = ({
   user,
@@ -46,10 +46,10 @@ function UsersList({
 }: Components.SearchAllPigiesListProps): JSX.Element {
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     if (searchPhrase === '') {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} />;
     }
     if (isUserMatched(item, searchPhrase)) {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} />;
     }
     return <></>;
   };
@@ -60,33 +60,6 @@ function UsersList({
       .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''));
   };
 
-  const handleAddPiggy = (user: Backend.User): void => {
-    // AsyncAlert(user);
-    Alert.alert('Agregar Piggy', `¿Quieres agregar a ${user.firstName} como tu piggy?`, [
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-        onPress: () => console.log('Cancel Pressed'),
-      },
-      {
-        text: 'OK',
-        onPress: () => addPiggyRequest(user),
-      },
-    ]);
-  };
-
-  const addPiggyRequest = (user: Backend.User): void => {
-    httpService
-      .post(END_POINT.piggies, { full_name: user.firstName })
-      .then(() => {
-        Alert.alert('Piggy Agregado', `${user.firstName} ha sido agregado a tus piggies`);
-        onPiggyAdded();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
   return (
     <SafeAreaView style={styles.listContainer}>
       <View
@@ -94,9 +67,11 @@ function UsersList({
           setClicked(false);
           return true;
         }}
+        // style={styles.listContainer}
       >
         <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.userId} />
       </View>
+      //{' '}
     </SafeAreaView>
   );
 }
@@ -105,6 +80,9 @@ export default UsersList;
 
 const styles = StyleSheet.create({
   listContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     height: '85%',
     width: '90%',
     margin: Sizing.x10,

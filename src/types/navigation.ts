@@ -34,6 +34,7 @@ export type ExpensesStackParamsList = {
 export type DebtsStackParamsList = {
   Debts: undefined;
   DebtDetails: { debtorId: string; debtorName: string };
+  AddDebt: undefined;
 };
 
 export type ProfileStackParamsList = {
@@ -59,6 +60,7 @@ export type DebtDetailsNavigationProps = NativeStackScreenProps<
   // Necesario?
   route: { params: { debtorId: string; debtorName: string } };
 };
+export type AddDebtNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'AddDebt'>;
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
 export type AddPiggyNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'AddPiggy'>;

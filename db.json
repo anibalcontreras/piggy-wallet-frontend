@@ -5,43 +5,57 @@
   "piggies": [
     {
       "user_id": "1",
-      "first_name": "Anibal Contreras"
+      "first_name": "Anibal Contreras",
+      "id": "b694"
     },
     {
       "user_id": "2",
-      "first_name": "Juan Vergara"
+      "first_name": "Juan Vergara",
+      "id": "1375"
     },
     {
       "user_id": "3",
-      "first_name": "Juan Vergara"
+      "first_name": "Juan Vergara",
+      "id": "4b89"
     },
     {
       "user_id": "d2fd",
-      "first_name": "Ignacio Huntley"
+      "first_name": "Ignacio Huntley",
+      "id": "7ac8"
     },
     {
       "user_id": "3e15",
-      "first_name": "Javier Pinto"
+      "first_name": "Javier Pinto",
+      "id": "a9b5"
     },
     {
       "user_id": "6507",
-      "first_name": "Juan Pablo Pinto"
+      "first_name": "Juan Pablo Pinto",
+      "id": "52b9"
     },
     {
       "user_id": "9bad",
-      "first_name": "Juan Pablo Pinto"
+      "first_name": "Juan Pablo Pinto",
+      "id": "2bcc"
     },
     {
       "user_id": "0549",
-      "first_name": "Gabriel Quiroz"
+      "first_name": "Gabriel Quiroz",
+      "id": "c4c4"
     },
     {
       "user_id": "754a",
-      "first_name": "Javier Pinto"
+      "first_name": "Javier Pinto",
+      "id": "c4a7"
     },
     {
       "user_id": "031e",
-      "first_name": "Anibal Contreras"
+      "first_name": "Anibal Contreras",
+      "id": "aff5"
+    },
+    {
+      "user_id": "417a",
+      "full_name": "Ignacio Huntley"
     }
   ],
   "users": [
@@ -105,13 +119,13 @@
   "contacts": [
     {
       "user_id": "1",
-
-      "enabled": true
+      "enabled": true,
+      "id": "8c00"
     },
     {
       "user_id": "2",
-
-      "enabled": true
+      "enabled": true,
+      "id": "3b04"
     }
   ],
   "bankcards": [
@@ -121,7 +135,8 @@
       "bank_name": "Bank A",
       "type_card": "Credit",
       "created_at": "2023-03-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "a688"
     },
     {
       "user_id": "2",
@@ -129,7 +144,8 @@
       "bank_name": "Bank B",
       "type_card": "Debit",
       "created_at": "2023-04-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "aabe"
     }
   ],
   "userexpensetypes": [
@@ -140,7 +156,8 @@
       "set_by_user": true,
       "category_name": "Groceries",
       "created_at": "2023-01-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "4e75"
     },
     {
       "user_id": "2",
@@ -149,48 +166,172 @@
       "set_by_user": true,
       "category_name": "Travel",
       "created_at": "2023-02-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "75e8"
     }
   ],
   "expenses": [
     {
       "user_id": "1",
-
       "userexpensetype_id": 1,
       "category_id": 1,
       "bankcard_id": 1,
       "amount": 100,
       "created_at": "2023-03-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "c683"
     },
     {
       "user_id": "2",
-
       "userexpensetype_id": 2,
       "category_id": 2,
       "bankcard_id": 2,
       "amount": 50,
       "created_at": "2023-04-01",
-      "updated_at": "2023-06-01"
+      "updated_at": "2023-06-01",
+      "id": "b0a5"
     }
   ],
   "debts": [
     {
       "user_id": "1",
-
       "debtor_id": 2,
       "amount": 200,
-      "ispaid": false
+      "ispaid": false,
+      "id": "ec48"
     },
     {
       "user_id": "2",
-
       "debtor_id": 1,
       "amount": 100,
-      "ispaid": true
+      "ispaid": true,
+      "id": "ecc8"
+    },
+    {
+      "id": "6dfc",
+      "amount": "10000",
+      "debtor_id": ""
+    },
+    {
+      "id": "413f",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "25be",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "86e6",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "a4ec",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "02bc",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "7e61",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "98b4",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "56cb",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "f3b1",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "4cea",
+      "amount": "123322",
+      "debtor_id": "2"
     }
   ],
   "usersWithDebts": [
+    {
+      "user_id": "1",
+      "first_name": "John Doe",
+      "id": "4986"
+    },
+    {
+      "user_id": "2",
+      "first_name": "Jane Smith",
+      "id": "dd69"
+    },
+    {
+      "user_id": "3",
+      "first_name": "John Doe",
+      "id": "77e9"
+    },
+    {
+      "user_id": "4",
+      "first_name": "Jane Smith",
+      "id": "190d"
+    },
+    {
+      "user_id": "5",
+      "first_name": "John Doe",
+      "id": "fd5b"
+    },
+    {
+      "user_id": "6",
+      "first_name": "Jane Smith",
+      "id": "201f"
+    },
+    {
+      "user_id": "7",
+      "first_name": "John Doe",
+      "id": "a882"
+    },
+    {
+      "user_id": "8",
+      "first_name": "Jane Smith",
+      "id": "7b7d"
+    },
+    {
+      "user_id": "9",
+      "first_name": "John Doe",
+      "id": "2063"
+    },
+    {
+      "user_id": "10",
+      "first_name": "Jane Smith",
+      "id": "a48a"
+    }
+  ],
+  "budgets": [
+    {
+      "user_id": "1",
+      "amount": 500,
+      "created_at": "2023-05-01",
+      "updated_at": "2023-06-01",
+      "id": "9203"
+    },
+    {
+      "user_id": "2",
+      "amount": 300,
+      "created_at": "2023-05-01",
+      "updated_at": "2023-06-01",
+      "id": "290d"
+    }
+  ],
+  "debt_users": [
     {
       "user_id": "1",
       "first_name": "John Doe"
@@ -230,22 +371,6 @@
     {
       "user_id": "10",
       "first_name": "Jane Smith"
-    }
-  ],
-  "budgets": [
-    {
-      "user_id": "1",
-
-      "amount": 500,
-      "created_at": "2023-05-01",
-      "updated_at": "2023-06-01"
-    },
-    {
-      "user_id": "2",
-
-      "amount": 300,
-      "created_at": "2023-05-01",
-      "updated_at": "2023-06-01"
     }
   ]
 }

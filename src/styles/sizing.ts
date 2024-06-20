@@ -85,6 +85,7 @@ export const x110 = layout.x110;
 export const x120 = layout.x120;
 export const x130 = layout.x130;
 export const x140 = layout.x140;
+export const x150 = layout.x150;
 
 type Icons = 'x10' | 'x15' | 'x20' | 'x25' | 'x30' | 'x40';
 export const icons: Record<Icons, number> = {
