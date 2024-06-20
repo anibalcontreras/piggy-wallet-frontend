@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ActivityIndicator, StyleSheet, SafeAreaView, Text, Alert } from 'react-native';
 import type { Backend, Navigation } from '@/types';
-import { Sizing, Typography } from '@/styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import useAllUsers from '@/hooks/profileStack/useAllUsers';
 import SearchBar from '@/components/profileStack/SearchBar';
 import ErrorText from '@/components/common/ErrorText';
@@ -59,12 +59,7 @@ export default function AddPiggyScreen({
         setSearchPhrase={setSearchPiggy}
         setClicked={setClicked}
       />
-      <UsersList
-        searchPhrase={searchPiggy}
-        setClicked={setClicked}
-        data={allUsers}
-        onPiggyAdded={handleAddPiggyClick}
-      />
+      <UsersList searchPhrase={searchPiggy} data={allUsers} onPiggyAdded={handleAddPiggyClick} />
     </SafeAreaView>
   );
 }
@@ -74,6 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: Colors.palette.secondary,
   },
   title: {
     ...Typography.headerStyles.small,

@@ -62,7 +62,6 @@ export interface SearchBarProps {
 
 export interface SearchAllPigiesListProps {
   searchPhrase: string;
-  setClicked: (clicked: boolean) => void;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;
 }

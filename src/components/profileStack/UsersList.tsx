@@ -5,11 +5,8 @@ import {
   Text,
   View,
   FlatList,
-  SafeAreaView,
-  Alert,
   TouchableOpacity,
-  TouchableHighlight,
-  ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
@@ -40,7 +37,6 @@ const Item = ({
 
 function UsersList({
   searchPhrase,
-  setClicked,
   data,
   onPiggyAdded,
 }: Components.SearchAllPigiesListProps): JSX.Element {
@@ -61,29 +57,28 @@ function UsersList({
   };
 
   return (
-    <SafeAreaView style={styles.listContainer}>
-      <View
-        onStartShouldSetResponder={() => {
-          setClicked(false);
-          return true;
-        }}
-      >
-        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.userId} />
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <FlatList
+        data={data}
+        renderItem={renderUser}
+        keyExtractor={(user) => user.userId}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 }
 
 export default UsersList;
 
 const styles = StyleSheet.create({
-  listContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '85%',
+  container: {
+    height: '55%',
     width: '90%',
     margin: Sizing.x10,
+  },
+  listContainer: {
+    padding: Sizing.x5,
+    ...Typography.bodyStyles.tertiary,
   },
   userContainer: {
     justifyContent: 'space-between',

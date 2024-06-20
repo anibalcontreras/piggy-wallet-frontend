@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  Alert,
+  View,
+  Keyboard,
+} from 'react-native';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import Button from '@/components/common/Button';
@@ -10,6 +18,7 @@ import useAllUsers from '@/hooks/profileStack/useAllUsers';
 import { Colors, Sizing, Typography } from '@/styles';
 import httpService from '@/service/api';
 import { Backend, Navigation } from '@/types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigationProps) {
   const debtValidationSchema = yup.object().shape({
@@ -64,7 +73,6 @@ export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigati
             ) : (
               <UsersList
                 searchPhrase={searchPiggy}
-                setClicked={setClicked}
                 data={allUsers}
                 onPiggyAdded={(piggy) => {
                   setFieldValue('debtorId', piggy.userId);
@@ -80,23 +88,25 @@ export default function AddDebtScreen({ navigation }: Navigation.AddDebtNavigati
                 </Text>
               </View>
             )}
-            <Field
-              component={CustomTextInput}
-              variant="secondary"
-              name="amount"
-              placeholder="¿Cuánto te debe?"
-              keyboardType="numeric"
-              inputMode="numeric"
-              textContentType="none"
-              autoCapitalize="none"
-            />
-            {isCreatingDebt ? (
-              <Button variant="fullWidth" loading={true} />
-            ) : (
-              <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
-                Crear
-              </Button>
-            )}
+            <KeyboardAwareScrollView>
+              <Field
+                component={CustomTextInput}
+                variant="secondary"
+                name="amount"
+                placeholder="¿Cuánto te debe?"
+                keyboardType="numeric"
+                inputMode="numeric"
+                textContentType="none"
+                autoCapitalize="none"
+              />
+              {isCreatingDebt ? (
+                <Button variant="fullWidth" loading={true} />
+              ) : (
+                <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                  Crear
+                </Button>
+              )}
+            </KeyboardAwareScrollView>
           </>
         )}
       </Formik>
