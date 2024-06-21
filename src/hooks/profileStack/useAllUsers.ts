@@ -6,7 +6,7 @@ import { snakeToCamel } from '@/utils';
 import { useEffect, useState } from 'react';
 
 const useAllUsers = (): UseAllUsers => {
-  const [allUsers, setAllUsers] = useState<Backend.User[]>();
+  const [allUsers, setAllUsers] = useState<Backend.User[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 

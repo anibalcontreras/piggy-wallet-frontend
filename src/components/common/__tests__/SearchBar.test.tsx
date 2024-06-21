@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import SearchBar from '@/components/profileStack/SearchBar';
+import SearchBar from '@/components/common/SearchBar';
 
 jest.mock('@expo/vector-icons', () => {
   const { View } = require('react-native');

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   settingsIcon: {
     position: 'absolute',
-    top: Sizing.x60,
+    top: Sizing.x70,
     right: Sizing.x20,
   },
 });

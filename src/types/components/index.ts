@@ -91,9 +91,17 @@ export interface SearchBarProps {
 
 export interface SearchAllPigiesListProps {
   searchPhrase: string;
-  setClicked: (clicked: boolean) => void;
   data?: Backend.User[];
-  onPiggyAdded: () => void;
+  onPiggyAdded: (user: Backend.User) => void;
+}
+
+export interface DebtorsListProps {
+  debtors: Backend.User[];
+  onUserPress: (user: Backend.User) => void;
+}
+
+export interface UserBalanceProps {
+  userBalance?: Backend.Balance;
 }
 
 export interface Expense {

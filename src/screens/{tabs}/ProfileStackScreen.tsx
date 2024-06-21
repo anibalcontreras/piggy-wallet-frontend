@@ -32,9 +32,15 @@ export default function ProfileStackScreen(): JSX.Element {
         component={EditProfileScreen}
         options={{
           title: 'Editar Perfil',
-          headerStyle: { backgroundColor: Colors.palette.border },
+          headerStyle: {
+            backgroundColor: Colors.palette.background,
+          },
           headerTintColor: Colors.palette.text,
-          headerBackTitle: 'Perfil',
+          headerBackTitle: 'Atrás',
+          contentStyle: {
+            borderTopColor: Colors.palette.border,
+            borderTopWidth: 1,
+          },
         }}
       />
     </ProfileStack.Navigator>

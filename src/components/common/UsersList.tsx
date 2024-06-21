@@ -1,19 +1,8 @@
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  SafeAreaView,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Components } from '@/types';
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
 
 const Item = ({
   user,
@@ -30,7 +19,7 @@ const Item = ({
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{user.fullName}</Text>
+      <Text style={styles.text}>{user.firstName}</Text>
     </View>
     <TouchableOpacity style={styles.addButton} onPress={() => onAddPiggy(user)}>
       <AntDesign name="pluscircle" size={Sizing.x40} color={Colors.palette.primary} />
@@ -40,74 +29,48 @@ const Item = ({
 
 function UsersList({
   searchPhrase,
-  setClicked,
   data,
   onPiggyAdded,
 }: Components.SearchAllPigiesListProps): JSX.Element {
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     if (searchPhrase === '') {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} />;
     }
     if (isUserMatched(item, searchPhrase)) {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} />;
     }
     return <></>;
   };
 
   const isUserMatched = (item: Backend.User, searchPhrase: string): boolean => {
-    return item.fullName
+    return item.firstName
       .toUpperCase()
       .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''));
   };
 
-  const handleAddPiggy = (user: Backend.User): void => {
-    // AsyncAlert(user);
-    Alert.alert('Agregar Piggy', `¿Quieres agregar a ${user.fullName} como tu piggy?`, [
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-        onPress: () => console.log('Cancel Pressed'),
-      },
-      {
-        text: 'OK',
-        onPress: () => addPiggyRequest(user),
-      },
-    ]);
-  };
-
-  const addPiggyRequest = (user: Backend.User): void => {
-    httpService
-      .post(END_POINT.piggies, { full_name: user.fullName })
-      .then(() => {
-        Alert.alert('Piggy Agregado', `${user.fullName} ha sido agregado a tus piggies`);
-        onPiggyAdded();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
-
   return (
-    <SafeAreaView style={styles.listContainer}>
-      <View
-        onStartShouldSetResponder={() => {
-          setClicked(false);
-          return true;
-        }}
-      >
-        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.id} />
-      </View>
-    </SafeAreaView>
+    <View style={[styles.container]}>
+      <FlatList
+        data={data}
+        renderItem={renderUser}
+        keyExtractor={(user) => user.userId}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 }
 
 export default UsersList;
 
 const styles = StyleSheet.create({
-  listContainer: {
-    height: '85%',
+  container: {
     width: '90%',
     margin: Sizing.x10,
+    height: '45%',
+  },
+  listContainer: {
+    padding: Sizing.x5,
+    ...Typography.bodyStyles.tertiary,
   },
   userContainer: {
     justifyContent: 'space-between',

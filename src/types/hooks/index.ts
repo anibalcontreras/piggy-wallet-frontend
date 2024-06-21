@@ -13,7 +13,15 @@ export interface UseUser extends UseHookBase {
 }
 
 export interface UseAllUsers extends UseHookBase {
-  allUsers?: Backend.User[];
+  allUsers: Backend.User[];
+}
+
+export interface UseUsersWithDebts extends UseHookBase {
+  usersWithDebts: Backend.User[];
+}
+
+export interface UseUserBalance extends UseHookBase {
+  userBalance?: Backend.Balance;
 }
 
 export type ExpensesGroup = Record<string, Record<string, number>>;
