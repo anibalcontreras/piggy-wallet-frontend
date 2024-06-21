@@ -29,7 +29,7 @@ function PiggiesList({ piggies }: Components.PiggiesListProps): JSX.Element {
           contentContainerStyle={styles.listContainer}
         />
       ) : (
-        <Text>No has agregado piggies</Text>
+        <Text style={styles.text}>No has agregado piggies</Text>
       )}
     </View>
   );

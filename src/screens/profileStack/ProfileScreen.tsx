@@ -23,7 +23,7 @@ export default function ProfileScreen({
   };
 
   if (userLoading || piggiesLoading) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator style={styles.loading} />;
   }
 
   if (userError || piggiesError) {
@@ -47,6 +47,11 @@ export default function ProfileScreen({
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',

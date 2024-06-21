@@ -6,11 +6,12 @@ import * as yup from 'yup';
 import { type Backend, type Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import httpService from '@/service/api';
-import useAllUsers from '@/hooks/profileStack/useAllUsers';
+import { END_POINT } from '@/service/constant';
 import Button from '@/components/common/Button';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import SearchBar from '@/components/common/SearchBar';
 import UsersList from '@/components/common/UsersList';
+import usePiggies from '@/hooks/profileStack/usePiggies';
 
 export default function AddDebtScreen({
   navigation,
@@ -20,7 +21,7 @@ export default function AddDebtScreen({
     debtorId: yup.string().required('Deudor es requerido'),
   });
 
-  const { loading, error, allUsers } = useAllUsers();
+  const { loading, error, piggies } = usePiggies();
   const [searchPiggy, setSearchPiggy] = useState('');
   const [clicked, setClicked] = useState(false);
   const [isCreatingDebt, setIsCreatingDebt] = useState(false);
@@ -29,7 +30,7 @@ export default function AddDebtScreen({
   const handleSubmit = async (amount: string, debtorId: string): Promise<void> => {
     setIsCreatingDebt(true);
     try {
-      await httpService.post('/debts/', {
+      await httpService.post(END_POINT.debt, {
         amount,
         debtor_id: debtorId,
       });
@@ -67,11 +68,11 @@ export default function AddDebtScreen({
             ) : (
               <UsersList
                 searchPhrase={searchPiggy}
-                data={allUsers}
+                data={piggies}
                 onPiggyAdded={(piggy) => {
                   // eslint-disable-next-line @typescript-eslint/no-floating-promises
                   setFieldValue('debtorId', piggy.userId);
-                  const user = allUsers?.find((user) => user.userId === piggy.userId);
+                  const user = piggies?.find((p) => p.userId === piggy.userId);
                   setSelectedUser(user);
                 }}
               />
@@ -95,7 +96,9 @@ export default function AddDebtScreen({
                 autoCapitalize="none"
               />
               {isCreatingDebt ? (
-                <Button variant="fullWidth" loading={true} />
+                <View style={styles.buttonContainer}>
+                  <Button variant="fullWidth" loading={true} />
+                </View>
               ) : (
                 <>
                   <View style={styles.buttonContainer}>
