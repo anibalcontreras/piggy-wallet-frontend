@@ -14,5 +14,11 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: [
+    "<rootDir>/node_modules/(?!victory-native|(?!error-guard))"
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleNameMapper: {
+    '^@/(.*)':  '<rootDir>/src/$1',
+  },
 };

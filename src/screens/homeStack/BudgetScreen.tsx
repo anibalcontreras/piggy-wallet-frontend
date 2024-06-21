@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import type { Navigation } from '../../types';
-import { Sizing } from '../../styles';
-import Button from '../../components/common/Button';
-import CustomTextInput from '../../components/common/CustomTextInput';
+import type { Navigation } from '@/types';
+import { Sizing } from '@/styles';
+import Button from '@/components/common/Button';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function BudgetScreen({
   navigation,
@@ -19,17 +21,26 @@ export default function BudgetScreen({
 
   const [isSavingBudget, setIsSavingBudget] = useState(false);
 
+  const saveBudget = async (amount: number): Promise<void> => {
+    setIsSavingBudget(true);
+
+    try {
+      await httpService.put(END_POINT.budget, { amount });
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert('Error', 'Ha ocurrido un error, por favor intenta nuevamente más tarde');
+    } finally {
+      setIsSavingBudget(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Formik
         validationSchema={bugdetValidationSchema}
         initialValues={{ budget: '' }}
-        onSubmit={(values) => {
-          setIsSavingBudget(true);
-          setTimeout(() => {
-            setIsSavingBudget(false);
-            navigation.goBack();
-          }, 1500);
+        onSubmit={async (values) => {
+          await saveBudget(Number(values.budget));
         }}
         validateOnMount={true}
       >

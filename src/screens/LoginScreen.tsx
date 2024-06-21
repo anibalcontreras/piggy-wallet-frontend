@@ -4,11 +4,11 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Navigation } from '../types';
-import { Sizing, Typography } from '../styles';
-import { useAuth } from '../context/AuthContext';
-import Button from '../components/common/Button';
-import CustomTextInput from '../components/common/CustomTextInput';
+import { type Navigation } from '@/types';
+import { Sizing, Typography } from '@/styles';
+import { useAuth } from '@/context/AuthContext';
+import Button from '@/components/common/Button';
+import CustomTextInput from '@/components/common/CustomTextInput';
 
 export default function LoginScreen({ navigation }: Navigation.LoginNavigationProps): JSX.Element {
   const loginValidationSchema = yup.object().shape({
@@ -18,7 +18,10 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       .required('Correo electrónico es requerido'),
     password: yup
       .string()
-      .min(8, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
+      .min(8, 'La contraseña debe tener al menos 8 caracteres')
+      .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
+      .matches(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula')
+      .matches(/[a-z]/, 'La contraseña debe contener al menos una letra minúscula')
       .required('Contraseña es requerida'),
   });
 
@@ -35,7 +38,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
     const result = await onLogin?.(email, password);
     setIsLoggingIn(false);
     if (Boolean(result) && Boolean(result.error)) {
-      Alert.alert('Error', 'Correo o contraseña incorrectos');
+      Alert.alert('Error', 'Ha ocurrido un error, por favor intente de nuevo.');
     }
   };
 

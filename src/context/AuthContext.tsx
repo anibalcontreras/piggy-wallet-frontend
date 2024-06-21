@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import axios, { type AxiosResponse } from 'axios';
-import { type Authorization } from '../types';
-import { axiosInstance } from '../service/api';
-import { END_POINT } from '../service/constant';
+import type { AxiosResponse } from 'axios';
+import type { Authorization } from '@/types';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 const TOKEN_KEY = process.env.EXPO_PUBLIC_TOKEN_KEY ?? '';
 const AuthContext = createContext<Authorization.AuthProps>({});
@@ -23,15 +23,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
   useEffect(() => {
     const loadToken = async (): Promise<void> => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
-
-      if (token !== null) {
-        axios.defaults.headers.common.Authorization = `Bearer ${token}`; // Revisar header
-
-        setAuthState({
-          token,
-          authenticated: true,
-        });
+      try {
+        const token = await SecureStore.getItemAsync(TOKEN_KEY);
+        if (token !== null) {
+          httpService.setAuthorizationHeader(token);
+          setAuthState({
+            token,
+            authenticated: true,
+          });
+        }
+      } catch (error) {
+        console.error('Error loading token', error);
       }
     };
     loadToken().then(
@@ -44,17 +46,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     userRegister: Authorization.UserRegister
   ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
-      const { firstName, lastName, secondLastName, email, password } = userRegister;
-      return await axiosInstance.request({
-        method: 'POST',
-        url: END_POINT.register,
-        data: {
-          firstName,
-          lastName,
-          secondLastName,
-          email,
-          password,
-        },
+      const { fullName, phoneNumber, email, password } = userRegister;
+      return await httpService.post(END_POINT.register, {
+        name: fullName,
+        phone: phoneNumber,
+        email,
+        password,
       });
     } catch (error) {
       return { error: true, msg: (error as Error).message };
@@ -66,23 +63,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
     password: string
   ): Promise<AxiosResponse | Authorization.ServiceError> => {
     try {
-      const result = await axiosInstance.request({
-        method: 'POST',
-        url: END_POINT.login,
-        data: {
-          email,
-          password,
-        },
-      });
-
+      const result = await httpService.post(END_POINT.login, { email, password });
+      const token = result.data.access_token;
       setAuthState({
-        token: result.data.token,
+        token,
         authenticated: true,
       });
-
-      axios.defaults.headers.common.Authorization = `Bearer ${result.data.token}`; // Revisar header y Bearer
-
-      await SecureStore.setItemAsync(TOKEN_KEY, String(result.data.token));
+      httpService.setAuthorizationHeader(String(token));
+      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
 
       return result;
     } catch (error) {
@@ -92,8 +80,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
   const logout = async (): Promise<void> => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
-
-    axios.defaults.headers.common.Authorization = ''; // Revisar Header
+    httpService.setAuthorizationHeader(null);
 
     setAuthState({
       token: null,

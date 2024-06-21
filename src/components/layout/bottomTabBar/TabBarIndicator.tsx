@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
-import type { Components } from '../../../types';
-import { Colors, Sizing } from '../../../styles';
+import type { Components } from '@/types';
+import { Colors, Sizing } from '@/styles';
 
 const { width } = Dimensions.get('window');
 

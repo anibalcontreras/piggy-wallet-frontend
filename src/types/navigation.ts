@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { Entypo } from '@expo/vector-icons';
+import type { Expense } from './components';
 
 export const enum Tab {
   Home = 'HOME_SCREEN',
@@ -28,15 +29,26 @@ export type HomeStackParamsList = {
 
 export type ExpensesStackParamsList = {
   Expenses: undefined;
-  AddExpense: undefined;
+  AddExpense: { onAddExpense: (newExpense: any) => void };
+  EditExpense: { expense: Expense; onSave: (updatedExpense: Expense) => void };
+  Amount: { onSave: (amount: string) => void };
+  ExpenseType: { onSave: (type: string) => void };
+  Category: { onSave: (category: string) => void };
+  Description: { onSave: (description: string) => void };
+  SharedExpenseDetails: { onSave: (sharedWith: any) => void };
+  ExpenseDetails: { expense: Expense };
 };
 
 export type DebtsStackParamsList = {
   Debts: undefined;
+  DebtDetails: { debtorId: string; debtorName: string };
+  AddDebt: undefined;
 };
 
 export type ProfileStackParamsList = {
   Profile: undefined;
+  AddPiggy: undefined;
+  EditProfile: undefined;
 };
 
 export type LandingNavigationProps = NativeStackScreenProps<RootStackParamsList, 'Landing'>;
@@ -47,7 +59,41 @@ export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'H
 export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Budget'>;
 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
+export type AmountNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Amount'>;
+export type ExpenseTypeNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'ExpenseType'
+>;
+export type CategoryNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Category'>;
+export type DescriptionNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'Description'
+>;
+export type SharedExpenseDetailsNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'SharedExpenseDetails'
+>;
+export type AddExpenseNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'AddExpense'
+>;
 
 export type DebtsNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'Debts'>;
+export type DebtDetailsNavigationProps = NativeStackScreenProps<
+  DebtsStackParamsList,
+  'DebtDetails'
+> & {
+  route: { params: { debtorId: string; debtorName: string } };
+};
+export type AddDebtNavigationProps = NativeStackScreenProps<DebtsStackParamsList, 'AddDebt'>;
 
 export type ProfileNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'Profile'>;
+export type AddPiggyNavigationProps = NativeStackScreenProps<ProfileStackParamsList, 'AddPiggy'>;
+export type EditExpenseNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'EditExpense'
+>;
+export type ExpenseDetailsNavigationProps = NativeStackScreenProps<
+  ExpensesStackParamsList,
+  'ExpenseDetails'
+>;
