@@ -1,5 +1,5 @@
-import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
@@ -13,37 +13,26 @@ import { END_POINT } from '@/service/constant';
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]); // Re-enable rule
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filter, setFilter] = useState<string>('todo'); // Re-enable rule
+  const [filter, setFilter] = useState<string>('todo');
 
   useEffect(() => {
-    // Obtener expenses y categorías al montar el componente
     const fetchExpensesAndCategories = async () => {
       try {
-        const [expenseResponse, categoryResponse] = await Promise.all([
-          httpService.get(END_POINT.expenses),
-          httpService.get(END_POINT.categories),
-        ]);
-        setExpenses(expenseResponse.data);
-        setCategories(categoryResponse.data);
+        const expensesResponse = await httpService.get(END_POINT.expenses);
+        const categoriesResponse = await httpService.get(END_POINT.categories);
+        setExpenses(expensesResponse.data);
+        setCategories(categoriesResponse.data);
       } catch (error) {
-        Alert.alert('Error', 'No se pudo obtener la lista de gastos o categorías.');
+        Alert.alert('Error', 'No se pudieron obtener los datos.');
       }
     };
 
     fetchExpensesAndCategories();
   }, []);
 
-  const handleDelete = async (id: number): Promise<void> => {
-    try {
-      await httpService.delete(`${END_POINT.expenses}${id}/`);
-      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
-      Alert.alert('Gasto eliminado');
-    } catch (error) {
-      Alert.alert('Error', 'No se pudo eliminar el gasto.');
-    }
+  const handleDelete = (id: number): void => {
+    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+    Alert.alert('Gasto eliminado');
   };
 
   const handleAddExpense = (newExpense: Expense): void => {
@@ -70,11 +59,6 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     return expenses;
   };
 
-  const getCategoryName = (categoryId: number): string => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category ? category.name : 'Categoría desconocida';
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
@@ -84,10 +68,8 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
         {filterExpenses().map((expense) => (
           <ExpenseCard
             key={expense.id}
-            expense={{
-              ...expense,
-              category: getCategoryName(expense.category),
-            }}
+            expense={expense}
+            categories={categories}
             onDelete={() => handleDelete(expense.id)}
             onEdit={(expense: Expense) =>
               navigation.navigate('EditExpense', { expense, onSave: handleEditExpense })

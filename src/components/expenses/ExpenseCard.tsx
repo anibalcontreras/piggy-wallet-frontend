@@ -2,19 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
-import { type Expense } from '../../types/components';
+import { type Expense, Category } from '../../types/components';
 
 const ExpenseCard = ({
   expense,
+  categories,
   onDelete,
   onEdit,
   onLook,
 }: {
   expense: Expense;
+  categories: Category[];
   onDelete: any;
   onEdit: any;
   onLook: any;
 }): JSX.Element => {
+  const category = categories.find(cat => cat.id === expense.category);
+
   return (
     <TouchableOpacity onPress={() => onLook(expense)}>
       <View style={styles.card}>
@@ -22,9 +26,7 @@ const ExpenseCard = ({
           <Image source={require('../../assets/images/expense.png')} style={styles.icon} />
           <View style={styles.options}>
             <Text style={styles.amount}>${expense.amount}</Text>
-            {/* <Text style={styles.details}>{expense.created_at}</Text>
-            <Text style={styles.details}>{expense.userexpensetype_id}</Text> */}
-            <Text style={styles.details}>{expense.category}</Text>
+            <Text style={styles.details}>{category ? category.name : 'Categoría desconocida'}</Text>
           </View>
           <TouchableOpacity onPress={() => onEdit(expense)}>
             <AntDesign
@@ -34,7 +36,7 @@ const ExpenseCard = ({
               style={styles.iconButton}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => onDelete(expense.id)}>
+          <TouchableOpacity onPress={() => onDelete(expense)}>
             <AntDesign
               name="delete"
               size={Sizing.x40}

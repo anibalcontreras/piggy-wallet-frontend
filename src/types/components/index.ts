@@ -103,6 +103,12 @@ export interface Expense {
   amount: number;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+
+}
+
 export interface UserExpenseType {
   id: number;
   user_id: number;

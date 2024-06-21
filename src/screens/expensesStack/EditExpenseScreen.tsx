@@ -1,12 +1,12 @@
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { EditExpenseNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/components';
+import type { Expense, Category } from '@/types/components';
 import RNPickerSelect from 'react-native-picker-select';
-import db from '../../../db.json'; // Do not
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function EditExpenseScreen({
   navigation,
@@ -14,19 +14,24 @@ export default function EditExpenseScreen({
 }: EditExpenseNavigationProps): JSX.Element {
   const { expense, onSave } = route.params;
   const [amount, setAmount] = useState(expense.amount.toString());
-  // const [categoryName, setCategoryName] = useState();
-  // const [description, setDescription] = useState(expense.userexpensetype_id);
-  const [description, setDescription] = useState('CHANGE ME');
-  const [userExpenseTypeId, setUserExpenseTypeId] = useState(db.userexpensetypes[0].id);
+  const [category, setCategory] = useState(expense.category.toString());
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const categories = db.userexpensetypes.map((cat) => ({
-    label: cat.name,
-    value: cat.name,
-    key: cat.id,
-  }));
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await httpService.get(END_POINT.categories);
+        setCategories(response.data);
+      } catch (error) {
+        Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSave = (): void => {
-    if (amount === '' || description === '') {
+    if (amount === '' || category === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
@@ -34,13 +39,19 @@ export default function EditExpenseScreen({
     const updatedExpense: Expense = {
       ...expense,
       amount: parseInt(amount, 10),
-      userexpensetype_id: expense.userexpensetype_id,
-      description,
+      category: parseInt(category, 10),
+      // description,
     };
 
     onSave(updatedExpense);
     navigation.goBack();
   };
+
+  const categoryItems = categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id.toString(),
+    key: cat.id,
+  }));
 
   return (
     <View style={styles.container}>
@@ -63,18 +74,18 @@ export default function EditExpenseScreen({
       <Text style={styles.title}>Categoría</Text>
       <RNPickerSelect
         style={pickerSelectStyles}
-        value={userExpenseTypeId}
-        onValueChange={(value: string) => setUserExpenseTypeId(value)}
-        items={categories}
+        value={category}
+        onValueChange={(value) => setCategory(value)}
+        items={categoryItems}
       />
 
       <Text style={styles.title}>Descripción</Text>
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Descripción"
         value={description}
         onChangeText={setDescription}
-      />
+      /> */}
     </View>
   );
 }
@@ -117,7 +128,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 4,
     color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30,
     marginBottom: 10,
     marginTop: 10,
   },
@@ -129,7 +140,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30, 
     marginBottom: 10,
   },
 });

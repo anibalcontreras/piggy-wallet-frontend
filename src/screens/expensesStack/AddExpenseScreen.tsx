@@ -17,8 +17,8 @@ export default function AddExpenseScreen({
   const [sharedExpense, setSharedExpense] = useState(false);
 
   const formatAmount = (amount: string): string => {
-    const cleanedAmount = amount.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-    const formattedAmount = cleanedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Add thousand separators
+    const cleanedAmount = amount.replace(/[^0-9]/g, '');
+    const formattedAmount = cleanedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     return `$${formattedAmount}`;
   };
 
@@ -27,7 +27,6 @@ export default function AddExpenseScreen({
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
-
 
     console.log('Amount:', amount);
     const newExpense: Expense = {

@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing, Typography } from '../../styles';
 import type { Navigation } from '../../types';
-import data from '../../../db.json'; // Asegúrate de que la ruta sea correcta
+import { Category } from '@/types/components';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function CategoryScreen({
   navigation,
   route,
 }: Navigation.CategoryNavigationProps): JSX.Element {
-  const [categories, setCategories] = useState(data.userexpensetypes);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await httpService.get(END_POINT.categories);
+        setCategories(response.data);
+      } catch (error) {
+        Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSelectCategory = (id: number): void => {
     setSelectedCategoryId(selectedCategoryId === id ? null : id);
@@ -26,11 +41,11 @@ export default function CategoryScreen({
 
     const selectedCategory = categories.find((category) => category.id === selectedCategoryId);
     const onSave = route.params?.onSave ?? (() => {});
-    onSave(selectedCategory?.category_name ?? 'No se encontró la categoría');
+    onSave(selectedCategory?.name ?? 'No se encontró la categoría');
     navigation.goBack();
   };
 
-  const handleAddCategory = (): void => {
+  const handleAddCategory = async (): Promise<void> => {
     if (newCategoryName.trim() === '') {
       return;
     }
@@ -46,15 +61,25 @@ export default function CategoryScreen({
       updated_at: new Date().toISOString(),
     };
 
-    setCategories([...categories, newCategory]);
-    setNewCategoryName('');
-    setIsModalVisible(false);
+    try {
+      await httpService.post(END_POINT.categories, newCategory);
+      setCategories([...categories, newCategory]);
+      setNewCategoryName('');
+      setIsModalVisible(false);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo añadir la categoría.');
+    }
   };
 
-  const handleDeleteCategory = (id: number): void => {
-    const updatedCategories = categories.filter((category) => category.id !== id);
-    setCategories(updatedCategories);
-    Alert.alert('Categoría eliminada');
+  const handleDeleteCategory = async (id: number): Promise<void> => {
+    try {
+      await httpService.delete(`${END_POINT.categories}${id}/`);
+      const updatedCategories = categories.filter((category) => category.id !== id);
+      setCategories(updatedCategories);
+      Alert.alert('Categoría eliminada');
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo eliminar la categoría.');
+    }
   };
 
   return (
@@ -75,7 +100,7 @@ export default function CategoryScreen({
               style={selectedCategoryId === category.id ? styles.checkboxChecked : styles.checkbox}
             />
           </TouchableOpacity>
-          <Text style={styles.categoryText}>{category.category_name}</Text>
+          <Text style={styles.categoryText}>{category.name}</Text>
           <TouchableOpacity onPress={() => handleDeleteCategory(category.id)}>
             <AntDesign name="close" size={Sizing.x20} color={Colors.palette.primary} />
           </TouchableOpacity>
@@ -144,7 +169,7 @@ const styles = StyleSheet.create({
     height: Sizing.x20,
     borderWidth: 1,
     borderColor: Colors.palette.primary,
-    borderRadius: Sizing.x5, // Usa `borderRadius` para hacer un círculo si lo prefieres
+    borderRadius: Sizing.x5,
   },
   checkboxChecked: {
     width: Sizing.x20,
@@ -152,7 +177,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.palette.primary,
     backgroundColor: Colors.palette.primary,
-    borderRadius: Sizing.x5, // Usa `borderRadius` para hacer un círculo si lo prefieres
+    borderRadius: Sizing.x5,
   },
   addCategoryButton: {
     flexDirection: 'row',

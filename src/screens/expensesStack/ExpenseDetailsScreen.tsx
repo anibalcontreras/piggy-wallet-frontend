@@ -1,15 +1,31 @@
-import React from 'react';
-// import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/components';
+import type { Expense, Category } from '@/types/components';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function ExpenseDetailsScreen({
   navigation,
   route,
 }: ExpenseDetailsNavigationProps): JSX.Element {
-  const { expense }: { expense: Expense } = route.params;
+  const { expense } = route.params;
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryName, setCategoryName] = useState('Categoría desconocida');
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await httpService.get(END_POINT.categories);
+        const category = response.data.find((cat: Category) => cat.id === expense.category);
+        setCategoryName(category ? category.name : 'Categoría desconocida');
+      } catch (error) {
+        Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
+      }
+    };
+    fetchCategories();
+  }, [expense.category]);
 
   return (
     <View style={styles.container}>
@@ -22,16 +38,16 @@ export default function ExpenseDetailsScreen({
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Categoría:</Text>
-        <Text style={styles.value}>{expense.category_id}</Text>
+        <Text style={styles.value}>{categoryName}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Descripción:</Text>
-        <Text style={styles.value}>{expense.userexpensetype_id}</Text>
+        <Text style={styles.value}>{expense.user_expense_type}</Text>
       </View>
-      <View style={styles.detailContainer}>
+      {/* <View style={styles.detailContainer}>
         <Text style={styles.label}>Fecha de Creación:</Text>
         <Text style={styles.value}>{expense.created_at}</Text>
-      </View>
+      </View> */}
     </View>
   );
 }
@@ -60,7 +76,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.palette.border,
   },
-
   label: {
     ...Typography.bodyStyles.primary,
     fontWeight: 'bold',
@@ -68,17 +83,5 @@ const styles = StyleSheet.create({
   value: {
     ...Typography.bodyStyles.primary,
     color: Colors.palette.text,
-  },
-  backButton: {
-    marginTop: Sizing.x40,
-    paddingVertical: Sizing.x10,
-    paddingHorizontal: Sizing.x20,
-    backgroundColor: Colors.palette.primary,
-    borderRadius: Sizing.x5,
-    alignItems: 'center',
-  },
-  backButtonText: {
-    color: Colors.palette.background,
-    ...Typography.bodyStyles.primary,
   },
 });
