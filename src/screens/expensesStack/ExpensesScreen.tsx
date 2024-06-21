@@ -1,32 +1,49 @@
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
-
 import { Colors, Sizing } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import ExpenseCard from '@/components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense, UserExpenseType } from '@/types/components';
+import type { Expense, UserExpenseType, Category } from '@/types/components';
 import { isSameMonth, parseISO } from 'date-fns';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]); // Re-enable rule
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filter, setFilter] = useState<string>('todo'); // Re-enable rule
 
-  /*
   useEffect(() => {
-    setExpenses(db.expenses.map((expense) => ({ ...expense, description: db.userexpensetypes.find((type) => type.id === expense.userexpensetype_id)?.description ?? 'Unknown'}))); 
-    setUserExpenseTypes(db.userexpensetypes);
-  }, []);
-  */
+    // Obtener expenses y categorías al montar el componente
+    const fetchExpensesAndCategories = async () => {
+      try {
+        const [expenseResponse, categoryResponse] = await Promise.all([
+          httpService.get(END_POINT.expenses),
+          httpService.get(END_POINT.categories),
+        ]);
+        setExpenses(expenseResponse.data);
+        setCategories(categoryResponse.data);
+      } catch (error) {
+        Alert.alert('Error', 'No se pudo obtener la lista de gastos o categorías.');
+      }
+    };
 
-  const handleDelete = (id: number): void => {
-    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
-    Alert.alert('Gasto eliminado');
+    fetchExpensesAndCategories();
+  }, []);
+
+  const handleDelete = async (id: number): Promise<void> => {
+    try {
+      await httpService.delete(`${END_POINT.expenses}${id}/`);
+      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+      Alert.alert('Gasto eliminado');
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo eliminar el gasto.');
+    }
   };
 
   const handleAddExpense = (newExpense: Expense): void => {
@@ -39,13 +56,6 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     );
     Alert.alert('Gasto editado');
   };
-
-  /*
-  const getUserExpenseTypeDescription = (id: number): string => {
-    const userExpenseType = userExpenseTypes.find((type) => type.id === id);
-    return userExpenseType?.description ?? 'Unknown';
-  };
-  */
 
   const filterExpenses = (): Expense[] => {
     const currentDate = new Date();
@@ -60,6 +70,11 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     return expenses;
   };
 
+  const getCategoryName = (categoryId: number): string => {
+    const category = categories.find(cat => cat.id === categoryId);
+    return category ? category.name : 'Categoría desconocida';
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
@@ -71,8 +86,7 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
             key={expense.id}
             expense={{
               ...expense,
-              // userexpensetype_id: getUserExpenseTypeDescription(expense.userexpensetype_id)
-              userexpensetype_id: expense.userexpensetype_id,
+              category: getCategoryName(expense.category),
             }}
             onDelete={() => handleDelete(expense.id)}
             onEdit={(expense: Expense) =>

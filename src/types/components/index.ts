@@ -97,15 +97,10 @@ export interface SearchAllPigiesListProps {
 }
 
 export interface Expense {
-  id: number;
-  user_id: number;
-  userexpensetype_id: number;
-  category_id: number;
+  user_expense_type: number;
+  category: number;
   bankcard_id: number;
   amount: number;
-  created_at: string;
-  updated_at: string;
-  description: string;
 }
 
 export interface UserExpenseType {

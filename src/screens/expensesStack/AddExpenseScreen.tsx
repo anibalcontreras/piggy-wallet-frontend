@@ -3,6 +3,9 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'reac
 import { Colors, Sizing, Typography } from '../../styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Navigation } from '../../types';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
+import type { Expense } from '@/types/components';
 
 export default function AddExpenseScreen({
   navigation,
@@ -19,30 +22,28 @@ export default function AddExpenseScreen({
     return `$${formattedAmount}`;
   };
 
-  const handleAddExpense = (): void => {
+  const handleAddExpense = async (): Promise<void> => {
     if (amount === '' || category === '' || description === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
 
-    const newExpense = {
-      id: Date.now().toString(),
-      amount: parseInt(amount, 10),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      category,
-      description,
-      user_id: 1,
-      userexpensetype_id: 1,
-      category_id: 1,
-      bankcard_id: 1,
+
+    console.log('Amount:', amount);
+    const newExpense: Expense = {
+      "user_expense_type": 2,
+      "category": 1,
+      "bankcard_id": 1,
+      "amount": parseInt(amount.replace(/\$|\.|,/g, '')),
     };
+
     try {
-      (route.params as unknown as { onAddExpense: (expense: any) => void })?.onAddExpense(
-        newExpense
-      );
+      const response = await httpService.post(END_POINT.expenses, newExpense);
+      console.log(response.data);
+      (route.params as unknown as { onAddExpense: (expense: Expense) => void })?.onAddExpense(response.data);
       navigation.goBack();
     } catch (error) {
+      console.error('Error posting expense:', error);
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
     }
   };

@@ -22,9 +22,9 @@ const ExpenseCard = ({
           <Image source={require('../../assets/images/expense.png')} style={styles.icon} />
           <View style={styles.options}>
             <Text style={styles.amount}>${expense.amount}</Text>
-            <Text style={styles.details}>{expense.created_at}</Text>
-            <Text style={styles.details}>{expense.userexpensetype_id}</Text>
-            <Text style={styles.details}>{expense.category_id} hola</Text>
+            {/* <Text style={styles.details}>{expense.created_at}</Text>
+            <Text style={styles.details}>{expense.userexpensetype_id}</Text> */}
+            <Text style={styles.details}>{expense.category}</Text>
           </View>
           <TouchableOpacity onPress={() => onEdit(expense)}>
             <AntDesign
