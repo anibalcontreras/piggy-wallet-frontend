@@ -4,7 +4,6 @@ import type { ExpensesStackParamsList } from '../../types/navigation';
 import ExpensesScreen from '../expensesStack/ExpensesScreen';
 import AddExpenseScreen from '../expensesStack/AddExpenseScreen';
 import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';
-import CategoryScreen from '../expensesStack/CategoryScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
 import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
 import ExpenseDetailsScreen from '../expensesStack/ExpenseDetailsScreen';
@@ -25,13 +24,6 @@ function AddExpenseStackScreen(): JSX.Element {
         component={ExpenseTypeScreen}
         options={{
           title: 'Tipo de Gasto',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="Category"
-        component={CategoryScreen}
-        options={{
-          title: 'Categoría',
         }}
       />
       <ExpensesStack.Screen

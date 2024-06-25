@@ -19,13 +19,17 @@ const ExpenseCard = ({
 }): JSX.Element => {
   const category = categories.find(cat => cat.id === expense.category);
 
+  const formatAmount = (amount: number): string => {
+    return amount.toLocaleString('de-DE');
+  };
+
   return (
     <TouchableOpacity onPress={() => onLook(expense)}>
       <View style={styles.card}>
         <View style={styles.cardContent}>
           <Image source={require('../../assets/images/expense.png')} style={styles.icon} />
           <View style={styles.options}>
-            <Text style={styles.amount}>${expense.amount}</Text>
+            <Text style={styles.amount}>${formatAmount(expense.amount)}</Text>
             <Text style={styles.details}>{category ? category.name : 'Categoría desconocida'}</Text>
           </View>
           <TouchableOpacity onPress={() => onEdit(expense)}>
