@@ -16,6 +16,7 @@ export default function EditExpenseScreen({
   const [amount, setAmount] = useState(expense.amount.toString());
   const [category, setCategory] = useState(expense.category.toString());
   const [categories, setCategories] = useState<Category[]>([]);
+  const [description, setDescription] = useState(expense.description);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,7 +31,7 @@ export default function EditExpenseScreen({
     fetchCategories();
   }, []);
 
-  const handleSave = (): void => {
+  const handleSave = async (): Promise<void> => {
     if (amount === '' || category === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
@@ -40,11 +41,17 @@ export default function EditExpenseScreen({
       ...expense,
       amount: parseInt(amount, 10),
       category: parseInt(category, 10),
-      // description,
+      description: description,
     };
 
-    onSave(updatedExpense);
-    navigation.goBack();
+    try {
+      const response = await httpService.put(`${END_POINT.expenses}${expense.id}/`, updatedExpense);
+      onSave(response.data);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      Alert.alert('Error', 'No se pudo actualizar el gasto. Inténtalo de nuevo.');
+    }
   };
 
   const categoryItems = categories.map((cat) => ({
@@ -77,15 +84,16 @@ export default function EditExpenseScreen({
         value={category}
         onValueChange={(value) => setCategory(value)}
         items={categoryItems}
+        placeholder={{ label: "Selecciona una categoría...", value: null }}
       />
 
       <Text style={styles.title}>Descripción</Text>
-      {/* <TextInput
+      <TextInput
         style={styles.input}
         placeholder="Descripción"
         value={description}
         onChangeText={setDescription}
-      /> */}
+      />
     </View>
   );
 }

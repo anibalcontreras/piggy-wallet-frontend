@@ -1,38 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import ExpenseCard from '@/components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense, UserExpenseType, Category } from '@/types/components';
-import { isSameMonth, parseISO } from 'date-fns';
+import type { Expense, Category } from '@/types/components';
+import { useFocusEffect } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [filter, setFilter] = useState<string>('todo');
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    const fetchExpensesAndCategories = async () => {
-      try {
-        const expensesResponse = await httpService.get(END_POINT.expenses);
-        const categoriesResponse = await httpService.get(END_POINT.categories);
-        setExpenses(expensesResponse.data);
-        setCategories(categoriesResponse.data);
-      } catch (error) {
-        Alert.alert('Error', 'No se pudieron obtener los datos.');
-      }
-    };
+  const fetchExpensesAndCategories = async () => {
+    try {
+      const expensesResponse = await httpService.get(END_POINT.expenses);
+      const categoriesResponse = await httpService.get(END_POINT.categories);
+      setExpenses(expensesResponse.data);
+      setCategories(categoriesResponse.data);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudieron obtener los datos.');
+    }
+  };
 
-    fetchExpensesAndCategories();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchExpensesAndCategories();
+    }, [])
+  );
 
-  const handleDelete = (id: number): void => {
-    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
-    Alert.alert('Gasto eliminado');
+  const handleDelete = async (id: number): Promise<void> => {
+    try {
+      await httpService.delete(`${END_POINT.expenses}${id}/`);
+      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+      Alert.alert('Gasto eliminado');
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo eliminar el gasto.');
+    }
   };
 
   const handleAddExpense = (newExpense: Expense): void => {
@@ -46,26 +54,18 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     Alert.alert('Gasto editado');
   };
 
-  const filterExpenses = (): Expense[] => {
-    const currentDate = new Date();
-
-    if (filter === 'todo') return expenses;
-    if (filter === 'mensual') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
-    }
-    if (filter === 'ahorro') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
-    }
-    return expenses;
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
-        <FilterComponent />
+        <FilterComponent
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          page={page}
+          setPage={setPage}
+        />
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {filterExpenses().map((expense) => (
+        {expenses.map((expense) => (
           <ExpenseCard
             key={expense.id}
             expense={expense}
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: Sizing.x20,
-    paddingBottom: Sizing.x60,
+    paddingBottom: Sizing.x80,
     paddingTop: Sizing.x100,
   },
 });
