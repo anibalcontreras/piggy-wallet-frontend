@@ -12,8 +12,8 @@ jest.mock('@expo/vector-icons', () => {
 });
 
 const mockData = [
-  { userId: '1', firstName: 'First Piggy' },
-  { userId: '2', firstName: 'Second Piggy' },
+  { userId: '1', firstName: 'First Piggy', email: 'first@test.com' },
+  { userId: '2', firstName: 'Second Piggy', email: 'second@test.com' },
 ];
 
 describe('SearchAllPiggiesList', () => {
@@ -21,19 +21,28 @@ describe('SearchAllPiggiesList', () => {
 
   it('should render the UsersList component', () => {
     const { getByText } = render(
-      <UsersList searchPhrase="" data={mockData} onPiggyAdded={mockOnPiggyAdded} />
+      <UsersList searchPhrase="" data={mockData} onPiggyAdded={mockOnPiggyAdded} showEmail={true} />
     );
 
     expect(getByText('First Piggy')).toBeTruthy();
+    expect(getByText('first@test.com')).toBeTruthy();
     expect(getByText('Second Piggy')).toBeTruthy();
+    expect(getByText('second@test.com')).toBeTruthy();
   });
 
   it('should filter the list based on searchPhrase', () => {
     const { queryByText } = render(
-      <UsersList searchPhrase="First" data={mockData} onPiggyAdded={mockOnPiggyAdded} />
+      <UsersList
+        searchPhrase="First"
+        data={mockData}
+        onPiggyAdded={mockOnPiggyAdded}
+        showEmail={true}
+      />
     );
 
     expect(queryByText('First Piggy')).toBeTruthy();
+    expect(queryByText('first@test.com')).toBeTruthy();
     expect(queryByText('Second Piggy')).toBeFalsy();
+    expect(queryByText('second@test.com')).toBeFalsy();
   });
 });
