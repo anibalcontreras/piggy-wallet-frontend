@@ -72,6 +72,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                   inputMode="email"
                   textContentType="emailAddress"
                   autoCapitalize="none"
+                  data-cy="email-input"
                 />
                 <View style={styles.passwordContainer}>
                   <Field
@@ -80,6 +81,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                     placeholder="Contraseña"
                     textContentType="password"
                     secureTextEntry={!showPassword}
+                    data-cy="password-input"
                   />
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}

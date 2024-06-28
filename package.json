@@ -12,6 +12,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest -u",
+    "cy:open": "cypress open",
     "json-server": "json-server --watch db.json --port 8001",
     "json-server:tunnel": "json-server --watch db.json --port 8000 --host 0.0.0.0",
     "tunnel": "expo start --tunnel",
