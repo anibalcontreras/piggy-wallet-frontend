@@ -93,6 +93,7 @@ export interface SearchAllPigiesListProps {
   searchPhrase: string;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;
+  showEmail?: boolean;
 }
 
 export interface DebtorsListProps {

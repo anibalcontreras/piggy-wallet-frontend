@@ -59,7 +59,12 @@ export default function AddPiggyScreen({
         setSearchPhrase={setSearchPiggy}
         setClicked={setClicked}
       />
-      <UsersList searchPhrase={searchPiggy} data={allUsers} onPiggyAdded={handleAddPiggyClick} />
+      <UsersList
+        searchPhrase={searchPiggy}
+        data={allUsers}
+        onPiggyAdded={handleAddPiggyClick}
+        showEmail={true}
+      />
     </SafeAreaView>
   );
 }

@@ -7,9 +7,11 @@ import type { Backend, Components } from '@/types';
 const Item = ({
   user,
   onAddPiggy,
+  showEmail,
 }: {
   user: Backend.User;
   onAddPiggy: (user: Backend.User) => void;
+  showEmail: boolean;
 }): JSX.Element => (
   <View style={styles.userContainer}>
     <View style={styles.userInfo}>
@@ -19,7 +21,10 @@ const Item = ({
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{user.firstName}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.nameText}>{user.firstName}</Text>
+        {showEmail && <Text style={styles.emailText}>{user.email}</Text>}
+      </View>
     </View>
     <TouchableOpacity style={styles.addButton} onPress={() => onAddPiggy(user)}>
       <AntDesign name="pluscircle" size={Sizing.x40} color={Colors.palette.primary} />
@@ -31,13 +36,14 @@ function UsersList({
   searchPhrase,
   data,
   onPiggyAdded,
+  showEmail = false,
 }: Components.SearchAllPigiesListProps): JSX.Element {
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     if (searchPhrase === '') {
-      return <Item user={item} onAddPiggy={onPiggyAdded} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} showEmail={showEmail} />;
     }
     if (isUserMatched(item, searchPhrase)) {
-      return <Item user={item} onAddPiggy={onPiggyAdded} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} showEmail={showEmail} />;
     }
     return <></>;
   };
@@ -80,12 +86,18 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.palette.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  textContainer: {
+    flexDirection: 'column',
+  },
   userInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  text: {
+  nameText: {
     ...Typography.bodyStyles.primary,
+  },
+  emailText: {
+    ...Typography.bodyStyles.highlight,
   },
   image: {
     width: Sizing.x60,
