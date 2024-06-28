@@ -38,11 +38,11 @@ function PiggiesList({ piggies }: Components.PiggiesListProps): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.palette.secondary,
-    margin: Sizing.x10,
+    marginTop: Sizing.x10,
     padding: Sizing.x20,
     borderRadius: Sizing.x3,
     width: '90%',
-    height: '51%',
+    height: '48%',
   },
   piggyContainer: {
     flexDirection: 'row',
