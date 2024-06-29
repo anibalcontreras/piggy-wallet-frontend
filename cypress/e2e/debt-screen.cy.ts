@@ -1,19 +1,5 @@
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-
-describe('Login', () => {
+describe('Debt Screen', () => {
   beforeEach(() => {
-    cy.visit('/');
-    cy.get('[data-testid="landing-screen"]').within(() => {
-      cy.get('[data-testid="login-button"]').click();
-    });
-    cy.get('[data-testid="login-screen"]').within(() => {
-      cy.get('[data-testid="email"]').as('email');
-      cy.get('[data-testid="password"]').as('password');
-      cy.get('[data-testid="submit"]').as('submit');
-    });
-  });
-
-  it('should log in a user', () => {
     cy.intercept(
       {
         method: 'POST',
@@ -28,52 +14,19 @@ describe('Login', () => {
         },
       ]
     ).as('postLogin');
-
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/expenses/grouped/',
-      },
-      {
-        fixture: 'expenses-grouped.json',
-      }
-    ).as('getExpenses');
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/user_expense_type/',
-      },
-      {
-        fixture: 'user_expense_type.json',
-      }
-    ).as('getUserExpenseType');
-    cy.intercept(
-      {
-        method: 'GET',
-        url: '/budget/',
-      },
-      {
-        fixture: 'budget.json',
-      }
-    ).as('getBudget');
-
+    cy.visit('/');
+    cy.get('[data-testid="landing-screen"]').within(() => {
+      cy.get('[data-testid="login-button"]').click();
+    });
+    cy.get('[data-testid="login-screen"]').within(() => {
+      cy.get('[data-testid="email"]').as('email');
+      cy.get('[data-testid="password"]').as('password');
+      cy.get('[data-testid="submit"]').as('submit');
+    });
     cy.get('@email').type('gabriel.quiroz@uc.cl');
     cy.get('@password').type('Piggywallet2024');
     cy.get('@submit').should('not.have.attr', 'aria-disabled', 'true');
     cy.get('@submit').click();
-
     cy.wait('@postLogin');
-    cy.wait('@getExpenses');
-    cy.wait('@getUserExpenseType');
-    cy.wait('@getBudget');
-    cy.get('[data-testid="home-screen"]').within(() => {
-      cy.get('[data-testid="month-expenses-text"]').should('contain', 'Gastos del mes');
-    });
-  });
-
-  it('should fail to submit form with invalid fields', () => {
-    cy.get('@email').type('invalidEmail');
-    cy.get('@password').type('short');
-    cy.get('@submit').should('have.attr', 'aria-disabled', 'true');
   });
 });
