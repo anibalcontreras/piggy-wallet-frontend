@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { UserExpense, UseUserExpenseTypes } from '@/types/hooks';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useUserExpenseTypes = (): UseUserExpenseTypes => {
+const useUserExpenseTypes = (navigation: NativeStackNavigationProp<any, string, undefined>): UseUserExpenseTypes => {
   const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,7 +32,13 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
   };
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      void fetchUserExpenseTypes();
+    });
+
     void fetchUserExpenseTypes();
+
+    return unsubscribe;
   }, []);
 
   return { error, loading, categories };

@@ -8,7 +8,7 @@ import useExpensesGroups from '@/hooks/useExpensesGroups';
 import ErrorText from '@/components/common/ErrorText';
 
 export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.Element {
-  const { loading, error, allExpensesByCategories } = useExpensesGroups();
+  const { loading, error, allExpensesByCategories } = useExpensesGroups(props.navigation);
 
   if (loading) {
     return <ActivityIndicator />;
@@ -16,6 +16,10 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
 
   if (error) {
     return <ErrorText message="Ha ocurrido un error al cargar tu resumen de gastos" />;
+  }
+
+  if (process.env.EXPO_PUBLIC_ENV === "dev") {
+    delete allExpensesByCategories.id;
   }
 
   // We compute the total expenses by user expense type
@@ -49,6 +53,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
       <UserMonthExpenses
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
+        {...props}
       />
 
       <UserBudget allExpenses={allExpenses} {...props} />

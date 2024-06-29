@@ -10,12 +10,13 @@ import ErrorText from '@/components/common/ErrorText';
 const UserMonthExpenses = ({
   expensesByExpenseType,
   expensesByCategory,
+  navigation
 }: UserMonthExpensesProps): JSX.Element => {
   // We set the state values for the filter component outside so we know what to pass to the donut chart
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  const { loading, error, categories } = useUserExpenseTypes();
+  const { loading, error, categories } = useUserExpenseTypes(navigation);
 
   if (loading) {
     return <ActivityIndicator />;
