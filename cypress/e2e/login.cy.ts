@@ -11,21 +11,17 @@ describe('Login', () => {
     });
   });
 
-  // Interceptar las peticiones de la API (puedes personalizar esto según tu API)
-  // cy.intercept('POST', '/api/auth/login', { statusCode: 200 }).as('postLogin');
-
   it('should log in a user', () => {
+    cy.intercept({
+      method: 'POST',
+      url: '/auth/login/',
+    }).as('postLogin');
     cy.get('@email').type('gabriel.quiroz@uc.cl');
     cy.get('@password').type('Piggywallet2024');
     cy.get('@submit').should('not.have.attr', 'aria-disabled', 'true');
     cy.get('@submit').click();
 
-    // Esperar que la petición de login se haya completado
-    // cy.wait('@postLogin');
-
-    // Verificar redireccionamiento o mensaje de éxito
-    // cy.url().should('include', '/home');
-    // cy.contains('Bienvenido').should('be.visible');
+    cy.wait('@postLogin');
   });
 
   it('should fail to submit form with invalid fields', () => {

@@ -14,10 +14,14 @@ describe('Sign Up', () => {
     });
   });
 
-  // Interceptar las peticiones de la API (puedes personalizar esto según tu API)
-  // cy.intercept('POST', '/api/auth/register', { statusCode: 201 }).as('postRegister');
-
   it('should sign up a user', () => {
+    cy.intercept(
+      {
+        method: 'POST',
+        url: '/auth/register/',
+      },
+      [{ message: 'User registered successfully' }]
+    ).as('postRegister');
     cy.get('@fullName').type('Gabriel Quiroz');
     cy.get('@phoneNumber').type('+56912345678');
     cy.get('@email').type('gabriel.quiroz@uc.cl');
@@ -26,12 +30,10 @@ describe('Sign Up', () => {
     cy.get('@submit').should('not.have.attr', 'aria-disabled', 'true');
     cy.get('@submit').click();
 
-    // Esperar que la petición de registro se haya completado
-    // cy.wait('@postRegister');
-
-    // Verificar redireccionamiento o mensaje de éxito
-    // cy.url().should('include', '/login');
-    // cy.contains('¡Cuenta creada con éxito!').should('be.visible');
+    cy.wait('@postRegister');
+    cy.on('window:alert', (str) => {
+      expect(str).to.equal('¡Cuenta creada con éxito!');
+    });
   });
 
   it('should fail to submit form with invalid fields', () => {
