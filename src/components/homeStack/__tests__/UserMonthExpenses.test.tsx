@@ -21,7 +21,7 @@ const mockNavigation = {
 
 describe('UserBudget', () => {
   it('should render the UserBudget component', async () => {
-    const props: any = { navigaation: mockNavigation };
+    const props: any = { navigation: mockNavigation };
 
     const { getByText } = render(
       <UserMonthExpenses
