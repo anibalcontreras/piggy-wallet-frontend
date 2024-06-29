@@ -13,7 +13,7 @@ describe('Login', () => {
     });
   });
 
-  it('should log in a user', () => {
+  it('should log in a user and see home screen', () => {
     cy.intercept(
       {
         method: 'POST',
@@ -68,6 +68,7 @@ describe('Login', () => {
     cy.wait('@getBudget');
     cy.get('[data-testid="home-screen"]').within(() => {
       cy.get('[data-testid="month-expenses-text"]').should('contain', 'Gastos del mes');
+      cy.get('[data-testid="month-budget-text"]').should('contain', 'Presupuesto mensual');
     });
   });
 
