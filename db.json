@@ -213,6 +213,27 @@
       "created_at": "2023-04-01",
       "updated_at": "2023-06-01",
       "id": "b0a5"
+    },
+    {
+      "id": "grouped",
+      "Personal": {
+        "Comida": 253750,
+        "Vivienda": 400000,
+        "Salud": 25000,
+        "Entretenimiento": 18620,
+        "Inversión": 52000,
+        "Transporte": 5000
+      },
+      "Vacaciones": {
+        "Comida": 120430,
+        "Vivienda": 60000,
+        "Entretenimiento": 23610,
+        "Transporte": 12500
+      },
+      "Cumpleaños": {
+        "Comida": 50000,
+        "Entretenimiento": 30000
+      }
     }
   ],
   "debts": [
@@ -348,22 +369,6 @@
       "id": "a48a"
     }
   ],
-  "budgets": [
-    {
-      "user_id": "1",
-      "amount": 500,
-      "created_at": "2023-05-01",
-      "updated_at": "2023-06-01",
-      "id": "9203"
-    },
-    {
-      "user_id": "2",
-      "amount": 300,
-      "created_at": "2023-05-01",
-      "updated_at": "2023-06-01",
-      "id": "290d"
-    }
-  ],
   "debt_users": [
     {
       "user_id": "1",
@@ -438,25 +443,5 @@
   ],
   "budget": {
     "amount": 3000000
-  },
-  "expenses-grouped": {
-    "Personal": {
-      "Comida": 253750,
-      "Vivienda": 400000,
-      "Salud": 20000,
-      "Entretenimiento": 18620,
-      "Inversión": 520000,
-      "Transporte": 5000
-    },
-    "Vacaciones": {
-      "Comida": 120430,
-      "Vivienda": 60000,
-      "Entretenimiento": 23610,
-      "Transporte": 12500
-    },
-    "Cumpleaños": {
-      "Comida": 50000,
-      "Entretenimiento": 30000
-    }
   }
 }
