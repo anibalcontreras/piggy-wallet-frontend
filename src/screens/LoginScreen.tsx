@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Landing')} data-cy="home-logo">
           <Image style={styles.logo} source={require('../assets/images/logo.png')} />
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
@@ -53,7 +53,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       <KeyboardAwareScrollView>
         <View style={styles.contentContainer}>
           <Text style={styles.header}>¡Hola!</Text>
-          <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
+          <Text style={styles.body} data-cy="login-text">
+            Ingresa para organizar tus finanzas
+          </Text>
           <Formik
             validationSchema={loginValidationSchema}
             initialValues={{ email: '', password: '' }}
@@ -101,7 +103,11 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
               </>
             )}
           </Formik>
-          <Button variant="text" onPress={() => navigation.navigate('Register')}>
+          <Button
+            variant="text"
+            onPress={() => navigation.navigate('Register')}
+            data-cy="signup-button"
+          >
             Crear mi cuenta
           </Button>
         </View>

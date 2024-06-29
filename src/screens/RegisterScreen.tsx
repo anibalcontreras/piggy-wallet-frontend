@@ -67,15 +67,17 @@ export default function RegisterScreen({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Landing')} data-cy="home-logo">
           <Image style={styles.logo} source={require('../assets/images/logo.png')} />
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
       </View>
       <KeyboardAwareScrollView>
-        <View style={styles.contentContainer}>
+        <View testID="sign-up-form" style={styles.contentContainer}>
           <Text style={styles.header}>¡Bienvenido/a!</Text>
-          <Text style={styles.body}>Registrate para organizar tus finanzas</Text>
+          <Text style={styles.body} data-cy="signup-text">
+            Registrate para organizar tus finanzas
+          </Text>
           <Formik
             validationSchema={signUpValidationSchema}
             initialValues={{
@@ -98,13 +100,20 @@ export default function RegisterScreen({
           >
             {({ handleSubmit, isValid }) => (
               <>
-                <Field component={CustomTextInput} name="fullName" placeholder="Nombre completo" />
                 <Field
+                  testID={'fullName'}
+                  component={CustomTextInput}
+                  name="fullName"
+                  placeholder="Nombre completo"
+                />
+                <Field
+                  testID={'phoneNumber'}
                   component={CustomTextInput}
                   name="phoneNumber"
                   placeholder="Número de teléfono (+569 XXXX-XXXX)"
                 />
                 <Field
+                  testID={'email'}
                   component={CustomTextInput}
                   name="email"
                   placeholder="Correo electrónico"
@@ -115,6 +124,7 @@ export default function RegisterScreen({
                 />
                 <View style={styles.passwordContainer}>
                   <Field
+                    testID={'password'}
                     component={CustomTextInput}
                     name="password"
                     placeholder="Contraseña"
@@ -131,6 +141,7 @@ export default function RegisterScreen({
                 </View>
                 <View style={styles.confirmPasswordContainer}>
                   <Field
+                    testID={'confirmPassword'}
                     component={CustomTextInput}
                     name="confirmPassword"
                     placeholder="Confirmar contraseña"
@@ -148,7 +159,7 @@ export default function RegisterScreen({
                 {isSigningUp ? (
                   <Button loading={true} />
                 ) : (
-                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                  <Button testID="submit" onPress={() => handleSubmit()} disabled={!isValid}>
                     Registrarme
                   </Button>
                 )}
