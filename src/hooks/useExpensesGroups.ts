@@ -4,7 +4,9 @@ import { END_POINT } from '@/service/constant';
 import type { ExpensesGroup, UseExpensesGroups } from '@/types/hooks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useExpensesGroups = (navigation: NativeStackNavigationProp<any, string, undefined>): UseExpensesGroups => {
+const useExpensesGroups = (
+  navigation: NativeStackNavigationProp<any, string, undefined>
+): UseExpensesGroups => {
   const [allExpensesByCategories, setAllExpensesByCategories] = useState<ExpensesGroup>({});
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);

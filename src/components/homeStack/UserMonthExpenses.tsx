@@ -10,7 +10,7 @@ import ErrorText from '@/components/common/ErrorText';
 const UserMonthExpenses = ({
   expensesByExpenseType,
   expensesByCategory,
-  navigation
+  navigation,
 }: UserMonthExpensesProps): JSX.Element => {
   // We set the state values for the filter component outside so we know what to pass to the donut chart
   const [selectedTab, setSelectedTab] = useState(0);

@@ -18,7 +18,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
     return <ErrorText message="Ha ocurrido un error al cargar tu resumen de gastos" />;
   }
 
-  if (process.env.EXPO_PUBLIC_ENV === "dev") {
+  if (process.env.EXPO_PUBLIC_ENV === 'dev') {
     delete allExpensesByCategories.id;
   }
 

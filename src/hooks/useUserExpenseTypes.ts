@@ -4,7 +4,9 @@ import { END_POINT } from '@/service/constant';
 import type { UserExpense, UseUserExpenseTypes } from '@/types/hooks';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useUserExpenseTypes = (navigation: NativeStackNavigationProp<any, string, undefined>): UseUserExpenseTypes => {
+const useUserExpenseTypes = (
+  navigation: NativeStackNavigationProp<any, string, undefined>
+): UseUserExpenseTypes => {
   const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
