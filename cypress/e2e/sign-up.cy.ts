@@ -8,10 +8,11 @@ describe('Sign Up', () => {
     cy.get('[data-testid="password"]').as('password');
     cy.get('[data-testid="confirmPassword"]').as('confirmPassword');
     cy.get('[data-testid="submit"]').as('submit');
-    cy.get('[data-testid="sign-up-form"]').find('[data-testid="submit"]').as('submit');
   });
 
-  // Falta el intercept
+  // Interceptar las peticiones de la API (puedes personalizar esto según tu API)
+  // cy.intercept('POST', '/api/auth/register', { statusCode: 201 }).as('postRegister');
+
   it('should sign up a user', () => {
     cy.get('@fullName').type('Gabriel Quiroz');
     cy.get('@phoneNumber').type('+56912345678');
@@ -20,9 +21,16 @@ describe('Sign Up', () => {
     cy.get('@confirmPassword').type('Piggywallet2024');
     cy.get('@submit').should('not.have.attr', 'aria-disabled', 'true');
     cy.get('@submit').click();
+
+    // Esperar que la petición de registro se haya completado
+    // cy.wait('@postRegister');
+
+    // Verificar redireccionamiento o mensaje de éxito
+    // cy.url().should('include', '/login');
+    // cy.contains('¡Cuenta creada con éxito!').should('be.visible');
   });
 
-  it('should fail to submit form with empty fields', () => {
+  it('should fail to submit form with invalid fields', () => {
     cy.get('@fullName').type('invalidName');
     cy.get('@phoneNumber').type('invalidPhone');
     cy.get('@email').type('invalidEmail');

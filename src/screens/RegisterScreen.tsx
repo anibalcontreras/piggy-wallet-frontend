@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, View, Text, TouchableOpacity, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Field, Formik } from 'formik';
+import { ErrorMessage, Field, Formik } from 'formik';
 import * as yup from 'yup';
 import { type Authorization, type Navigation } from '@/types';
 import { useAuth } from '@/context/AuthContext';

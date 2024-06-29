@@ -67,6 +67,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             {({ handleSubmit, isValid }) => (
               <>
                 <Field
+                  testID={'email'}
                   component={CustomTextInput}
                   name="email"
                   placeholder="Correo electrónico"
@@ -78,6 +79,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                 />
                 <View style={styles.passwordContainer}>
                   <Field
+                    testID={'password'}
                     component={CustomTextInput}
                     name="password"
                     placeholder="Contraseña"
@@ -96,7 +98,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                 {isLoggingIn ? (
                   <Button loading={true} />
                 ) : (
-                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                  <Button testID="submit" onPress={() => handleSubmit()} disabled={!isValid}>
                     Iniciar Sesión
                   </Button>
                 )}

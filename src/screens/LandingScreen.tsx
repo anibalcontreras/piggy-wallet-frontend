@@ -13,7 +13,7 @@ export default function LandingScreen({
       <Text style={styles.body} data-cy="landing-text">
         Gestiona tus finanzas sabiamente
       </Text>
-      <Button onPress={() => navigation.navigate('Login')} data-cy="login-button">
+      <Button onPress={() => navigation.navigate('Login')} testID={'login-button'}>
         Iniciar Sesión
       </Button>
       <Button onPress={() => navigation.navigate('Register')} testID={'signup-button'}>
