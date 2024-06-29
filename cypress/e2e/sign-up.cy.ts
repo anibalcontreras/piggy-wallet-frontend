@@ -1,13 +1,17 @@
 describe('Sign Up', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('[data-testid="signup-button"]').click();
-    cy.get('[data-testid="fullName"]').as('fullName');
-    cy.get('[data-testid="phoneNumber"]').as('phoneNumber');
-    cy.get('[data-testid="email"]').as('email');
-    cy.get('[data-testid="password"]').as('password');
-    cy.get('[data-testid="confirmPassword"]').as('confirmPassword');
-    cy.get('[data-testid="submit"]').as('submit');
+    cy.get('[data-testid="landing-screen"]').within(() => {
+      cy.get('[data-testid="signup-button"]').click();
+    });
+    cy.get('[data-testid="signup-screen"]').within(() => {
+      cy.get('[data-testid="fullName"]').as('fullName');
+      cy.get('[data-testid="phoneNumber"]').as('phoneNumber');
+      cy.get('[data-testid="email"]').as('email');
+      cy.get('[data-testid="password"]').as('password');
+      cy.get('[data-testid="confirmPassword"]').as('confirmPassword');
+      cy.get('[data-testid="submit"]').as('submit');
+    });
   });
 
   // Interceptar las peticiones de la API (puedes personalizar esto según tu API)

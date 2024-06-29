@@ -43,9 +43,13 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'login-screen'} style={styles.container}>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')} data-cy="home-logo">
+        <TouchableOpacity
+          testID={'landing-button'}
+          onPress={() => navigation.navigate('Landing')}
+          data-cy="home-logo"
+        >
           <Image style={styles.logo} source={require('../assets/images/logo.png')} />
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
@@ -53,7 +57,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       <KeyboardAwareScrollView>
         <View style={styles.contentContainer}>
           <Text style={styles.header}>¡Hola!</Text>
-          <Text style={styles.body} data-cy="login-text">
+          <Text testID={'login-text'} style={styles.body}>
             Ingresa para organizar tus finanzas
           </Text>
           <Formik
@@ -106,9 +110,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             )}
           </Formik>
           <Button
+            testID={'signup-button'}
             variant="text"
             onPress={() => navigation.navigate('Register')}
-            data-cy="signup-button"
           >
             Crear mi cuenta
           </Button>

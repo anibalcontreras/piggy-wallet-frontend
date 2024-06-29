@@ -1,10 +1,14 @@
 describe('Login', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="email"]').as('email');
-    cy.get('[data-testid="password"]').as('password');
-    cy.get('[data-testid="submit"]').as('submit');
+    cy.get('[data-testid="landing-screen"]').within(() => {
+      cy.get('[data-testid="login-button"]').click();
+    });
+    cy.get('[data-testid="login-screen"]').within(() => {
+      cy.get('[data-testid="email"]').as('email');
+      cy.get('[data-testid="password"]').as('password');
+      cy.get('[data-testid="submit"]').as('submit');
+    });
   });
 
   // Interceptar las peticiones de la API (puedes personalizar esto según tu API)

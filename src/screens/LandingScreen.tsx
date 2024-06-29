@@ -7,10 +7,10 @@ export default function LandingScreen({
   navigation,
 }: Navigation.LandingNavigationProps): JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'landing-screen'} style={styles.container}>
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
       <Text style={styles.header}>PiggyWallet</Text>
-      <Text style={styles.body} data-cy="landing-text">
+      <Text testID={'landing-text'} style={styles.body} data-cy="landing-text">
         Gestiona tus finanzas sabiamente
       </Text>
       <Button onPress={() => navigation.navigate('Login')} testID={'login-button'}>

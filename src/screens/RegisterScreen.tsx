@@ -65,9 +65,9 @@ export default function RegisterScreen({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'signup-screen'} style={styles.container}>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')} data-cy="home-logo">
+        <TouchableOpacity testID={'landing-button'} onPress={() => navigation.navigate('Landing')}>
           <Image style={styles.logo} source={require('../assets/images/logo.png')} />
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
@@ -75,7 +75,7 @@ export default function RegisterScreen({
       <KeyboardAwareScrollView>
         <View testID="sign-up-form" style={styles.contentContainer}>
           <Text style={styles.header}>¡Bienvenido/a!</Text>
-          <Text style={styles.body} data-cy="signup-text">
+          <Text testID={'signup-text'} style={styles.body}>
             Registrate para organizar tus finanzas
           </Text>
           <Formik
@@ -166,7 +166,11 @@ export default function RegisterScreen({
               </>
             )}
           </Formik>
-          <Button variant="text" onPress={() => navigation.navigate('Login')}>
+          <Button
+            testID={'login-button'}
+            variant="text"
+            onPress={() => navigation.navigate('Login')}
+          >
             Ya tengo cuenta
           </Button>
         </View>
