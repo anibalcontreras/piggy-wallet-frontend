@@ -15,12 +15,19 @@ const mockExpensesByCategory = [
   ],
 ];
 
+const mockNavigation = {
+  addListener: (): void => {},
+};
+
 describe('UserBudget', () => {
   it('should render the UserBudget component', async () => {
+    const props: any = { navigaation: mockNavigation };
+
     const { getByText } = render(
       <UserMonthExpenses
         expensesByExpenseType={mockExpensesByExpenseType}
         expensesByCategory={mockExpensesByCategory}
+        {...props}
       />
     );
 
