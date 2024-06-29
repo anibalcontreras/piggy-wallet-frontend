@@ -24,7 +24,7 @@ const DonutChart = ({
   // And we filter amounts of 0
   const filteredValues: DonutChartValue[] = [];
 
-  if (disableAvailable && values === undefined) {
+  if (disableAvailable && (values === undefined || values.length === 0)) {
     return (
       <View style={[styles.container, { marginTop }]}>
         <Text style={styles.boxText}>No hay gastos</Text>
