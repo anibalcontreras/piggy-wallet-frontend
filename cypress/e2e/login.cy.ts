@@ -1,5 +1,3 @@
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-
 describe('Login', () => {
   beforeEach(() => {
     cy.visit('/');
