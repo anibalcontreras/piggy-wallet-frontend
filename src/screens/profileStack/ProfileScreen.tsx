@@ -31,10 +31,12 @@ export default function ProfileScreen({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'profile-screen'} style={styles.container}>
       <Profile user={user} handleClick={handleEditProfileClick} />
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Tus Piggies</Text>
+        <Text testID={'profile-text'} style={styles.text}>
+          Tus Piggies
+        </Text>
       </View>
       <PiggiesList piggies={piggies} />
       <View>

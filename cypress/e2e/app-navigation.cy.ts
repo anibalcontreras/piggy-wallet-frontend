@@ -14,6 +14,61 @@ describe('Debt Screen', () => {
         },
       ]
     ).as('postLogin');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/expenses/grouped/',
+      },
+      {
+        fixture: 'expenses-grouped.json',
+      }
+    ).as('getExpenses');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/user_expense_type/',
+      },
+      {
+        fixture: 'user_expense_type.json',
+      }
+    ).as('getUserExpenseType');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/budget/',
+      },
+      {
+        fixture: 'budget.json',
+      }
+    ).as('getBudget');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/debt/users/',
+      },
+      {
+        fixture: 'debt-users.json',
+      }
+    ).as('getDebtUsers');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/auth/profile/',
+      },
+      {
+        fixture: 'profile.json',
+      }
+    ).as('getProfile');
+    cy.intercept(
+      {
+        method: 'GET',
+        url: '/piggies/',
+      },
+      {
+        fixture: 'piggies.json',
+      }
+    ).as('getPiggies');
+
     cy.visit('/');
     cy.get('[data-testid="landing-screen"]').within(() => {
       cy.get('[data-testid="login-button"]').click();
@@ -28,5 +83,34 @@ describe('Debt Screen', () => {
     cy.get('@submit').should('not.have.attr', 'aria-disabled', 'true');
     cy.get('@submit').click();
     cy.wait('@postLogin');
+    cy.wait('@getExpenses');
+    cy.wait('@getUserExpenseType');
+    cy.wait('@getBudget');
+
+    cy.get('[data-testid="tabbar-container"]').within(() => {
+      cy.get('[data-testid="Gastos-tab"]').as('expensesTab');
+      cy.get('[data-testid="Deudas-tab"]').as('debtTab');
+      cy.get('[data-testid="Perfil-tab"]').as('profileTab');
+    });
+  });
+
+  it('should navigate between the tabs after login', () => {
+    cy.get('[data-testid="home-screen"]').within(() => {
+      cy.get('[data-testid="month-expenses-text"]').should('contain', 'Gastos del mes');
+      cy.get('[data-testid="month-budget-text"]').should('contain', 'Presupuesto mensual');
+    });
+    cy.get('@expensesTab').click();
+    // Aca se debe ibcluir el test para la pantalla de gastos cuando Vergara haga su feature
+    cy.get('@debtTab').click();
+    cy.get('[data-testid="debts-screen"]').within(() => {
+      cy.get('[data-testid="debts-text"]').should(
+        'contain',
+        'Tienes deudas con las siguientes personas'
+      );
+    });
+    cy.get('@profileTab').click();
+    cy.get('[data-testid="profile-screen"]').within(() => {
+      cy.get('[data-testid="profile-text"]').should('contain', 'Tus Piggies');
+    });
   });
 });
