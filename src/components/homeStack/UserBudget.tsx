@@ -1,24 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import type { UserBudgetProps } from '@/types/components';
+import type { Components } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import DonutChart from '@/components/charts/donutChart';
 import * as FormatFunctions from '@/utils';
-import useBudget from '@/hooks/useBudget';
-import ErrorText from '@/components/common/ErrorText';
+import DonutChart from '@/components/charts/donutChart';
 
-const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element => {
-  const { loading, error, budget } = useBudget(navigation);
-
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error) {
-    return <ErrorText message="Ha ocurrido un error al cargar tu presupuesto" />;
-  }
-
+const UserBudget = ({
+  budget,
+  allExpenses,
+  handleClick,
+}: Components.UserBudgetProps): JSX.Element => {
   const userBudget = budget.amount;
   const budgetConfigured = userBudget !== null;
   const formattedUserBudget = budgetConfigured
@@ -29,7 +21,7 @@ const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element =
     <View style={[styles.contentBox, styles.contentBoxTwo]}>
       <View style={styles.hr}>
         <Text style={styles.boxText}>Presupuesto mensual</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Budget')}>
+        <TouchableOpacity onPress={handleClick}>
           <Entypo
             name="dots-three-vertical"
             size={Sizing.x25}
@@ -55,6 +47,11 @@ const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element =
 export default UserBudget;
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   contentBox: {
     position: 'relative',
     width: '80%',

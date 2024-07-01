@@ -4,6 +4,7 @@ import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@rea
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
 import type { Backend, Navigation } from '@/types';
+import { Budget } from '../hooks';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -64,13 +65,16 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
   datum?: { x: number; y: number; label: string };
 }
 
-export interface UserMonthExpensesProps extends Navigation.HomeNavigationProps {
+export interface UserMonthExpensesProps {
+  categories: string[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
 }
 
-export interface UserBudgetProps extends Navigation.HomeNavigationProps {
+export interface UserBudgetProps {
+  budget: Budget;
   allExpenses: DonutChartValue[];
+  handleClick: () => void;
 }
 
 export interface PiggiesListProps {

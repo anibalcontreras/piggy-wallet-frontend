@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { ExpensesGroup, UseExpensesGroups } from '@/types/hooks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useExpensesGroups = (
-  navigation: NativeStackNavigationProp<any, string, undefined>
-): UseExpensesGroups => {
+const useExpensesGroups = (): UseExpensesGroups => {
+  const isFocused = useIsFocused();
+
   const [allExpensesByCategories, setAllExpensesByCategories] = useState<ExpensesGroup>({});
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,14 +27,8 @@ const useExpensesGroups = (
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      void fetchExpensesGroup();
-    });
-
     void fetchExpensesGroup();
-
-    return unsubscribe;
-  }, []);
+  }, [isFocused]);
 
   return { error, loading, allExpensesByCategories };
 };
