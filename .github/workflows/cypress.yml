@@ -21,11 +21,9 @@ jobs:
         shell: bash
         run: npm ci
 
-      - name: run project
-        run: npm run start
-
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          build: npm run build
+          start: npm start
           browser: chrome
-          headed: true
