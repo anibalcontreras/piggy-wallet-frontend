@@ -2,7 +2,7 @@ name: End-to-end tests
 
 on:
   push:
-    # branches: [ "main", "develop" ]
+    branches: ['main', 'develop']
 
 jobs:
   cypress-run:
