@@ -15,15 +15,19 @@ jest.mock('@/service/api', () => ({
   get: async () => ({ data: { amount: 20000 } }),
 }));
 
-const mockNavigation = {
-  addListener: (): void => {},
-};
+const mockBudget = { amount: 20000 };
 
 const mockAllExpenses = [{ amount: 10000, label: 'Gastos' }];
 
+const mockHandleClick = jest.fn();
+
 describe('UserBudget', () => {
   it('should render the UserBudget component', async () => {
-    const props: any = { navigation: mockNavigation, allExpenses: mockAllExpenses };
+    const props: any = {
+      budget: mockBudget,
+      allExpenses: mockAllExpenses,
+      mockHandleClick,
+    };
 
     const { getByText } = render(<UserBudget {...props} />);
 

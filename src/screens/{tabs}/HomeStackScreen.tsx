@@ -25,6 +25,7 @@ export default function HomeStackScreen(): JSX.Element {
             backgroundColor: Colors.palette.background,
           },
           headerTintColor: Colors.palette.text,
+          headerBackTitle: 'Atrás',
           contentStyle: {
             borderTopColor: Colors.palette.border,
             borderTopWidth: 1,

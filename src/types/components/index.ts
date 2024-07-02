@@ -3,7 +3,8 @@ import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
-import type { Backend, Navigation } from '@/types';
+import type { Backend } from '@/types';
+import { type Budget } from '../hooks';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -64,13 +65,16 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
   datum?: { x: number; y: number; label: string };
 }
 
-export interface UserMonthExpensesProps extends Navigation.HomeNavigationProps {
+export interface UserMonthExpensesProps {
+  categories: string[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
 }
 
-export interface UserBudgetProps extends Navigation.HomeNavigationProps {
+export interface UserBudgetProps {
+  budget: Budget;
   allExpenses: DonutChartValue[];
+  handleClick: () => void;
 }
 
 export interface PiggiesListProps {
@@ -90,6 +94,7 @@ export interface SearchBarProps {
 }
 
 export interface SearchAllPigiesListProps {
+  variant?: 'big' | 'small';
   searchPhrase: string;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;

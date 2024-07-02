@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { Budget, UseBudget } from '@/types/hooks';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const useBudget = (navigation: NativeStackNavigationProp<any, string, undefined>): UseBudget => {
+const useBudget = (): UseBudget => {
+  const isFocused = useIsFocused();
+
   const [budget, setBudget] = useState<Budget>({ amount: null });
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,14 +27,8 @@ const useBudget = (navigation: NativeStackNavigationProp<any, string, undefined>
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      void fetchBudget();
-    });
-
     void fetchBudget();
-
-    return unsubscribe;
-  }, [navigation]);
+  }, [isFocused]);
 
   return { error, loading, budget };
 };
