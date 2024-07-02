@@ -84,12 +84,12 @@ export default function AddDebtScreen({
                   }}
                 />
               ) : (
-                <>
+                <View style={styles.noPiggiesTextContainer}>
                   <Text style={styles.noPiggiesText}>No has agregado a ningún piggy</Text>
                   <Text style={styles.noPiggiesText}>
                     Agrega a tus amigos para poder compartir deudas
                   </Text>
-                </>
+                </View>
               )}
               {selectedUser != null && (
                 <View style={styles.selectedUserContainer}>
@@ -153,6 +153,9 @@ const styles = StyleSheet.create({
   errorText: {
     color: Colors.palette.error,
     marginTop: Sizing.x10,
+  },
+  noPiggiesTextContainer: {
+    padding: Sizing.x10,
   },
   noPiggiesText: {
     ...Typography.bodyStyles.primary,
