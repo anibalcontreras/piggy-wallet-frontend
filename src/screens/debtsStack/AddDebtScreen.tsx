@@ -27,12 +27,17 @@ export default function AddDebtScreen({
   const [isCreatingDebt, setIsCreatingDebt] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Backend.User>();
 
-  const handleSubmit = async (amount: string, debtorId: string): Promise<void> => {
+  const handleSubmit = async (
+    amount: string,
+    debtorId: string,
+    description: string
+  ): Promise<void> => {
     setIsCreatingDebt(true);
     try {
       await httpService.post(END_POINT.debt, {
         amount,
         debtor_id: debtorId,
+        description,
       });
       navigation.goBack();
     } catch (error) {
@@ -46,9 +51,9 @@ export default function AddDebtScreen({
     <SafeAreaView style={styles.container}>
       <Formik
         validationSchema={debtValidationSchema}
-        initialValues={{ amount: '', debtorId: '' }}
-        onSubmit={async (values) => {
-          await handleSubmit(values.amount, values.debtorId);
+        initialValues={{ amount: '', debtorId: '', description: '' }}
+        onSubmit={async (values): Promise<void> => {
+          await handleSubmit(values.amount, values.debtorId, values.description);
         }}
         validateOnMount={true}
       >
@@ -100,6 +105,16 @@ export default function AddDebtScreen({
                 placeholder="¿Cuánto te debe?"
                 keyboardType="numeric"
                 inputMode="numeric"
+                textContentType="none"
+                autoCapitalize="none"
+              />
+              <Field
+                component={CustomTextInput}
+                variant="primary"
+                name="description"
+                placeholder="Descripción (opcional)"
+                keyboardType="default"
+                inputMode="text"
                 textContentType="none"
                 autoCapitalize="none"
               />
