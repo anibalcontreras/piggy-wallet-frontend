@@ -20,7 +20,9 @@ const UserBudget = ({
   return (
     <View style={[styles.contentBox, styles.contentBoxTwo]}>
       <View style={styles.hr}>
-        <Text style={styles.boxText}>Presupuesto mensual</Text>
+        <Text testID={'month-budget-text'} style={styles.boxText}>
+          Presupuesto mensual
+        </Text>
         <TouchableOpacity onPress={handleClick}>
           <Entypo
             name="dots-three-vertical"

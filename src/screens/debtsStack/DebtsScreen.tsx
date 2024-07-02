@@ -23,10 +23,12 @@ export default function DebtsScreen({ navigation }: Navigation.DebtsNavigationPr
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'debts-screen'} style={styles.container}>
       {usersWithDebts.length > 0 ? (
         <>
-          <Text style={styles.header}>Tienes deudas con las siguientes personas</Text>
+          <Text testID={'debts-text'} style={styles.header}>
+            Tienes deudas con las siguientes personas
+          </Text>
           <DebtorsList debtors={usersWithDebts} onUserPress={handleClick} />
         </>
       ) : (

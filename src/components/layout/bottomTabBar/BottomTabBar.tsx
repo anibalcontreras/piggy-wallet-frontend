@@ -22,7 +22,7 @@ function BottomTabBar({
   const { bottom } = useSafeAreaInsets();
 
   return (
-    <>
+    <View testID={'tabbar-container'}>
       <TouchableOpacity style={styles.settingsIcon} onPress={() => navigation.navigate('Settings')}>
         <MaterialIcons name="settings" size={Sizing.x30} color={Colors.palette.text} />
       </TouchableOpacity>
@@ -38,7 +38,7 @@ function BottomTabBar({
           />
         ))}
       </View>
-    </>
+    </View>
   );
 }
 

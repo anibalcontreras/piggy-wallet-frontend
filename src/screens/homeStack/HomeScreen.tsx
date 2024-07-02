@@ -65,7 +65,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'home-screen'} style={styles.container}>
       <UserMonthExpenses
         categories={categories}
         expensesByExpenseType={expensesByExpenseType}

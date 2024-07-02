@@ -43,9 +43,13 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'login-screen'} style={styles.container}>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Landing')}>
+        <TouchableOpacity
+          testID={'landing-button'}
+          onPress={() => navigation.navigate('Landing')}
+          data-cy="home-logo"
+        >
           <Image style={styles.logo} source={require('../assets/images/logo.png')} />
         </TouchableOpacity>
         <Text style={styles.subheader}>PiggyWallet</Text>
@@ -53,7 +57,9 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
       <KeyboardAwareScrollView>
         <View style={styles.contentContainer}>
           <Text style={styles.header}>¡Hola!</Text>
-          <Text style={styles.body}>Ingresa para organizar tus finanzas</Text>
+          <Text testID={'login-text'} style={styles.body}>
+            Ingresa para organizar tus finanzas
+          </Text>
           <Formik
             validationSchema={loginValidationSchema}
             initialValues={{ email: '', password: '' }}
@@ -65,6 +71,7 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
             {({ handleSubmit, isValid }) => (
               <>
                 <Field
+                  testID={'email'}
                   component={CustomTextInput}
                   name="email"
                   placeholder="Correo electrónico"
@@ -72,14 +79,17 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                   inputMode="email"
                   textContentType="emailAddress"
                   autoCapitalize="none"
+                  data-cy="email-input"
                 />
                 <View style={styles.passwordContainer}>
                   <Field
+                    testID={'password'}
                     component={CustomTextInput}
                     name="password"
                     placeholder="Contraseña"
                     textContentType="password"
                     secureTextEntry={!showPassword}
+                    data-cy="password-input"
                   />
                   <MaterialCommunityIcons
                     name={showPassword ? 'eye-off' : 'eye'}
@@ -92,14 +102,18 @@ export default function LoginScreen({ navigation }: Navigation.LoginNavigationPr
                 {isLoggingIn ? (
                   <Button loading={true} />
                 ) : (
-                  <Button onPress={() => handleSubmit()} disabled={!isValid}>
+                  <Button testID="submit" onPress={() => handleSubmit()} disabled={!isValid}>
                     Iniciar Sesión
                   </Button>
                 )}
               </>
             )}
           </Formik>
-          <Button variant="text" onPress={() => navigation.navigate('Register')}>
+          <Button
+            testID={'signup-button'}
+            variant="text"
+            onPress={() => navigation.navigate('Register')}
+          >
             Crear mi cuenta
           </Button>
         </View>

@@ -25,7 +25,9 @@ const UserMonthExpenses = ({
   return (
     <View style={[styles.contentBox, styles.contentBoxOne]}>
       <View style={styles.hr}>
-        <Text style={styles.boxText}>Gastos del mes</Text>
+        <Text testID={'month-expenses-text'} style={styles.boxText}>
+          Gastos del mes
+        </Text>
       </View>
 
       <FilterComponent

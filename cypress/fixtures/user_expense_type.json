@@ -1,0 +1,4 @@
+[
+  { "id": 3, "name": "Personal", "description": "Personal expenses", "set_by_user": false },
+  { "id": 4, "name": "Vacaciones", "description": "Vacations expenses", "set_by_user": true }
+]
