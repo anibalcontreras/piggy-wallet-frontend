@@ -11,6 +11,7 @@ export const END_POINT = {
   allUsers: 'piggies/users/',
   usersWithDebts: 'debt/users/',
   userBalance: 'debt/balance/',
+  userDebtsHistory: 'debt/history/',
   debt: 'debt/',
   budget: 'budget/',
   userExpenseTypes: 'user_expense_type/',
