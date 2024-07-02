@@ -55,43 +55,43 @@ export default function AddDebtScreen({
         {({ handleSubmit, isValid, setFieldValue }) => (
           <>
             {!clicked && <Text style={styles.title}>Busca a tus piggies</Text>}
-            <SearchBar
-              clicked={clicked}
-              searchPhrase={searchPiggy}
-              setSearchPhrase={setSearchPiggy}
-              setClicked={setClicked}
-            />
-            {loading ? (
-              <ActivityIndicator />
-            ) : error ? (
-              <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
-            ) : piggies.length > 0 ? (
-              <UsersList
-                searchPhrase={searchPiggy}
-                data={piggies}
-                onPiggyAdded={(piggy) => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  setFieldValue('debtorId', piggy.userId);
-                  const user = piggies?.find((p) => p.userId === piggy.userId);
-                  setSelectedUser(user);
-                }}
-              />
-            ) : (
-              <>
-                <Text style={styles.noPiggiesText}>No has agregado a ningún piggy</Text>
-                <Text style={styles.noPiggiesText}>
-                  Agrega a tus amigos para poder compartir deudas
-                </Text>
-              </>
-            )}
-            {selectedUser != null && (
-              <View style={styles.selectedUserContainer}>
-                <Text style={styles.selectedUserText}>
-                  Piggy seleccionado: {selectedUser.firstName}
-                </Text>
-              </View>
-            )}
             <KeyboardAwareScrollView>
+              <SearchBar
+                clicked={clicked}
+                searchPhrase={searchPiggy}
+                setSearchPhrase={setSearchPiggy}
+                setClicked={setClicked}
+              />
+              {loading ? (
+                <ActivityIndicator />
+              ) : error ? (
+                <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
+              ) : piggies.length > 0 ? (
+                <UsersList
+                  searchPhrase={searchPiggy}
+                  data={piggies}
+                  onPiggyAdded={(piggy) => {
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                    setFieldValue('debtorId', piggy.userId);
+                    const user = piggies?.find((p) => p.userId === piggy.userId);
+                    setSelectedUser(user);
+                  }}
+                />
+              ) : (
+                <>
+                  <Text style={styles.noPiggiesText}>No has agregado a ningún piggy</Text>
+                  <Text style={styles.noPiggiesText}>
+                    Agrega a tus amigos para poder compartir deudas
+                  </Text>
+                </>
+              )}
+              {selectedUser != null && (
+                <View style={styles.selectedUserContainer}>
+                  <Text style={styles.selectedUserText}>
+                    Piggy seleccionado: {selectedUser.firstName}
+                  </Text>
+                </View>
+              )}
               <Field
                 component={CustomTextInput}
                 variant="secondary"

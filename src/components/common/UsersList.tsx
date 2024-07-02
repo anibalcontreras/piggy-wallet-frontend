@@ -1,5 +1,5 @@
-import React from 'react';
-import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, LogBox } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Components } from '@/types';
@@ -53,6 +53,10 @@ function UsersList({
       .toUpperCase()
       .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''));
   };
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   return (
     <View style={[styles.container]}>
