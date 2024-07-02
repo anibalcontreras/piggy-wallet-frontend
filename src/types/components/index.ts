@@ -3,8 +3,8 @@ import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
-import type { Backend, Navigation } from '@/types';
-import { Budget } from '../hooks';
+import type { Backend } from '@/types';
+import { type Budget } from '../hooks';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';

@@ -18,10 +18,16 @@ export default function DebtDetailsScreen({
     return <ErrorText message="Ha ocurrido un error al cargar los detalles de tus deudas" />;
   }
 
+  const balanceMessage =
+    userBalance?.balance ?? 0 > 0
+      ? `${route.params.debtorName} te debe $${userBalance?.balance ?? 0}`
+      : `Debes $${userBalance?.balance ?? 0} a ${route.params.debtorName}`;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.primaryText}>Tu saldo con {route.params.debtorName}</Text>
       <View style={styles.balanceContainer}>
+        <Text style={styles.secondaryText}>{balanceMessage}</Text>
         <UserBalance userBalance={userBalance} />
       </View>
     </SafeAreaView>
@@ -37,18 +43,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   balanceContainer: {
     backgroundColor: Colors.palette.secondary,
-    padding: Sizing.x20,
+    padding: Sizing.x30,
     elevation: Sizing.x5,
-    height: Sizing.x80,
+    height: Sizing.x90,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   primaryText: {
-    margin: Sizing.x20,
+    margin: Sizing.x10,
     ...Typography.bodyStyles.primary,
   },
   secondaryText: {
+    marginBottom: Sizing.x10,
     ...Typography.bodyStyles.secondary,
   },
 });
