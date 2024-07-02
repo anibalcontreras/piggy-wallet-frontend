@@ -68,6 +68,7 @@ export default function AddDebtScreen({
                 <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
               ) : piggies.length > 0 ? (
                 <UsersList
+                  variant="small"
                   searchPhrase={searchPiggy}
                   data={piggies}
                   onPiggyAdded={(piggy) => {

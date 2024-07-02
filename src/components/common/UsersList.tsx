@@ -33,11 +33,22 @@ const Item = ({
 );
 
 function UsersList({
+  variant = 'big',
   searchPhrase,
   data,
   onPiggyAdded,
   showEmail = false,
 }: Components.SearchAllPigiesListProps): JSX.Element {
+  let containerStyle;
+  switch (variant) {
+    case 'big':
+      containerStyle = styles.bigContainer;
+      break;
+    case 'small':
+      containerStyle = styles.smallContainer;
+      break;
+  }
+
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     if (searchPhrase === '') {
       return <Item user={item} onAddPiggy={onPiggyAdded} showEmail={showEmail} />;
@@ -59,7 +70,7 @@ function UsersList({
   }, []);
 
   return (
-    <View style={[styles.container]}>
+    <View style={containerStyle}>
       <FlatList
         data={data}
         renderItem={renderUser}
@@ -73,7 +84,12 @@ function UsersList({
 export default UsersList;
 
 const styles = StyleSheet.create({
-  container: {
+  bigContainer: {
+    width: '90%',
+    margin: Sizing.x10,
+    height: '75%',
+  },
+  smallContainer: {
     width: '90%',
     margin: Sizing.x10,
     height: '45%',

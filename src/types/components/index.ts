@@ -94,6 +94,7 @@ export interface SearchBarProps {
 }
 
 export interface SearchAllPigiesListProps {
+  variant?: 'big' | 'small';
   searchPhrase: string;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;
