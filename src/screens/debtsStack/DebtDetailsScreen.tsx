@@ -18,10 +18,11 @@ export default function DebtDetailsScreen({
     return <ErrorText message="Ha ocurrido un error al cargar los detalles de tus deudas" />;
   }
 
+  const balance = userBalance?.balance ?? 0;
   const balanceMessage =
-    userBalance?.balance ?? 0 > 0
-      ? `${route.params.debtorName} te debe $${userBalance?.balance ?? 0}`
-      : `Debes $${userBalance?.balance ?? 0} a ${route.params.debtorName}`;
+    balance > 0
+      ? `${route.params.debtorName} te debe $${balance}`
+      : `Debes $${Math.abs(balance)} a ${route.params.debtorName}`;
 
   return (
     <SafeAreaView style={styles.container}>
