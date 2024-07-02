@@ -6,7 +6,6 @@ import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import { snakeToCamel } from '@/utils';
 
-// Duda interface
 const useUserDebtsHistory = (debtorId: string): UserUserDebtsHistory => {
   const isFocused = useIsFocused();
 

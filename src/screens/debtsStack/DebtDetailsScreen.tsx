@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -11,12 +12,14 @@ import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import useUserBalance from '@/hooks/debtsStack/useUserBalance';
+import useUserDebtsHistory from '@/hooks/debtsStack/useUserDebtsHistory';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 import UserBalance from '@/components/debtsStack/UserBalance';
 import ErrorText from '@/components/common/ErrorText';
-import useUserDebtsHistory from '@/hooks/debtsStack/useUserDebtsHistory';
-import React from 'react';
 
 export default function DebtDetailsScreen({
+  navigation,
   route,
 }: Navigation.DebtDetailsNavigationProps): JSX.Element {
   const {
@@ -24,11 +27,42 @@ export default function DebtDetailsScreen({
     loading: userBalanceLoading,
     userBalance,
   } = useUserBalance(route.params.debtorId);
+
   const {
     error: userDebtsHistoryError,
     loading: userDebtsHistoryLoading,
     userDebtsHistory,
   } = useUserDebtsHistory(route.params.debtorId);
+
+  const handleSettleDebtClick = (debtId: number): void => {
+    Alert.alert('¿Saldar deuda?', '¿Estás seguro/a de que deseas saldar esta deuda?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+        onPress: () => console.log('Cancel Pressed'),
+      },
+      {
+        text: 'OK',
+        onPress: () => settleDebt(debtId),
+      },
+    ]);
+  };
+
+  const settleDebt = (debtId: number): void => {
+    httpService
+      .put(`${END_POINT.settleDebt}${debtId}/`)
+      .then(() => {
+        Alert.alert('Deuda saldada', 'La deuda ha sido saldada');
+        // HUNTLEY, no se como vergas hacer que se actualice la pantalla aqui
+        // Lo unico que logre es navegar a la screen de Debts nomas, porque que no se actualize es pesima experiencia
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        navigation.navigate('Debts');
+      });
+  };
 
   if (userBalanceLoading || userDebtsHistoryLoading) {
     return <ActivityIndicator style={styles.loading} />;
@@ -63,10 +97,10 @@ export default function DebtDetailsScreen({
               {transaction?.description ?? 'Sin descripción'}
             </Text>
           </View>
-          <TouchableOpacity style={styles.iconButton}>
-            <AntDesign name="right" size={24} color="#696E79" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => handleSettleDebtClick(transaction.id)}
+          >
             <AntDesign name="check" size={36} color={Colors.palette.primary} />
           </TouchableOpacity>
         </View>

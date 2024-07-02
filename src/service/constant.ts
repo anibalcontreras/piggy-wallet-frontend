@@ -12,6 +12,7 @@ export const END_POINT = {
   usersWithDebts: 'debt/users/',
   userBalance: 'debt/balance/',
   userDebtsHistory: 'debt/unpaid-history/',
+  settleDebt: 'debt/toggle-payment/',
   debt: 'debt/',
   budget: 'budget/',
   userExpenseTypes: 'user_expense_type/',
