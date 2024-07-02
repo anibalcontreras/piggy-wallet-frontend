@@ -28,7 +28,9 @@ const UserBudget = ({ navigation, allExpenses }: UserBudgetProps): JSX.Element =
   return (
     <View style={[styles.contentBox, styles.contentBoxTwo]}>
       <View style={styles.hr}>
-        <Text style={styles.boxText}>Presupuesto mensual</Text>
+        <Text testID={'month-budget-text'} style={styles.boxText}>
+          Presupuesto mensual
+        </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Budget')}>
           <Entypo
             name="dots-three-vertical"
