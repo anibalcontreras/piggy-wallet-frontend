@@ -65,7 +65,7 @@ export default function AddDebtScreen({
               <ActivityIndicator />
             ) : error ? (
               <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
-            ) : (
+            ) : piggies.length > 0 ? (
               <UsersList
                 searchPhrase={searchPiggy}
                 data={piggies}
@@ -76,6 +76,13 @@ export default function AddDebtScreen({
                   setSelectedUser(user);
                 }}
               />
+            ) : (
+              <>
+                <Text style={styles.noPiggiesText}>No has agregado a ningún piggy</Text>
+                <Text style={styles.noPiggiesText}>
+                  Agrega a tus amigos para poder compartir deudas
+                </Text>
+              </>
             )}
             {selectedUser != null && (
               <View style={styles.selectedUserContainer}>
@@ -100,13 +107,11 @@ export default function AddDebtScreen({
                   <Button variant="fullWidth" loading={true} />
                 </View>
               ) : (
-                <>
-                  <View style={styles.buttonContainer}>
-                    <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
-                      Crear
-                    </Button>
-                  </View>
-                </>
+                <View style={styles.buttonContainer}>
+                  <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                    Crear
+                  </Button>
+                </View>
               )}
             </KeyboardAwareScrollView>
           </>
@@ -132,6 +137,9 @@ const styles = StyleSheet.create({
   errorText: {
     color: Colors.palette.error,
     marginTop: Sizing.x10,
+  },
+  noPiggiesText: {
+    ...Typography.bodyStyles.primary,
   },
   selectedUserContainer: {
     marginVertical: Sizing.x10,
