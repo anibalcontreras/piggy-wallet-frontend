@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import type { ExpensesStackParamsList } from '../../types/navigation';
+import type { ExpensesStackParamsList } from '@/types/navigation';
 import ExpensesScreen from '../expensesStack/ExpensesScreen';
 import AddExpenseScreen from '../expensesStack/AddExpenseScreen';
 import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';

@@ -96,26 +96,7 @@ export interface SearchAllPigiesListProps {
   onPiggyAdded: () => void;
 }
 
-export interface Expense {
-  id: number;
-  username: string;
-  user_expense_type: number;
-  category: number;
-  bankcard_id: number;
-  amount: number;
-  description: string;
-}
-
 export interface Category {
   id: number;
   name: string;
-
-}
-
-export interface UserExpenseType {
-  id: number;
-  username: string;
-  name: string;
-  description: string;
-  set_by_user: boolean;
 }

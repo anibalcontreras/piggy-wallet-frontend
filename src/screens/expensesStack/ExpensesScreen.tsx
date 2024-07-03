@@ -5,53 +5,50 @@ import { Colors, Sizing } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import ExpenseCard from '@/components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense, Category } from '@/types/components';
+import type { Expense } from '@/types/backend';
 import { useFocusEffect } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
+import useExpenses from '@/hooks/useExpenses';
+import useCategories from '@/hooks/useCategories';
 
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { expenses, fetchExpenses } = useExpenses();
+  const { categories } = useCategories();
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  const fetchExpensesAndCategories = async () => {
-    try {
-      const expensesResponse = await httpService.get(END_POINT.expenses);
-      const categoriesResponse = await httpService.get(END_POINT.categories);
-      setExpenses(expensesResponse.data);
-      setCategories(categoriesResponse.data);
-    } catch (error) {
-      Alert.alert('Error', 'No se pudieron obtener los datos.');
-    }
-  };
-
   useFocusEffect(
     useCallback(() => {
-      fetchExpensesAndCategories();
+      void fetchExpenses();
     }, [])
   );
 
   const handleDelete = async (id: number): Promise<void> => {
     try {
       await httpService.delete(`${END_POINT.expenses}${id}/`);
-      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+      await fetchExpenses();
       Alert.alert('Gasto eliminado');
     } catch (error) {
       Alert.alert('Error', 'No se pudo eliminar el gasto.');
     }
   };
 
-  const handleAddExpense = (newExpense: Expense): void => {
-    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+  const handleAddExpense = async (newExpense: Expense): Promise<void> => {
+    try {
+      await fetchExpenses();
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
   };
 
-  const handleEditExpense = (updatedExpense: Expense): void => {
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((expense) => (expense.id === updatedExpense.id ? updatedExpense : expense))
-    );
-    Alert.alert('Gasto editado');
+  const handleEditExpense = async (updatedExpense: Expense): Promise<void> => {
+    try {
+      await fetchExpenses();
+      Alert.alert('Gasto editado');
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
   };
 
   return (
@@ -70,16 +67,33 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
             key={expense.id}
             expense={expense}
             categories={categories}
-            onDelete={() => handleDelete(expense.id)}
-            onEdit={(expense: Expense) =>
-              navigation.navigate('EditExpense', { expense, onSave: handleEditExpense })
-            }
+            onDelete={async () => {
+              try {
+                await handleDelete(expense.id);
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+            onEdit={(expense: Expense) => {
+              void navigation.navigate('EditExpense', { 
+                expense, 
+                onSave: (updatedExpense: Expense) => {
+                  void handleEditExpense(updatedExpense);
+                } 
+              });
+            }}
             onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
           />
         ))}
       </ScrollView>
       <TouchableOpacity
-        onPress={() => navigation.navigate('AddExpense', { onAddExpense: handleAddExpense })}
+        onPress={() => {
+          navigation.navigate('AddExpense', { 
+            onAddExpense: (newExpense: Expense) => {
+              void handleAddExpense(newExpense);
+            } 
+          });
+        }}
         style={styles.addButtonContainer}
       >
         <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.primary} />

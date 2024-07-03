@@ -1,49 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet} from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
-import type { Category, UserExpenseType } from '@/types/components';
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
+import useCategories from '@/hooks/useCategories';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import { formatCurrency } from '@/utils';
 
 export default function ExpenseDetailsScreen({
   navigation,
   route,
 }: ExpenseDetailsNavigationProps): JSX.Element {
   const { expense } = route.params;
-  const [categoryName, setCategoryName] = useState('Categoría desconocida');
-  const [expenseTypeName, setExpenseTypeName] = useState('Tipo de gasto desconocido');
+  const [categoryName, setCategoryName] = useState<string>('Categoría desconocida');
+  const [expenseTypeName, setExpenseTypeName] = useState<string>('Tipo de gasto desconocido');
 
-  const formatAmount = (amount: number): string => {
-    return amount.toLocaleString('de-DE');
-  };
+  const { categories } = useCategories();
+  const { userExpenseTypes } = useUserExpenseTypes();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await httpService.get(END_POINT.categories);
-        const category = response.data.find((cat: Category) => cat.id === expense.category);
-        setCategoryName(category ? category.name : 'Categoría desconocida');
-      } catch (error) {
-        Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
-      }
-    };
+    const category = categories.find((cat) => cat.id === expense.category);
+    setCategoryName(
+      category !== null && category !== undefined ? category.name : 'Categoría desconocida'
+    );
 
-    const fetchExpenseTypes = async () => {
-      try {
-        const response = await httpService.get(END_POINT.userExpenseTypes);
-        const expenseType = response.data.find(
-          (type: UserExpenseType) => type.id === expense.user_expense_type
-        );
-        setExpenseTypeName(expenseType ? expenseType.name : 'Tipo de gasto desconocido');
-      } catch (error) {
-        Alert.alert('Error', 'No se pudo obtener la lista de tipos de gastos.');
-      }
-    };
-
-    fetchCategories();
-    fetchExpenseTypes();
-  }, [expense.category, expense.user_expense_type]);
+    const expenseType = userExpenseTypes.find((type) => type.id === expense.user_expense_type);
+    setExpenseTypeName(
+      expenseType !== null && expenseType !== undefined
+        ? expenseType.name
+        : 'Tipo de gasto desconocido'
+    );
+  }, [categories, userExpenseTypes, expense.category, expense.user_expense_type]);
 
   return (
     <View style={styles.container}>
@@ -52,7 +38,7 @@ export default function ExpenseDetailsScreen({
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Monto:</Text>
-        <Text style={styles.value}>${formatAmount(expense.amount)}</Text>
+        <Text style={styles.value}>{formatCurrency((expense.amount as number).toString())}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Tipo de gasto:</Text>

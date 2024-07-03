@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
-import { type Expense, Category } from '../../types/components';
+import type { Category } from '@/types/components';
+import type { Expense } from '@/types/backend';
+import { formatCurrency } from '@/utils';
 
 const ExpenseCard = ({
   expense,
@@ -17,22 +19,22 @@ const ExpenseCard = ({
   onEdit: any;
   onLook: any;
 }): JSX.Element => {
-  const category = categories.find(cat => cat.id === expense.category);
-
-  const formatAmount = (amount: number): string => {
-    return amount.toLocaleString('de-DE');
-  };
+  const category = categories.find((cat) => cat.id === expense.category);
 
   return (
-    <TouchableOpacity onPress={() => onLook(expense)}>
+    <TouchableOpacity onPress={() => onLook(expense)} testID="look-button">
       <View style={styles.card}>
         <View style={styles.cardContent}>
-          <Image source={require('../../assets/images/expense.png')} style={styles.icon} />
+          <Image source={require('@/assets/images/expense.png')} style={styles.icon} />
           <View style={styles.options}>
-            <Text style={styles.amount}>${formatAmount(expense.amount)}</Text>
-            <Text style={styles.details}>{category ? category.name : 'Categoría desconocida'}</Text>
+            <Text style={styles.amount}>{formatCurrency(expense.amount.toString())}</Text>
+            <Text style={styles.details}>
+              {category !== null && category !== undefined
+                ? category.name
+                : 'Categoría desconocida'}
+            </Text>
           </View>
-          <TouchableOpacity onPress={() => onEdit(expense)}>
+          <TouchableOpacity onPress={() => onEdit(expense)} testID="edit-button">
             <AntDesign
               name="edit"
               size={Sizing.x40}
@@ -40,7 +42,7 @@ const ExpenseCard = ({
               style={styles.iconButton}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => onDelete(expense)}>
+          <TouchableOpacity onPress={() => onDelete(expense)} testID="delete-button">
             <AntDesign
               name="delete"
               size={Sizing.x40}

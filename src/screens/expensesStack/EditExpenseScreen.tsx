@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'reac
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { EditExpenseNavigationProps } from '@/types/navigation';
-import type { Expense, Category } from '@/types/components';
+import type { Category } from '@/types/components';
+import type { Expense } from '@/types/backend';
 import RNPickerSelect from 'react-native-picker-select';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
@@ -18,35 +19,35 @@ export default function EditExpenseScreen({
   const [categories, setCategories] = useState<Category[]>([]);
   const [description, setDescription] = useState(expense.description);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await httpService.get(END_POINT.categories);
-        setCategories(response.data);
-      } catch (error) {
-        Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
-      }
-    };
+  const fetchCategories = async (): Promise<void> => {
+    try {
+      const response = await httpService.get(END_POINT.categories);
+      setCategories(response.data as Category[]);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
+    }
+  };
 
-    fetchCategories();
+  useEffect(() => {
+    void fetchCategories();
   }, []);
 
   const handleSave = async (): Promise<void> => {
-    if (amount === '' || category === '') {
+    if (amount === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
 
     const updatedExpense: Expense = {
       ...expense,
-      amount: parseInt(amount, 10),
-      category: parseInt(category, 10),
-      description: description,
+      amount: typeof amount === 'string' ? parseInt(amount, 10) : 0,
+      category: typeof category === 'string' ? parseInt(category, 10) : 0,
+      description,
     };
 
     try {
       const response = await httpService.put(`${END_POINT.expenses}${expense.id}/`, updatedExpense);
-      onSave(response.data);
+      onSave(response.data as Expense);
       navigation.goBack();
     } catch (error) {
       console.error('Error updating expense:', error);
@@ -64,7 +65,11 @@ export default function EditExpenseScreen({
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.pageTitle}>Editar gasto</Text>
-        <TouchableOpacity onPress={handleSave}>
+        <TouchableOpacity
+          onPress={() => {
+            handleSave().catch(console.error);
+          }}
+        >
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
       </View>
@@ -84,7 +89,7 @@ export default function EditExpenseScreen({
         value={category}
         onValueChange={(value) => setCategory(value)}
         items={categoryItems}
-        placeholder={{ label: "Selecciona una categoría...", value: null }}
+        placeholder={{ label: 'Selecciona una categoría...', value: null }}
       />
 
       <Text style={styles.title}>Descripción</Text>
@@ -148,7 +153,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'white',
-    paddingRight: 30, 
+    paddingRight: 30,
     marginBottom: 10,
   },
 });

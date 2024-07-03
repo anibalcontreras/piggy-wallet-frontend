@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, TouchableOpacity, ScrollView, View, TextInput, Text } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  TextInput,
+  Text,
+} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing, Typography } from '@/styles';
 import RNPickerSelect from 'react-native-picker-select';
-import type { Navigation } from '../../types';
+import type { Navigation } from '@/types';
+import useCategories from '@/hooks/useCategories';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Category, Expense, UserExpenseType } from '@/types/components';
+import type { Expense } from '@/types/backend';
+import { formatCurrency } from '@/utils';
 
 export default function AddExpenseScreen({
   navigation,
@@ -17,23 +28,9 @@ export default function AddExpenseScreen({
   const [userExpenseType, setUserExpenseType] = useState<number | null>(null);
   const [description, setDescription] = useState('');
   const [sharedExpense, setSharedExpense] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]);
 
-  useEffect(() => {
-    const fetchCategoriesAndUserExpenseTypes = async () => {
-      try {
-        const categoriesResponse = await httpService.get(END_POINT.categories);
-        const userExpenseTypesResponse = await httpService.get(END_POINT.userExpenseTypes);
-        setCategories(categoriesResponse.data);
-        setUserExpenseTypes(userExpenseTypesResponse.data);
-      } catch (error) {
-        Alert.alert('Error', 'No se pudieron obtener las listas.');
-      }
-    };
-
-    fetchCategoriesAndUserExpenseTypes();
-  }, []);
+  const { categories } = useCategories();
+  const { userExpenseTypes } = useUserExpenseTypes();
 
   const categoryItems = categories.map((cat) => ({
     label: cat.name,
@@ -47,12 +44,6 @@ export default function AddExpenseScreen({
     key: type.id,
   }));
 
-  const formatAmount = (amount: string): string => {
-    const cleanedAmount = amount.replace(/[^0-9]/g, '');
-    const formattedAmount = cleanedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return `$${formattedAmount}`;
-  };
-
   const handleAddExpense = async (): Promise<void> => {
     if (amount === '' || category === null || userExpenseType === null || description === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
@@ -63,16 +54,18 @@ export default function AddExpenseScreen({
       id: 0,
       username: '',
       user_expense_type: userExpenseType,
-      category: category,
+      category,
       bankcard_id: 1,
-      amount: parseInt(amount.replace(/\$|\.|,/g, '')),
-      description: description
+      amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),
+      description,
     };
 
     try {
       const response = await httpService.post(END_POINT.expenses, newExpense);
       Alert.alert('Gasto creado exitosamente');
-      (route.params as unknown as { onAddExpense: (expense: Expense) => void })?.onAddExpense(response.data);
+      (route.params as { onAddExpense: (expense: Expense) => void } | undefined)?.onAddExpense(
+        response.data as Expense
+      );
       navigation.goBack();
     } catch (error) {
       console.error('Error posting expense:', error);
@@ -88,7 +81,11 @@ export default function AddExpenseScreen({
             <AntDesign name="close" size={Sizing.x40} color={Colors.palette.primary} />
           </TouchableOpacity>
           <Text style={styles.title}>Nuevo gasto</Text>
-          <TouchableOpacity onPress={handleAddExpense}>
+          <TouchableOpacity
+            onPress={() => {
+              handleAddExpense().catch(console.error);
+            }}
+          >
             <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
           </TouchableOpacity>
         </View>
@@ -99,7 +96,7 @@ export default function AddExpenseScreen({
           value={category}
           onValueChange={(value) => setCategory(Number(value))}
           items={categoryItems}
-          placeholder={{ label: "Selecciona una categoría...", value: null }}
+          placeholder={{ label: 'Selecciona una categoría...', value: null }}
         />
 
         <Text style={styles.title}>Tipo de Gasto</Text>
@@ -108,7 +105,7 @@ export default function AddExpenseScreen({
           value={userExpenseType}
           onValueChange={(value) => setUserExpenseType(Number(value))}
           items={userExpenseTypeItems}
-          placeholder={{ label: "Selecciona un tipo de gasto...", value: null }}
+          placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
         />
 
         <Text style={styles.inputLabel}>Descripción:</Text>
@@ -126,7 +123,7 @@ export default function AddExpenseScreen({
           keyboardType="numeric"
           value={amount}
           onChangeText={(text) => {
-            const formattedAmount = formatAmount(text);
+            const formattedAmount = formatCurrency(text);
             setAmount(formattedAmount);
           }}
         />
@@ -137,7 +134,9 @@ export default function AddExpenseScreen({
             <TouchableOpacity
               style={[
                 styles.sharedExpenseButton,
-                sharedExpense ? styles.sharedExpenseButtonActive : styles.sharedExpenseButtonInactive,
+                sharedExpense
+                  ? styles.sharedExpenseButtonActive
+                  : styles.sharedExpenseButtonInactive,
               ]}
               onPress={() => setSharedExpense(true)}
             >
@@ -160,7 +159,7 @@ export default function AddExpenseScreen({
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('SharedExpenseDetails', {
-                onSave: (sharedWith) => console.log(sharedWith),
+                onSave: (sharedWith: any) => console.log(sharedWith),
               })
             }
             style={styles.sharedExpenseButton2}

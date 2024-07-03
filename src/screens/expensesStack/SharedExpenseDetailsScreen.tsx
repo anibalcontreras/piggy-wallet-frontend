@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
-import type { Navigation } from '../../types';
+import type { Navigation } from '@/types';
+import { formatCurrency } from '@/utils';
 
 export default function SharedExpenseDetailsScreen({
   navigation,
@@ -17,12 +18,6 @@ export default function SharedExpenseDetailsScreen({
   const handleSave = (): void => {
     route.params.onSave(sharedWith);
     navigation.goBack();
-  };
-
-  const formatAmount = (amount: string): string => {
-    const cleanedAmount = amount.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-    const formattedAmount = cleanedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Add thousand separators
-    return `$${formattedAmount}`;
   };
 
   return (
@@ -55,7 +50,7 @@ export default function SharedExpenseDetailsScreen({
             placeholderTextColor={Colors.palette.border} // Asegúrate de que el color del placeholder sea visible
             value={person.amount}
             onChangeText={(text) => {
-              const formattedAmount = formatAmount(text);
+              const formattedAmount = formatCurrency(text);
               const newSharedWith = [...sharedWith];
               newSharedWith[index].amount = formattedAmount;
               setSharedWith(newSharedWith);

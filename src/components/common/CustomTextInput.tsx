@@ -6,7 +6,7 @@ import { type Components } from '@/types';
 function formatCurrency(value: string): string {
   const numberValue = parseInt(value.replace(/\D/g, ''), 10);
   if (isNaN(numberValue)) return '';
-  return '$' + numberValue.toLocaleString('es-CL');
+  return numberValue.toLocaleString('es-CL');
 }
 
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {

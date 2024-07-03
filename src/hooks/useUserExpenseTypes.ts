@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { UserExpense, UseUserExpenseTypes } from '@/types/hooks';
+import type { UserExpenseType } from '@/types/backend';
 
-const useUserExpenseTypes = (): UseUserExpenseTypes => {
-  const [categories, setCategories] = useState<string[]>([]);
+interface UseUserExpenseTypesResult {
+  userExpenseTypes: UserExpenseType[];
+  error: boolean;
+  loading: boolean;
+}
+
+const useUserExpenseTypes = (): UseUserExpenseTypesResult => {
+  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -14,15 +20,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
 
     try {
       const response = await httpService.get(END_POINT.userExpenseTypes);
-      const data: UserExpense[] = (await response.data) as UserExpense[];
-
-      const records: string[] = [];
-
-      for (let i = 0; i < data.length; i++) {
-        records.push(data[i].name);
-      }
-
-      setCategories(records);
+      setUserExpenseTypes(response.data as UserExpenseType[]);
     } catch (error) {
       setError(true);
     } finally {
@@ -34,7 +32,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
     void fetchUserExpenseTypes();
   }, []);
 
-  return { error, loading, categories };
+  return { userExpenseTypes, error, loading };
 };
 
 export default useUserExpenseTypes;
