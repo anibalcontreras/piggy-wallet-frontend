@@ -13,6 +13,7 @@ import useUserBalance from '@/hooks/debtsStack/useUserBalance';
 import useUserDebtsHistory from '@/hooks/debtsStack/useUserDebtsHistory';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
+import * as FormatFunctions from '@/utils';
 import UserBalance from '@/components/debtsStack/UserBalance';
 import ErrorText from '@/components/common/ErrorText';
 import DebtTransaction from '@/components/debtsStack/DebtTransaction';
@@ -74,8 +75,8 @@ export default function DebtDetailsScreen({
   const balance = userBalance?.balance ?? 0;
   const balanceMessage =
     balance > 0
-      ? `${route.params.debtorName} te debe $${balance}`
-      : `Debes $${Math.abs(balance)} a ${route.params.debtorName}`;
+      ? `${route.params.debtorName} te debe ${FormatFunctions.formatCurrency(balance)}`
+      : `Debes ${FormatFunctions.formatCurrency(Math.abs(balance))} a ${route.params.debtorName}`;
 
   return (
     <SafeAreaView style={styles.container}>

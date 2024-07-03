@@ -18,7 +18,7 @@ function DebtTransaction({
           <View style={styles.amountContainer}>
             <View style={styles.amountAndDateContainer}>
               <Text style={styles.amountText}>
-                {FormatFunctions.formatCurrency(transaction.amount.toString())}
+                {FormatFunctions.formatCurrency(transaction.amount)}
               </Text>
               <Text style={styles.dateText}>
                 {new Date(transaction.createdAt).toLocaleDateString()}
