@@ -19,6 +19,7 @@ export default function AddDebtScreen({
   const debtValidationSchema = yup.object().shape({
     amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
     debtorId: yup.string().required('Deudor es requerido'),
+    description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
   });
 
   const { loading, error, piggies } = usePiggies();
@@ -117,6 +118,7 @@ export default function AddDebtScreen({
                 inputMode="text"
                 textContentType="none"
                 autoCapitalize="none"
+                maxLength={71}
               />
               {isCreatingDebt ? (
                 <View style={styles.buttonContainer}>
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
+    marginTop: Sizing.x10,
     alignItems: 'center',
   },
   title: {

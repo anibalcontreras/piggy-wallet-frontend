@@ -27,12 +27,13 @@ function DebtTransaction({
             <Text style={styles.descriptionText}>
               {transaction?.description ?? 'Sin descripción'}
             </Text>
+            <Text style={styles.paidByText}>Pagado por {transaction.user.firstName}</Text>
           </View>
           <TouchableOpacity
             style={styles.iconButton}
             onPress={() => onSettleDebtClick(transaction.id)}
           >
-            <AntDesign name="check" size={36} color={Colors.palette.primary} />
+            <AntDesign name="check" size={24} color={Colors.palette.primary} />
           </TouchableOpacity>
         </View>
       ))}
@@ -74,6 +75,9 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     ...Typography.bodyStyles.primary,
+  },
+  paidByText: {
+    ...Typography.bodyStyles.highlight,
   },
   iconButton: {
     padding: Sizing.x10,

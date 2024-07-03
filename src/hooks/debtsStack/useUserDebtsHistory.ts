@@ -21,15 +21,9 @@ const useUserDebtsHistory = (debtorId: string): UserUserDebtsHistory => {
       const data: Record<string, any> = await response.data;
 
       const camelCaseData: Backend.DebtsTransactions = {
-        presentWeek: data.present_week.map((obj: Record<string, any>) =>
-          snakeToCamel(obj)
-        ) as Backend.DebtTransaction[],
-        lastWeek: data.last_week.map((obj: Record<string, any>) =>
-          snakeToCamel(obj)
-        ) as Backend.DebtTransaction[],
-        previousWeeks: data.previous_weeks.map((obj: Record<string, any>) =>
-          snakeToCamel(obj)
-        ) as Backend.DebtTransaction[],
+        presentWeek: data.present_week.map(snakeToCamel) as Backend.DebtTransaction[],
+        lastWeek: data.last_week.map(snakeToCamel) as Backend.DebtTransaction[],
+        previousWeeks: data.previous_weeks.map(snakeToCamel) as Backend.DebtTransaction[],
       };
 
       setUserDebtshistory(camelCaseData);
