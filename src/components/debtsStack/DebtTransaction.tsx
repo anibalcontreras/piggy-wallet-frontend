@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { Components } from '@/types';
+import type { Components } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import * as FormatFunctions from '@/utils';
 
