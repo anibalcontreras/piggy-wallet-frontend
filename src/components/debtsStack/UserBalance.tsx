@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import type { Components } from '@/types';
 import { Sizing, Typography } from '@/styles';
+import * as FormatFunctions from '@/utils';
 
 function UserBalance({ userBalance }: Components.UserBalanceProps): JSX.Element {
   const isPositive = userBalance != null ? userBalance.balance > 0 : false;
-  const displayValue = Math.abs(userBalance?.balance ?? 0).toLocaleString('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-  });
+  const displayValue = FormatFunctions.formatCurrency(
+    Math.abs(userBalance?.balance ?? 0).toString()
+  );
 
   return (
     <View style={styles.container}>

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   smallContainer: {
     width: '90%',
     margin: Sizing.x10,
-    height: '45%',
+    height: '30%',
   },
   listContainer: {
     padding: Sizing.x5,

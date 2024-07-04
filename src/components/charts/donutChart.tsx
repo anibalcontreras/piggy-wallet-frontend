@@ -7,7 +7,7 @@ import * as FormatFunctions from '@/utils';
 
 const ChartTooltipLabel = (props: ChartTooltipProps): JSX.Element => {
   const { datum } = props;
-  const amount = FormatFunctions.formatCurrency(datum != null ? datum.x.toString() : '0');
+  const amount = FormatFunctions.formatCurrency(datum != null ? datum.x : 0);
   const text = [`${datum?.label}`, `${amount} (${datum?.y}%)`];
 
   return <VictoryLabel {...props} text={text} />;
@@ -48,7 +48,7 @@ const DonutChart = ({
   ];
 
   const formattedAvailableBudget = FormatFunctions.formatCurrency(
-    (disableAvailable ? total : availableBudget).toString()
+    disableAvailable ? total : availableBudget
   );
 
   return (

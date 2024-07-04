@@ -87,11 +87,9 @@ describe('Debt Screen', () => {
     cy.wait('@getUserExpenseType');
     cy.wait('@getBudget');
 
-    cy.get('[data-testid="tabbar-container"]').within(() => {
-      cy.get('[data-testid="Gastos-tab"]').as('expensesTab');
-      cy.get('[data-testid="Deudas-tab"]').as('debtTab');
-      cy.get('[data-testid="Perfil-tab"]').as('profileTab');
-    });
+    cy.get('[data-testid="Gastos-tab"]').as('expensesTab');
+    cy.get('[data-testid="Deudas-tab"]').as('debtTab');
+    cy.get('[data-testid="Perfil-tab"]').as('profileTab');
   });
 
   it('should navigate between the tabs after login', () => {

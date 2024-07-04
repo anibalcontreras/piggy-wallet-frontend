@@ -132,3 +132,9 @@ export interface UserExpenseType {
   created_at: string;
   updated_at: string;
 }
+
+export interface DebtTransactionProps {
+  title: string;
+  transactions: Backend.DebtTransaction[];
+  onSettleDebtClick: (debtId: number) => void;
+}

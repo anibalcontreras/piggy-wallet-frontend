@@ -2,12 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
 import { Colors, Forms, Sizing, Typography } from '@/styles';
 import { type Components } from '@/types';
-
-function formatCurrency(value: string): string {
-  const numberValue = parseInt(value.replace(/\D/g, ''), 10);
-  if (isNaN(numberValue)) return '';
-  return '$' + numberValue.toLocaleString('es-CL');
-}
+import * as FormatFunctions from '@/utils';
 
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
   const {
@@ -18,7 +13,8 @@ function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {
   } = props;
   const hasError = Boolean(errors[name]) && touched[name];
 
-  const displayValue = variant === 'secondary' ? formatCurrency(value as string) : value;
+  const displayValue =
+    variant === 'secondary' ? FormatFunctions.formatCurrency(value as string) : value;
 
   let inputStyle;
   let textColor;

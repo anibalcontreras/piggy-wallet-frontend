@@ -73,7 +73,7 @@ export const headerStyles: Record<HeaderStyle, TextStyle> = {
   },
 };
 
-type SubheaderStyle = 'regular' | 'bold';
+type SubheaderStyle = 'regular' | 'bold' | 'muted';
 export const subheaderStyles: Record<SubheaderStyle, TextStyle> = {
   regular: {
     ...fontSize.medium,
@@ -86,6 +86,12 @@ export const subheaderStyles: Record<SubheaderStyle, TextStyle> = {
     ...fontWeight.semibold,
     ...lineHeight.medium,
     color: Colors.palette.text,
+  },
+  muted: {
+    ...fontSize.large,
+    ...fontWeight.bold,
+    ...lineHeight.medium,
+    color: Colors.palette.border,
   },
 };
 

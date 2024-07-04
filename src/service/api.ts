@@ -53,7 +53,7 @@ class HttpService {
 
   async put(
     url: string,
-    data: any,
+    data?: any,
     customHeaders: Record<string, string> = {}
   ): Promise<AxiosResponse> {
     return await this.request('put', url, data, customHeaders);
