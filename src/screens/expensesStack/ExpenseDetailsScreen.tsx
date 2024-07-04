@@ -15,7 +15,7 @@ export default function ExpenseDetailsScreen({
   const [expenseTypeName, setExpenseTypeName] = useState<string>('Tipo de gasto desconocido');
 
   const { categories } = useCategories();
-  const { categories: userExpenseTypes } = useUserExpenseTypes();
+  const { expenseType: userExpenseTypes } = useUserExpenseTypes();
 
   useEffect(() => {
     const category = categories.find((cat) => cat.id === expense.category);
@@ -23,8 +23,9 @@ export default function ExpenseDetailsScreen({
       category !== null && category !== undefined ? category.name : 'Categoría desconocida'
     );
 
-    const expenseType = userExpenseTypes.find((type) => type === expense.user_expense_type);
-    setExpenseTypeName(expenseType ?? 'Tipo de gasto desconocido');
+    const expenseType = userExpenseTypes.find((type) => type.id === expense.user_expense_type);
+
+    setExpenseTypeName(expenseType?.name ?? 'Tipo de gasto desconocido');
   }, [categories, userExpenseTypes, expense.category, expense.user_expense_type]);
 
   return (
