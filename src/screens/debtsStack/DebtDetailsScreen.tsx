@@ -53,8 +53,6 @@ export default function DebtDetailsScreen({
       .put(`${END_POINT.settleDebt}${debtId}/`)
       .then(() => {
         Alert.alert('Deuda saldada', 'La deuda ha sido saldada');
-        // HUNTLEY, no se como vergas hacer que se actualice la pantalla aqui
-        // Lo unico que logre es navegar a la screen de Debts nomas, porque que no se actualize es pesima experiencia
       })
       .catch((error) => {
         console.error('Error:', error);
