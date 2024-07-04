@@ -52,10 +52,10 @@ export default function AddExpenseScreen({
       return;
     }
 
-    let newExpense: Backend.Expense = {
+    const newExpense: Backend.Expense = {
       id: 0,
       username: '',
-      userExpenseType: userExpenseType,
+      userExpenseType,
       category,
       bankcardId: userBankCards[0].id,
       amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),

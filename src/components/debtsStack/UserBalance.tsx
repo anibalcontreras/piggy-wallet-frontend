@@ -22,8 +22,6 @@ function UserBalance({ userBalance }: Components.UserBalanceProps): JSX.Element 
   );
 }
 
-export default UserBalance;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -59,3 +57,5 @@ const styles = StyleSheet.create({
     ...Typography.bodyStyles.secondary,
   },
 });
+
+export default UserBalance;

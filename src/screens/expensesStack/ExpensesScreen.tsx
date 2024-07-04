@@ -16,7 +16,7 @@ import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import useExpenses from '@/hooks/expensesStack/useExpenses';
 import useCategories from '@/hooks/expensesStack/useCategories';
-import ExpenseCard from '@/components/expenses/ExpenseCard';
+import ExpenseCard from '@/components/expensesStack/ExpenseCard';
 import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
 import ErrorText from '@/components/common/ErrorText';
 

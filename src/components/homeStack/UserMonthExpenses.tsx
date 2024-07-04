@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import type { DonutChartValue, UserMonthExpensesProps } from '@/types/components';
+import type { Components } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 
-const UserMonthExpenses = ({
+function UserMonthExpenses({
   categories,
   expensesByExpenseType,
   expensesByCategory,
-}: UserMonthExpensesProps): JSX.Element => {
+}: Components.UserMonthExpensesProps): JSX.Element {
   // We set the state values for the filter component outside so we know what to pass to the donut chart
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  const getChartValue = (): DonutChartValue[] => {
+  const getChartValue = (): Components.DonutChartValue[] => {
     if (page === 0) {
       return selectedTab === 0 ? expensesByExpenseType : expensesByCategory[selectedTab - 1];
     }
@@ -41,7 +41,7 @@ const UserMonthExpenses = ({
       <DonutChart values={getChartValue()} userBudget={0} marginTop={Sizing.x80} disableAvailable />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   loading: {

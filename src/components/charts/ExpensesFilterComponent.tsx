@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import type { Components } from '@/types';
 import { Sizing, Colors, Typography } from '@/styles';
-import type { FilterComponentProps } from '@/types/components';
 
 const { width } = Dimensions.get('window');
 
-const ExpenseFilterComponent = ({
+function ExpenseFilterComponent({
   categories = [],
   defaultCategories = ['Todo', 'Ult. mes', 'Ult. semana'],
   selectedTab = 0,
@@ -17,7 +17,7 @@ const ExpenseFilterComponent = ({
   setPage = (pg) => {
     page = pg;
   },
-}: FilterComponentProps): JSX.Element => {
+}: Components.FilterComponentProps): JSX.Element {
   const categoryValues = [...defaultCategories, ...categories];
 
   const filterWidth =
@@ -97,7 +97,7 @@ const ExpenseFilterComponent = ({
       {categoryValues.length > 3 ? <ChangeCategoryPressable move=">" /> : <></>}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   filterContainer: {

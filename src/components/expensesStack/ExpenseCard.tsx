@@ -1,24 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
-import type { Category } from '@/types/components';
-import type { Expense } from '@/types/backend';
+import type { Components } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
 import { formatCurrency } from '@/utils';
 
-const ExpenseCard = ({
+function ExpenseCard({
   expense,
   categories,
   onDelete,
   onEdit,
   onLook,
-}: {
-  expense: Expense;
-  categories: Category[];
-  onDelete: any;
-  onEdit: any;
-  onLook: any;
-}): JSX.Element => {
+}: Components.ExpenseCardProps): JSX.Element {
   const category = categories.find((cat) => cat.id === expense.category);
 
   return (
@@ -54,7 +47,7 @@ const ExpenseCard = ({
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   card: {

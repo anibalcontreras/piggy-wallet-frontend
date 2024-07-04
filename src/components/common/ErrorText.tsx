@@ -1,10 +1,10 @@
 // ErrorComponent.tsx
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import type { ErrorTextProps } from '@/types/components';
+import type { Components } from '@/types';
 import { Colors, Sizing } from '@/styles';
 
-function ErrorText({ message }: ErrorTextProps): JSX.Element {
+function ErrorText({ message }: Components.ErrorTextProps): JSX.Element {
   return (
     <View style={styles.container}>
       <Text style={styles.errorText}>{message}</Text>

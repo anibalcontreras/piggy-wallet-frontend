@@ -114,3 +114,11 @@ export interface DebtTransactionProps {
   transactions: Backend.DebtTransaction[];
   onSettleDebtClick: (debtId: number) => void;
 }
+
+export interface ExpenseCardProps {
+  expense: Backend.Expense;
+  categories: Backend.Category[];
+  onDelete: (expense: Backend.Expense) => void;
+  onEdit: (expense: Backend.Expense) => void;
+  onLook: (expense: Backend.Expense) => void;
+}
