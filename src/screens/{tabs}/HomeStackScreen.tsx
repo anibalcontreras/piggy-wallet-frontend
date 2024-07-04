@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type { HomeStackParamsList } from '@/types/navigation';
+import type { Navigation } from '@/types';
+import { Colors } from '@/styles';
 import HomeScreen from '@/screens/homeStack/HomeScreen';
 import BudgetScreen from '@/screens/homeStack/BudgetScreen';
-import { Colors } from '@/styles';
 
-const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
+const HomeStack = createNativeStackNavigator<Navigation.HomeStackParamsList>();
 
 export default function HomeStackScreen(): JSX.Element {
   return (

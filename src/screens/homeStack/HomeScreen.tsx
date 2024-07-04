@@ -1,12 +1,11 @@
 import { SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
-import type { Navigation } from '@/types';
-import type { DonutChartValue } from '@/types/components';
+import type { Components, Navigation } from '@/types';
 import { Sizing } from '@/styles';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
-import useBudget from '@/hooks/useBudget';
+import useBudget from '@/hooks/homeStack/useBudget';
 import UserMonthExpenses from '@/components/homeStack/UserMonthExpenses';
 import UserBudget from '@/components/homeStack/UserBudget';
-import useExpensesGroups from '@/hooks/useExpensesGroups';
+import useExpensesGroups from '@/hooks/homeStack/useExpensesGroups';
 import ErrorText from '@/components/common/ErrorText';
 
 export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.Element {
@@ -18,7 +17,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   const {
     loading: userExpenseTypesLoading,
     error: userExpenseTypesError,
-    categories,
+    userExpenseTypes,
   } = useUserExpenseTypes();
   const { loading: budgetLoading, error: budgetError, budget } = useBudget();
 
@@ -27,9 +26,9 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   }
 
   // We compute the total expenses by user expense type
-  const expensesByExpenseType: DonutChartValue[] = [];
+  const expensesByExpenseType: Components.DonutChartValue[] = [];
   // And we format the expenses by category
-  const expensesByCategory: DonutChartValue[][] = [];
+  const expensesByCategory: Components.DonutChartValue[][] = [];
 
   for (const expenseType in allExpensesByCategories) {
     expensesByExpenseType.push({ amount: 0, label: expenseType });
@@ -46,7 +45,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   }
 
   // We compute the global total expenses
-  const allExpenses: DonutChartValue[] = [{ amount: 0, label: 'Gastos' }];
+  const allExpenses: Components.DonutChartValue[] = [{ amount: 0, label: 'Gastos' }];
 
   for (let i = 0; i < expensesByExpenseType.length; i++) {
     allExpenses[0].amount += expensesByExpenseType[i].amount;
@@ -67,7 +66,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   return (
     <SafeAreaView testID={'home-screen'} style={styles.container}>
       <UserMonthExpenses
-        categories={categories}
+        userExpenseTypes={userExpenseTypes}
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
         {...props}

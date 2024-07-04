@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import type { Backend } from '@/types';
-import type { UserUserDebtsHistory } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import { snakeToCamel } from '@/utils';
 
-const useUserDebtsHistory = (debtorId: string): UserUserDebtsHistory => {
+const useUserDebtsHistory = (debtorId: string): Hooks.UserUserDebtsHistory => {
   const isFocused = useIsFocused();
 
   const [userDebtsHistory, setUserDebtshistory] = useState<Backend.DebtsTransactions>();

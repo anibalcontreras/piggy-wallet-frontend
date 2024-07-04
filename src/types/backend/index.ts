@@ -8,12 +8,6 @@ export interface Balance {
   balance: number;
 }
 
-export interface DebtsTransactions {
-  presentWeek: DebtTransaction[];
-  lastWeek: DebtTransaction[];
-  previousWeeks: DebtTransaction[];
-}
-
 export interface DebtTransaction {
   id: number;
   user: User;
@@ -24,15 +18,21 @@ export interface DebtTransaction {
   createdAt: string;
 }
 
+export interface DebtsTransactions {
+  presentWeek: DebtTransaction[];
+  lastWeek: DebtTransaction[];
+  previousWeeks: DebtTransaction[];
+}
+
 export interface Expense {
   id: number;
   username: string;
-  user_expense_type: number;
+  userExpenseType: number;
   category: number | null;
-  bankcard_id: number;
+  bankcardId: number;
   amount: number;
   description: string;
-  created_at: string;
+  createdAt?: string;
 }
 
 export interface UserExpenseType {
@@ -40,13 +40,23 @@ export interface UserExpenseType {
   username: string;
   name: string;
   description: string;
-  set_by_user: boolean;
+  setByUser: boolean;
+}
+
+export interface Category {
+  id: number;
+  name: string;
 }
 
 export interface BankCard {
   id: number;
-  user_id: string;
-  account_number: number;
-  bank_name: string;
-  card_type: string;
+  userId: string;
+  accountNumber: number;
+  bankName: string;
+  cardType: string;
 }
+export interface Budget {
+  amount: number | null;
+}
+
+export type ExpensesGroup = Record<string, Record<string, number>>;

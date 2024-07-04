@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '@/styles';
-import { AntDesign } from '@expo/vector-icons';
-import type { EditExpenseNavigationProps } from '@/types/navigation';
-import type { Category } from '@/types/components';
-import type { Expense } from '@/types/backend';
+import { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { AntDesign } from '@expo/vector-icons';
+import type { Backend, Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
+import useCategories from '@/hooks/expensesStack/useCategories';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
+import ErrorText from '@/components/common/ErrorText';
 
+// Quede en corregir esta screen
 export default function EditExpenseScreen({
   navigation,
   route,
-}: EditExpenseNavigationProps): JSX.Element {
+}: Navigation.EditExpenseNavigationProps): JSX.Element {
   const { expense, onSave } = route.params;
+
   const [amount, setAmount] = useState(expense.amount.toString());
-  const [category, setCategory] = useState(expense.category.toString());
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState(
+    expense.category !== null ? expense.category.toString() : ''
+  );
   const [description, setDescription] = useState(expense.description);
 
-  const fetchCategories = async (): Promise<void> => {
-    try {
-      const response = await httpService.get(END_POINT.categories);
-      setCategories(response.data as Category[]);
-    } catch (error) {
-      Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
-    }
-  };
-
-  useEffect(() => {
-    void fetchCategories();
-  }, []);
+  const { loading, error, categories } = useCategories();
 
   const handleSave = async (): Promise<void> => {
     if (amount === '') {
@@ -38,7 +38,7 @@ export default function EditExpenseScreen({
       return;
     }
 
-    const updatedExpense: Expense = {
+    const updatedExpense: Backend.Expense = {
       ...expense,
       amount: typeof amount === 'string' ? parseInt(amount, 10) : 0,
       category: typeof category === 'string' ? parseInt(category, 10) : 0,
@@ -47,7 +47,7 @@ export default function EditExpenseScreen({
 
     try {
       const response = await httpService.put(`${END_POINT.expenses}${expense.id}/`, updatedExpense);
-      onSave(response.data as Expense);
+      onSave(response.data as Backend.Expense);
       navigation.goBack();
     } catch (error) {
       console.error('Error updating expense:', error);
@@ -60,6 +60,14 @@ export default function EditExpenseScreen({
     value: cat.id.toString(),
     key: cat.id,
   }));
+
+  if (loading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (error) {
+    return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
+  }
 
   return (
     <View style={styles.container}>
@@ -87,7 +95,7 @@ export default function EditExpenseScreen({
       <RNPickerSelect
         style={pickerSelectStyles}
         value={category}
-        onValueChange={(value) => setCategory(value)}
+        onValueChange={(value: string) => setCategory(value)}
         items={categoryItems}
         placeholder={{ label: 'Selecciona una categoría...', value: null }}
       />
@@ -104,6 +112,11 @@ export default function EditExpenseScreen({
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: Sizing.x20,

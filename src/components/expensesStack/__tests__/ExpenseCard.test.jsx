@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import ExpenseCard from '@/components/expenses/ExpenseCard';
+import ExpenseCard from '@/components/expensesStack/ExpenseCard';
 
 jest.mock('@expo/vector-icons', () => {
   const { View } = require('react-native');

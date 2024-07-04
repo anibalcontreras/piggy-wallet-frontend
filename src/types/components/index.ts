@@ -4,7 +4,6 @@ import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@rea
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
 import type { Backend } from '@/types';
-import { type Budget } from '../hooks';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -66,13 +65,13 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
 }
 
 export interface UserMonthExpensesProps {
-  categories: string[];
+  userExpenseTypes: Backend.UserExpenseType[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
 }
 
 export interface UserBudgetProps {
-  budget: Budget;
+  budget: Backend.Budget;
   allExpenses: DonutChartValue[];
   handleClick: () => void;
 }
@@ -110,13 +109,16 @@ export interface UserBalanceProps {
   userBalance?: Backend.Balance;
 }
 
-export interface Category {
-  id: number;
-  name: string;
-}
-
 export interface DebtTransactionProps {
   title: string;
   transactions: Backend.DebtTransaction[];
   onSettleDebtClick: (debtId: number) => void;
+}
+
+export interface ExpenseCardProps {
+  expense: Backend.Expense;
+  categories: Backend.Category[];
+  onDelete: (expense: Backend.Expense) => void;
+  onEdit: (expense: Backend.Expense) => void;
+  onLook: (expense: Backend.Expense) => void;
 }

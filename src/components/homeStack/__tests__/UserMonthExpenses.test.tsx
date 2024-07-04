@@ -6,6 +6,8 @@ jest.mock('@/service/api', () => ({
   get: async () => ({ data: [{ id: 1, name: 'Personal' }] }),
 }));
 
+const mockUserExpenseTypes = [{ id: 1, name: 'Personal' }];
+
 const mockExpensesByExpenseType = [{ amount: 5000, label: 'Personal' }];
 
 const mockExpensesByCategory = [
@@ -25,6 +27,7 @@ describe('UserBudget', () => {
 
     const { getByText } = render(
       <UserMonthExpenses
+        userExpenseTypes={mockUserExpenseTypes}
         expensesByExpenseType={mockExpensesByExpenseType}
         expensesByCategory={mockExpensesByCategory}
         {...props}

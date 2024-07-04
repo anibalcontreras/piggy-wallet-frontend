@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { Entypo } from '@expo/vector-icons';
-import type { Expense } from './components';
+import type { Backend } from '@/types';
 
 export const enum Tab {
   Home = 'HOME_SCREEN',
@@ -29,14 +29,14 @@ export type HomeStackParamsList = {
 
 export type ExpensesStackParamsList = {
   Expenses: undefined;
-  AddExpense: { onAddExpense: (newExpense: any) => void };
-  EditExpense: { expense: Expense; onSave: (updatedExpense: Expense) => void };
+  AddExpense: undefined;
+  EditExpense: { expense: Backend.Expense; onSave: (updatedExpense: Backend.Expense) => void };
   Amount: { onSave: (amount: string) => void };
   ExpenseType: { onSave: (type: string) => void };
   Category: { onSave: (category: string) => void };
   Description: { onSave: (description: string) => void };
   SharedExpenseDetails: { onSave: (sharedWith: any) => void };
-  ExpenseDetails: { expense: Expense };
+  ExpenseDetails: { expense: Backend.Expense };
 };
 
 export type DebtsStackParamsList = {

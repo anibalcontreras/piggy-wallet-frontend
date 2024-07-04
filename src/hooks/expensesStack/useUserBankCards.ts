@@ -1,11 +1,10 @@
+import { useEffect, useState } from 'react';
+import type { Backend, Hooks } from '@/types';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Backend } from '@/types';
-import type { UseUserBankCards } from '@/types/hooks';
 import { snakeToCamel } from '@/utils';
-import { useEffect, useState } from 'react';
 
-const useUserBankCards = (): UseUserBankCards => {
+const useUserBankCards = (): Hooks.UseUserBankCards => {
   const [userBankCards, setUserBankCards] = useState<Backend.BankCard[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);

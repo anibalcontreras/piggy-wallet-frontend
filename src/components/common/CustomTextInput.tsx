@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput } from 'react-native';
-import { Colors, Forms, Sizing, Typography } from '@/styles';
 import { type Components } from '@/types';
+import { Colors, Forms, Sizing, Typography } from '@/styles';
 import * as FormatFunctions from '@/utils';
 
 function CustomTextInput(props: Components.CustomTextInputProps): JSX.Element {

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import type { Backend, Hooks } from '@/types';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Budget, UseBudget } from '@/types/hooks';
 
-const useBudget = (): UseBudget => {
+const useBudget = (): Hooks.UseBudget => {
   const isFocused = useIsFocused();
 
-  const [budget, setBudget] = useState<Budget>({ amount: null });
+  const [budget, setBudget] = useState<Backend.Budget>({ amount: null });
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -17,7 +17,7 @@ const useBudget = (): UseBudget => {
 
     try {
       const response = await httpService.get(END_POINT.budget);
-      const data: Budget = (await response.data) as Budget;
+      const data: Backend.Budget = (await response.data) as Backend.Budget;
       setBudget(data);
     } catch (error) {
       setError(true);

@@ -1,13 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import type { ExpensesStackParamsList } from '@/types/navigation';
+import type { Navigation } from '@/types';
 import ExpensesScreen from '../expensesStack/ExpensesScreen';
 import AddExpenseScreen from '../expensesStack/AddExpenseScreen';
 import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
 import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
 import ExpenseDetailsScreen from '../expensesStack/ExpenseDetailsScreen';
-const ExpensesStack = createNativeStackNavigator<ExpensesStackParamsList>();
+const ExpensesStack = createNativeStackNavigator<Navigation.ExpensesStackParamsList>();
 
 function AddExpenseStackScreen(): JSX.Element {
   return (

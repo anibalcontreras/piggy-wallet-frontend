@@ -6,11 +6,7 @@ import { Colors, Sizing, Typography } from '@/styles';
 import * as FormatFunctions from '@/utils';
 import DonutChart from '@/components/charts/donutChart';
 
-const UserBudget = ({
-  budget,
-  allExpenses,
-  handleClick,
-}: Components.UserBudgetProps): JSX.Element => {
+function UserBudget({ budget, allExpenses, handleClick }: Components.UserBudgetProps): JSX.Element {
   const userBudget = budget.amount;
   const budgetConfigured = userBudget !== null;
   const formattedUserBudget = budgetConfigured ? FormatFunctions.formatCurrency(userBudget) : '';
@@ -42,9 +38,7 @@ const UserBudget = ({
       )}
     </View>
   );
-};
-
-export default UserBudget;
+}
 
 const styles = StyleSheet.create({
   loading: {
@@ -89,3 +83,5 @@ const styles = StyleSheet.create({
     ...Typography.bodyStyles.highlight,
   },
 });
+
+export default UserBudget;

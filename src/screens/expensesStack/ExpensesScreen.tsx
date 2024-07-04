@@ -1,26 +1,37 @@
-import React, { useState, useCallback } from 'react';
-import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Colors, Sizing } from '@/styles';
-import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
-import ExpenseCard from '@/components/expenses/ExpenseCard';
-import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/backend';
+import { useCallback, useState } from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+import type { Backend, Navigation } from '@/types';
+import { Colors, Sizing } from '@/styles';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import useExpenses from '@/hooks/useExpenses';
-import useCategories from '@/hooks/useCategories';
+import useExpenses from '@/hooks/expensesStack/useExpenses';
+import useCategories from '@/hooks/expensesStack/useCategories';
+import ExpenseCard from '@/components/expensesStack/ExpenseCard';
+import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
+import ErrorText from '@/components/common/ErrorText';
 
-export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const { expenses, fetchExpenses } = useExpenses();
-  const { categories } = useCategories();
+export default function ExpensesScreen({
+  navigation,
+}: Navigation.ExpensesNavigationProps): JSX.Element {
+  const { error: expensesError, loading: expensesLoading, expenses, fetchExpenses } = useExpenses();
+  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
+
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
   const filteredExpenses = expenses.filter((expense) => {
     const today = new Date();
-    const expenseDate = new Date(expense.created_at);
+    const expenseDate = new Date(expense.createdAt ?? new Date());
     if (selectedTab === 0) return true;
     if (selectedTab === 1) {
       const lastMonth = new Date();
@@ -41,32 +52,41 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     }, [])
   );
 
-  const handleDelete = async (id: number): Promise<void> => {
-    try {
-      await httpService.delete(`${END_POINT.expenses}${id}/`);
-      await fetchExpenses();
-      Alert.alert('Gasto eliminado');
-    } catch (error) {
-      Alert.alert('Error', 'No se pudo eliminar el gasto.');
-    }
+  const handleDeleteExpenseClick = (id: number): void => {
+    Alert.alert('Eliminar Gasto', '¿Estás seguro de que quieres eliminar este gasto?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          void deleteExpenseRequest(id);
+        },
+      },
+    ]);
   };
 
-  const handleAddExpense = async (newExpense: Expense): Promise<void> => {
-    try {
-      await fetchExpenses();
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    }
+  const deleteExpenseRequest = async (id: number): Promise<void> => {
+    httpService
+      .delete(`${END_POINT.expenses}${id}/`)
+      .then(async () => {
+        Alert.alert('Gasto eliminado');
+        await fetchExpenses();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'No se pudo eliminar el gasto.');
+      });
   };
 
-  const handleEditExpense = async (updatedExpense: Expense): Promise<void> => {
-    try {
-      await fetchExpenses();
-      Alert.alert('Gasto editado');
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    }
-  };
+  if (expensesLoading || categoriesLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (expensesError || categoriesError) {
+    return <ErrorText message="Ha ocurrido un error al cargar tus gastos" />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -84,32 +104,30 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
             key={expense.id}
             expense={expense}
             categories={categories}
-            onDelete={async () => {
+            onDelete={() => {
               try {
-                await handleDelete(expense.id);
+                handleDeleteExpenseClick(expense.id);
               } catch (error) {
                 console.error(error);
               }
             }}
-            onEdit={(expense: Expense) => {
+            onEdit={(expense: Backend.Expense) => {
               void navigation.navigate('EditExpense', {
                 expense,
-                onSave: (updatedExpense: Expense) => {
-                  void handleEditExpense(updatedExpense);
+                onSave: () => {
+                  Alert.alert('Gasto editado');
                 },
               });
             }}
-            onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
+            onLook={(expense: Backend.Expense) =>
+              navigation.navigate('ExpenseDetails', { expense })
+            }
           />
         ))}
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('AddExpense', {
-            onAddExpense: (newExpense: Expense) => {
-              void handleAddExpense(newExpense);
-            },
-          });
+          navigation.navigate('AddExpense');
         }}
         style={styles.addButtonContainer}
       >
@@ -120,6 +138,11 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.palette.background,

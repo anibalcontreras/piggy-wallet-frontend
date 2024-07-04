@@ -81,8 +81,6 @@ function UsersList({
   );
 }
 
-export default UsersList;
-
 const styles = StyleSheet.create({
   bigContainer: {
     width: '90%',
@@ -129,3 +127,5 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
 });
+
+export default UsersList;

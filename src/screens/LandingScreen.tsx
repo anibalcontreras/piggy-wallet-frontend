@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
-import { type Navigation } from '@/types';
+import type { Navigation } from '@/types';
 import { Sizing, Typography } from '@/styles';
 import Button from '@/components/common/Button';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -7,22 +7,22 @@ import {
   View,
   TextInput,
   Text,
+  ActivityIndicator,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Colors, Sizing, Typography } from '@/styles';
 import RNPickerSelect from 'react-native-picker-select';
-import type { Navigation } from '@/types';
-import useUserBankCards from '@/hooks/useUserBankCards';
-import useCategories from '@/hooks/useCategories';
+import { AntDesign } from '@expo/vector-icons';
+import type { Backend, Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
+import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
+import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Expense } from '@/types/backend';
 import { formatCurrency } from '@/utils';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function AddExpenseScreen({
   navigation,
-  route,
 }: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState<number | null>(null);
@@ -30,9 +30,17 @@ export default function AddExpenseScreen({
   const [description, setDescription] = useState('');
   const [sharedExpense, setSharedExpense] = useState(false);
 
-  const { categories } = useCategories();
-  const { expenseType } = useUserExpenseTypes();
-  const { userBankCards } = useUserBankCards();
+  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
+  const {
+    error: userBankCardsError,
+    loading: userBankCardsLoading,
+    userBankCards,
+  } = useUserBankCards();
+  const {
+    error: userExpenseTypesError,
+    loading: userExpenseTypesLoading,
+    userExpenseTypes,
+  } = useUserExpenseTypes();
 
   const categoryItems = categories.map((cat) => ({
     label: cat.name,
@@ -40,40 +48,53 @@ export default function AddExpenseScreen({
     key: cat.id,
   }));
 
-  const userExpenseTypeItems = expenseType.map((type) => ({
+  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
     label: type.name,
     value: type.id,
     key: type.id,
   }));
 
   const handleAddExpense = async (): Promise<void> => {
-    if (amount === '' || category === null || userExpenseType === null || description === '') {
+    if (amount === '' || userExpenseType === null || description === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
 
-    const newExpense: Expense = {
+    const newExpense: Backend.Expense = {
       id: 0,
       username: '',
-      user_expense_type: userExpenseType,
+      userExpenseType,
       category,
-      bankcard_id: userBankCards[0].id,
+      bankcardId: userBankCards[0].id,
       amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),
       description,
     };
 
     try {
-      const response = await httpService.post(END_POINT.expenses, newExpense);
+      await httpService.post(END_POINT.expenses, {
+        id: newExpense.id,
+        username: newExpense.username,
+        user_expense_type: newExpense.userExpenseType,
+        category: newExpense.category,
+        bankcard_id: newExpense.bankcardId,
+        amount: newExpense.amount,
+        description: newExpense.description,
+      });
       Alert.alert('Gasto creado exitosamente');
-      (route.params as { onAddExpense: (expense: Expense) => void } | undefined)?.onAddExpense(
-        response.data as Expense
-      );
       navigation.goBack();
     } catch (error) {
       console.error('Error posting expense:', error);
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
     }
   };
+
+  if (categoriesLoading || userBankCardsLoading || userExpenseTypesLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (categoriesError || userBankCardsError || userExpenseTypesError) {
+    return <ErrorText message="Ha ocurrido un error al intentar agregar un gasto" />;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -175,6 +196,11 @@ export default function AddExpenseScreen({
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: Sizing.x20,
