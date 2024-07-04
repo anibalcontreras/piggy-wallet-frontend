@@ -18,13 +18,11 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-
   const filteredExpenses = expenses.filter((expense) => {
     const today = new Date();
     const expenseDate = new Date(expense.created_at);
     if (selectedTab === 0) return true;
     if (selectedTab === 1) {
-      
       const lastMonth = new Date();
       lastMonth.setMonth(today.getMonth() - 1);
       return expenseDate > lastMonth;
