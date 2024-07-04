@@ -7,6 +7,7 @@ import type { UseUserExpenseTypes, UserExpense } from '@/types/hooks';
 const useUserExpenseTypes = (): UseUserExpenseTypes => {
   const isFocused = useIsFocused();
 
+  const [expenseType, setExpenseType] = useState<UserExpense[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,6 +27,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
       }
 
       setCategories(records);
+      setExpenseType(data);
     } catch (error) {
       setError(true);
     } finally {
@@ -37,7 +39,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
     void fetchUserExpenseTypes();
   }, [isFocused]);
 
-  return { categories, error, loading };
+  return { categories, error, loading, expenseType };
 };
 
 export default useUserExpenseTypes;

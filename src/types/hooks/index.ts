@@ -34,6 +34,8 @@ export interface UseExpensesGroups extends UseHookBase {
   allExpensesByCategories: ExpensesGroup;
 }
 
+// interface incompleta
+// [{"id":2,"username":"b1cb4500-30e1-7031-f9b6-01067911377c","name":"Personal","description":null,"set_by_user":false}]
 export interface UserExpense {
   id: number;
   name: string;
@@ -41,6 +43,7 @@ export interface UserExpense {
 
 export interface UseUserExpenseTypes extends UseHookBase {
   categories: string[];
+  expenseType: UserExpense[];
 }
 
 export interface Budget {

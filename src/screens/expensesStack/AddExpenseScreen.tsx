@@ -26,12 +26,12 @@ export default function AddExpenseScreen({
 }: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState<number | null>(null);
-  const [userExpenseType, setUserExpenseType] = useState<string | null>(null);
+  const [userExpenseType, setUserExpenseType] = useState<number | null>(null);
   const [description, setDescription] = useState('');
   const [sharedExpense, setSharedExpense] = useState(false);
 
   const { categories } = useCategories();
-  const { categories: userExpenseTypes } = useUserExpenseTypes();
+  const { expenseType } = useUserExpenseTypes();
   const { userBankCards } = useUserBankCards();
 
   const categoryItems = categories.map((cat) => ({
@@ -40,10 +40,10 @@ export default function AddExpenseScreen({
     key: cat.id,
   }));
 
-  const userExpenseTypeItems = userExpenseTypes.map((type, idx) => ({
-    label: type,
-    value: type,
-    key: idx,
+  const userExpenseTypeItems = expenseType.map((type) => ({
+    label: type.name,
+    value: type.id,
+    key: type.id,
   }));
 
   const handleAddExpense = async (): Promise<void> => {
@@ -105,7 +105,7 @@ export default function AddExpenseScreen({
         <RNPickerSelect
           style={pickerSelectStyles}
           value={userExpenseType}
-          onValueChange={(value) => setUserExpenseType(value)}
+          onValueChange={(value) => setUserExpenseType(Number(value))}
           items={userExpenseTypeItems}
           placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
         />
