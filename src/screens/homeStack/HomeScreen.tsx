@@ -3,10 +3,10 @@ import type { Navigation } from '@/types';
 import type { DonutChartValue } from '@/types/components';
 import { Sizing } from '@/styles';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
-import useBudget from '@/hooks/useBudget';
+import useBudget from '@/hooks/homeStack/useBudget';
 import UserMonthExpenses from '@/components/homeStack/UserMonthExpenses';
 import UserBudget from '@/components/homeStack/UserBudget';
-import useExpensesGroups from '@/hooks/useExpensesGroups';
+import useExpensesGroups from '@/hooks/homeStack/useExpensesGroups';
 import ErrorText from '@/components/common/ErrorText';
 
 export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.Element {

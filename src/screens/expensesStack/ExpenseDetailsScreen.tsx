@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
-import useCategories from '@/hooks/useCategories';
+import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import { formatCurrency } from '@/utils';
 

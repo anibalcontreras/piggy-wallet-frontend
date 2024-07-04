@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import type { Backend } from '@/types';
-import type { UseUser } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import { snakeToCamel } from '@/utils';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 
-const useUser = (): UseUser => {
+const useUser = (): Hooks.UseUser => {
   const [user, setUser] = useState<Backend.User>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);

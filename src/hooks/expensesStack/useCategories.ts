@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
+import type { Backend, Hooks } from '@/types';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Category } from '@/types/components';
 
-interface UseCategoriesResult {
-  categories: Category[];
-  error: boolean;
-  loading: boolean;
-}
-
-const useCategories = (): UseCategoriesResult => {
-  const [categories, setCategories] = useState<Category[]>([]);
+const useCategories = (): Hooks.UseCategories => {
+  const [categories, setCategories] = useState<Backend.Category[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -19,7 +13,7 @@ const useCategories = (): UseCategoriesResult => {
     setLoading(true);
     try {
       const response = await httpService.get(END_POINT.categories);
-      setCategories(response.data as Category[]);
+      setCategories(response.data as Backend.Category[]);
     } catch (error) {
       setError(true);
     } finally {
@@ -31,7 +25,7 @@ const useCategories = (): UseCategoriesResult => {
     void fetchCategories();
   }, []);
 
-  return { categories, error, loading };
+  return { error, loading, categories };
 };
 
 export default useCategories;

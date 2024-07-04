@@ -11,9 +11,9 @@ import {
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing, Typography } from '@/styles';
 import RNPickerSelect from 'react-native-picker-select';
-import type { Navigation } from '@/types';
-import useUserBankCards from '@/hooks/useUserBankCards';
-import useCategories from '@/hooks/useCategories';
+import type { Backend, Navigation } from '@/types';
+import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
+import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
@@ -52,18 +52,26 @@ export default function AddExpenseScreen({
       return;
     }
 
-    const newExpense: Expense = {
+    let newExpense: Backend.Expense = {
       id: 0,
       username: '',
-      user_expense_type: userExpenseType,
+      userExpenseType: userExpenseType,
       category,
-      bankcard_id: userBankCards[0].id,
+      bankcardId: userBankCards[0].id,
       amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),
       description,
     };
 
     try {
-      const response = await httpService.post(END_POINT.expenses, newExpense);
+      const response = await httpService.post(END_POINT.expenses, {
+        id: newExpense.id,
+        username: newExpense.username,
+        user_expense_type: newExpense.userExpenseType,
+        category: newExpense.category,
+        bankcard_id: newExpense.bankcardId,
+        amount: newExpense.amount,
+        description: newExpense.description,
+      });
       Alert.alert('Gasto creado exitosamente');
       (route.params as { onAddExpense: (expense: Expense) => void } | undefined)?.onAddExpense(
         response.data as Expense

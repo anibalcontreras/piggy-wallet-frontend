@@ -1,12 +1,11 @@
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Backend } from '@/types';
-import type { UsePiggies } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import { snakeToCamel } from '@/utils';
 import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 
-const usePiggies = (): UsePiggies => {
+const usePiggies = (): Hooks.UsePiggies => {
   const isFocused = useIsFocused();
 
   const [piggies, setPiggies] = useState<Backend.User[]>([]);

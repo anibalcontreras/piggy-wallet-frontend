@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import type { Backend } from '@/types';
-import type { UseUserBalance } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import { snakeToCamel } from '@/utils';
 
-const userUserBalance = (debtorId: string): UseUserBalance => {
+const userUserBalance = (debtorId: string): Hooks.UseUserBalance => {
   const isFocused = useIsFocused();
 
   const [userBalance, setUserBalance] = useState<Backend.Balance>();
