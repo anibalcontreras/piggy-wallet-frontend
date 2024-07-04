@@ -75,11 +75,11 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
               }
             }}
             onEdit={(expense: Expense) => {
-              void navigation.navigate('EditExpense', { 
-                expense, 
+              void navigation.navigate('EditExpense', {
+                expense,
                 onSave: (updatedExpense: Expense) => {
                   void handleEditExpense(updatedExpense);
-                } 
+                },
               });
             }}
             onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
@@ -88,10 +88,10 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('AddExpense', { 
+          navigation.navigate('AddExpense', {
             onAddExpense: (newExpense: Expense) => {
               void handleAddExpense(newExpense);
-            } 
+            },
           });
         }}
         style={styles.addButtonContainer}

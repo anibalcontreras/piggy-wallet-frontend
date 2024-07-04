@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
 import useCategories from '@/hooks/useCategories';
@@ -15,7 +15,7 @@ export default function ExpenseDetailsScreen({
   const [expenseTypeName, setExpenseTypeName] = useState<string>('Tipo de gasto desconocido');
 
   const { categories } = useCategories();
-  const { userExpenseTypes } = useUserExpenseTypes();
+  const { categories: userExpenseTypes } = useUserExpenseTypes();
 
   useEffect(() => {
     const category = categories.find((cat) => cat.id === expense.category);
@@ -23,12 +23,8 @@ export default function ExpenseDetailsScreen({
       category !== null && category !== undefined ? category.name : 'Categoría desconocida'
     );
 
-    const expenseType = userExpenseTypes.find((type) => type.id === expense.user_expense_type);
-    setExpenseTypeName(
-      expenseType !== null && expenseType !== undefined
-        ? expenseType.name
-        : 'Tipo de gasto desconocido'
-    );
+    const expenseType = userExpenseTypes.find((type) => type === expense.user_expense_type);
+    setExpenseTypeName(expenseType ?? 'Tipo de gasto desconocido');
   }, [categories, userExpenseTypes, expense.category, expense.user_expense_type]);
 
   return (

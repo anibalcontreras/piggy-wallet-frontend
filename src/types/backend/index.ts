@@ -41,4 +41,3 @@ export interface UserExpenseType {
   description: string;
   set_by_user: boolean;
 }
-
