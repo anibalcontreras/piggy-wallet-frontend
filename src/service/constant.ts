@@ -17,4 +17,6 @@ export const END_POINT = {
   budget: 'budget/',
   userExpenseTypes: 'user_expense_type/',
   expensesByCategories: 'expenses/grouped/',
+  expenses: 'expenses/',
+  categories: 'categories/',
 };

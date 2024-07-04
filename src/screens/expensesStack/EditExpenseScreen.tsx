@@ -1,12 +1,13 @@
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { EditExpenseNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/components';
+import type { Category } from '@/types/components';
+import type { Expense } from '@/types/backend';
 import RNPickerSelect from 'react-native-picker-select';
-import db from '../../../db.json'; // Do not
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
 
 export default function EditExpenseScreen({
   navigation,
@@ -14,39 +15,61 @@ export default function EditExpenseScreen({
 }: EditExpenseNavigationProps): JSX.Element {
   const { expense, onSave } = route.params;
   const [amount, setAmount] = useState(expense.amount.toString());
-  // const [categoryName, setCategoryName] = useState();
-  // const [description, setDescription] = useState(expense.userexpensetype_id);
-  const [description, setDescription] = useState('CHANGE ME');
-  const [userExpenseTypeId, setUserExpenseTypeId] = useState(db.userexpensetypes[0].id);
+  const [category, setCategory] = useState(expense.category.toString());
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [description, setDescription] = useState(expense.description);
 
-  const categories = db.userexpensetypes.map((cat) => ({
-    label: cat.name,
-    value: cat.name,
-    key: cat.id,
-  }));
+  const fetchCategories = async (): Promise<void> => {
+    try {
+      const response = await httpService.get(END_POINT.categories);
+      setCategories(response.data as Category[]);
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo obtener la lista de categorías.');
+    }
+  };
 
-  const handleSave = (): void => {
-    if (amount === '' || description === '') {
+  useEffect(() => {
+    void fetchCategories();
+  }, []);
+
+  const handleSave = async (): Promise<void> => {
+    if (amount === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
 
     const updatedExpense: Expense = {
       ...expense,
-      amount: parseInt(amount, 10),
-      userexpensetype_id: expense.userexpensetype_id,
+      amount: typeof amount === 'string' ? parseInt(amount, 10) : 0,
+      category: typeof category === 'string' ? parseInt(category, 10) : 0,
       description,
     };
 
-    onSave(updatedExpense);
-    navigation.goBack();
+    try {
+      const response = await httpService.put(`${END_POINT.expenses}${expense.id}/`, updatedExpense);
+      onSave(response.data as Expense);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      Alert.alert('Error', 'No se pudo actualizar el gasto. Inténtalo de nuevo.');
+    }
   };
+
+  const categoryItems = categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id.toString(),
+    key: cat.id,
+  }));
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.pageTitle}>Editar gasto</Text>
-        <TouchableOpacity onPress={handleSave}>
+        <TouchableOpacity
+          onPress={() => {
+            handleSave().catch(console.error);
+          }}
+        >
           <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
         </TouchableOpacity>
       </View>
@@ -63,9 +86,10 @@ export default function EditExpenseScreen({
       <Text style={styles.title}>Categoría</Text>
       <RNPickerSelect
         style={pickerSelectStyles}
-        value={userExpenseTypeId}
-        onValueChange={(value: string) => setUserExpenseTypeId(value)}
-        items={categories}
+        value={category}
+        onValueChange={(value) => setCategory(value)}
+        items={categoryItems}
+        placeholder={{ label: 'Selecciona una categoría...', value: null }}
       />
 
       <Text style={styles.title}>Descripción</Text>
@@ -117,7 +141,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 4,
     color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30,
     marginBottom: 10,
     marginTop: 10,
   },
@@ -129,7 +153,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 8,
     color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30,
     marginBottom: 10,
   },
 });

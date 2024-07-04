@@ -1,89 +1,99 @@
+import React, { useState, useCallback } from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
-
 import { Colors, Sizing } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import ExpenseCard from '@/components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense, UserExpenseType } from '@/types/components';
-import { isSameMonth, parseISO } from 'date-fns';
+import type { Expense } from '@/types/backend';
+import { useFocusEffect } from '@react-navigation/native';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
+import useExpenses from '@/hooks/useExpenses';
+import useCategories from '@/hooks/useCategories';
 
 export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]); // Re-enable rule
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filter, setFilter] = useState<string>('todo'); // Re-enable rule
+  const { expenses, fetchExpenses } = useExpenses();
+  const { categories } = useCategories();
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [page, setPage] = useState(0);
 
-  /*
-  useEffect(() => {
-    setExpenses(db.expenses.map((expense) => ({ ...expense, description: db.userexpensetypes.find((type) => type.id === expense.userexpensetype_id)?.description ?? 'Unknown'}))); 
-    setUserExpenseTypes(db.userexpensetypes);
-  }, []);
-  */
+  useFocusEffect(
+    useCallback(() => {
+      void fetchExpenses();
+    }, [])
+  );
 
-  const handleDelete = (id: number): void => {
-    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
-    Alert.alert('Gasto eliminado');
-  };
-
-  const handleAddExpense = (newExpense: Expense): void => {
-    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
-  };
-
-  const handleEditExpense = (updatedExpense: Expense): void => {
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((expense) => (expense.id === updatedExpense.id ? updatedExpense : expense))
-    );
-    Alert.alert('Gasto editado');
-  };
-
-  /*
-  const getUserExpenseTypeDescription = (id: number): string => {
-    const userExpenseType = userExpenseTypes.find((type) => type.id === id);
-    return userExpenseType?.description ?? 'Unknown';
-  };
-  */
-
-  const filterExpenses = (): Expense[] => {
-    const currentDate = new Date();
-
-    if (filter === 'todo') return expenses;
-    if (filter === 'mensual') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
+  const handleDelete = async (id: number): Promise<void> => {
+    try {
+      await httpService.delete(`${END_POINT.expenses}${id}/`);
+      await fetchExpenses();
+      Alert.alert('Gasto eliminado');
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo eliminar el gasto.');
     }
-    if (filter === 'ahorro') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
+  };
+
+  const handleAddExpense = async (newExpense: Expense): Promise<void> => {
+    try {
+      await fetchExpenses();
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
     }
-    return expenses;
+  };
+
+  const handleEditExpense = async (updatedExpense: Expense): Promise<void> => {
+    try {
+      await fetchExpenses();
+      Alert.alert('Gasto editado');
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
-        <FilterComponent />
+        <FilterComponent
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          page={page}
+          setPage={setPage}
+        />
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {filterExpenses().map((expense) => (
+        {expenses.map((expense) => (
           <ExpenseCard
             key={expense.id}
-            expense={{
-              ...expense,
-              // userexpensetype_id: getUserExpenseTypeDescription(expense.userexpensetype_id)
-              userexpensetype_id: expense.userexpensetype_id,
+            expense={expense}
+            categories={categories}
+            onDelete={async () => {
+              try {
+                await handleDelete(expense.id);
+              } catch (error) {
+                console.error(error);
+              }
             }}
-            onDelete={() => handleDelete(expense.id)}
-            onEdit={(expense: Expense) =>
-              navigation.navigate('EditExpense', { expense, onSave: handleEditExpense })
-            }
+            onEdit={(expense: Expense) => {
+              void navigation.navigate('EditExpense', {
+                expense,
+                onSave: (updatedExpense: Expense) => {
+                  void handleEditExpense(updatedExpense);
+                },
+              });
+            }}
             onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
           />
         ))}
       </ScrollView>
       <TouchableOpacity
-        onPress={() => navigation.navigate('AddExpense', { onAddExpense: handleAddExpense })}
+        onPress={() => {
+          navigation.navigate('AddExpense', {
+            onAddExpense: (newExpense: Expense) => {
+              void handleAddExpense(newExpense);
+            },
+          });
+        }}
         style={styles.addButtonContainer}
       >
         <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.primary} />
@@ -111,7 +121,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     padding: Sizing.x20,
-    paddingBottom: Sizing.x60,
+    paddingBottom: Sizing.x80,
     paddingTop: Sizing.x100,
   },
 });

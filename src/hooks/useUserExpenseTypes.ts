@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { UserExpense, UseUserExpenseTypes } from '@/types/hooks';
+import type { UseUserExpenseTypes, UserExpense } from '@/types/hooks';
 
 const useUserExpenseTypes = (): UseUserExpenseTypes => {
   const isFocused = useIsFocused();
@@ -37,7 +37,7 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
     void fetchUserExpenseTypes();
   }, [isFocused]);
 
-  return { error, loading, categories };
+  return { categories, error, loading };
 };
 
 export default useUserExpenseTypes;

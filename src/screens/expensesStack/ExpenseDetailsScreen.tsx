@@ -1,15 +1,31 @@
-import React from 'react';
-// import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/components';
+import useCategories from '@/hooks/useCategories';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import { formatCurrency } from '@/utils';
 
 export default function ExpenseDetailsScreen({
   navigation,
   route,
 }: ExpenseDetailsNavigationProps): JSX.Element {
-  const { expense }: { expense: Expense } = route.params;
+  const { expense } = route.params;
+  const [categoryName, setCategoryName] = useState<string>('Categoría desconocida');
+  const [expenseTypeName, setExpenseTypeName] = useState<string>('Tipo de gasto desconocido');
+
+  const { categories } = useCategories();
+  const { categories: userExpenseTypes } = useUserExpenseTypes();
+
+  useEffect(() => {
+    const category = categories.find((cat) => cat.id === expense.category);
+    setCategoryName(
+      category !== null && category !== undefined ? category.name : 'Categoría desconocida'
+    );
+
+    const expenseType = userExpenseTypes.find((type) => type === expense.user_expense_type);
+    setExpenseTypeName(expenseType ?? 'Tipo de gasto desconocido');
+  }, [categories, userExpenseTypes, expense.category, expense.user_expense_type]);
 
   return (
     <View style={styles.container}>
@@ -18,19 +34,19 @@ export default function ExpenseDetailsScreen({
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Monto:</Text>
-        <Text style={styles.value}>${expense.amount}</Text>
+        <Text style={styles.value}>{formatCurrency((expense.amount as number).toString())}</Text>
+      </View>
+      <View style={styles.detailContainer}>
+        <Text style={styles.label}>Tipo de gasto:</Text>
+        <Text style={styles.value}>{expenseTypeName}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Categoría:</Text>
-        <Text style={styles.value}>{expense.category_id}</Text>
+        <Text style={styles.value}>{categoryName}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Descripción:</Text>
-        <Text style={styles.value}>{expense.userexpensetype_id}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Fecha de Creación:</Text>
-        <Text style={styles.value}>{expense.created_at}</Text>
+        <Text style={styles.value}>{expense.description}</Text>
       </View>
     </View>
   );
@@ -60,7 +76,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.palette.border,
   },
-
   label: {
     ...Typography.bodyStyles.primary,
     fontWeight: 'bold',
@@ -68,17 +83,5 @@ const styles = StyleSheet.create({
   value: {
     ...Typography.bodyStyles.primary,
     color: Colors.palette.text,
-  },
-  backButton: {
-    marginTop: Sizing.x40,
-    paddingVertical: Sizing.x10,
-    paddingHorizontal: Sizing.x20,
-    backgroundColor: Colors.palette.primary,
-    borderRadius: Sizing.x5,
-    alignItems: 'center',
-  },
-  backButtonText: {
-    color: Colors.palette.background,
-    ...Typography.bodyStyles.primary,
   },
 });

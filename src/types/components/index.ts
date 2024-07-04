@@ -110,27 +110,9 @@ export interface UserBalanceProps {
   userBalance?: Backend.Balance;
 }
 
-export interface Expense {
+export interface Category {
   id: number;
-  user_id: number;
-  userexpensetype_id: number;
-  category_id: number;
-  bankcard_id: number;
-  amount: number;
-  created_at: string;
-  updated_at: string;
-  description: string;
-}
-
-export interface UserExpenseType {
-  id: number;
-  user_id: number;
   name: string;
-  description: string;
-  set_by_user: boolean;
-  category_name: string;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface DebtTransactionProps {
