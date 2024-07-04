@@ -32,6 +32,7 @@ export interface Expense {
   bankcard_id: number;
   amount: number;
   description: string;
+  created_at: string;
 }
 
 export interface UserExpenseType {

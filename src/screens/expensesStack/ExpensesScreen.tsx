@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing } from '@/styles';
-import FilterComponent from '@/components/charts/FilterComponent';
+import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
 import ExpenseCard from '@/components/expenses/ExpenseCard';
 import type { ExpensesNavigationProps } from '@/types/navigation';
 import type { Expense } from '@/types/backend';
@@ -17,6 +17,23 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
   const { categories } = useCategories();
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
+
+  const filteredExpenses = expenses.filter((expense) => {
+    const today = new Date();
+    const expenseDate = new Date(expense.created_at);
+    if (selectedTab === 0) return true;
+    if (selectedTab === 1) {
+      const lastMonth = new Date();
+      lastMonth.setMonth(today.getMonth() - 1);
+      return expenseDate > lastMonth;
+    }
+    if (selectedTab === 2) {
+      const lastWeek = new Date();
+      lastWeek.setDate(today.getDate() - 7);
+      return expenseDate > lastWeek;
+    }
+    return false;
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -54,7 +71,7 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
-        <FilterComponent
+        <ExpensesFilterComponent
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
           page={page}
@@ -62,7 +79,7 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
         />
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {expenses.map((expense) => (
+        {filteredExpenses.map((expense) => (
           <ExpenseCard
             key={expense.id}
             expense={expense}
@@ -110,6 +127,7 @@ const styles = StyleSheet.create({
   filterContainer: {
     zIndex: 1,
     backgroundColor: Colors.palette.background,
+    marginHorizontal: Sizing.x50,
   },
   addButtonContainer: {
     position: 'absolute',
