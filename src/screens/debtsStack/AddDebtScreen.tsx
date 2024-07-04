@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Backend, type Navigation } from '@/types';
+import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
+import usePiggies from '@/hooks/profileStack/usePiggies';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import Button from '@/components/common/Button';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import SearchBar from '@/components/common/SearchBar';
 import UsersList from '@/components/common/UsersList';
-import usePiggies from '@/hooks/profileStack/usePiggies';
 
 export default function AddDebtScreen({
   navigation,

@@ -1,6 +1,5 @@
 import { SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
-import type { Navigation } from '@/types';
-import type { DonutChartValue } from '@/types/components';
+import type { Components, Navigation } from '@/types';
 import { Sizing } from '@/styles';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import useBudget from '@/hooks/homeStack/useBudget';
@@ -27,9 +26,9 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   }
 
   // We compute the total expenses by user expense type
-  const expensesByExpenseType: DonutChartValue[] = [];
+  const expensesByExpenseType: Components.DonutChartValue[] = [];
   // And we format the expenses by category
-  const expensesByCategory: DonutChartValue[][] = [];
+  const expensesByCategory: Components.DonutChartValue[][] = [];
 
   for (const expenseType in allExpensesByCategories) {
     expensesByExpenseType.push({ amount: 0, label: expenseType });
@@ -46,7 +45,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   }
 
   // We compute the global total expenses
-  const allExpenses: DonutChartValue[] = [{ amount: 0, label: 'Gastos' }];
+  const allExpenses: Components.DonutChartValue[] = [{ amount: 0, label: 'Gastos' }];
 
   for (let i = 0; i < expensesByExpenseType.length; i++) {
     allExpenses[0].amount += expensesByExpenseType[i].amount;

@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Authorization, type Navigation } from '@/types';
+import type { Authorization, Navigation } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 import { Sizing, Typography } from '@/styles';
 import Button from '@/components/common/Button';

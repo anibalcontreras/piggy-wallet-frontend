@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
-import type { DebtsStackParamsList } from '@/types/navigation';
+import type { Navigation } from '@/types';
 import { Colors } from '@/styles';
 import DebtsScreen from '@/screens/debtsStack/DebtsScreen';
 import DebtDetailsScreen from '@/screens/debtsStack/DebtDetailsScreen';
 import AddDebtScreen from '@/screens/debtsStack/AddDebtScreen';
 
-const DebtsStack = createNativeStackNavigator<DebtsStackParamsList>();
+const DebtsStack = createNativeStackNavigator<Navigation.DebtsStackParamsList>();
 
 export default function DebtsStackScreen(): JSX.Element {
   return (
@@ -21,7 +21,11 @@ export default function DebtsStackScreen(): JSX.Element {
       <DebtsStack.Screen
         name="DebtDetails"
         component={DebtDetailsScreen}
-        options={({ route }: { route: RouteProp<DebtsStackParamsList, 'DebtDetails'> }) => ({
+        options={({
+          route,
+        }: {
+          route: RouteProp<Navigation.DebtsStackParamsList, 'DebtDetails'>;
+        }) => ({
           title: `Deudas con ${route.params.debtorName}`,
           headerStyle: {
             backgroundColor: Colors.palette.background,

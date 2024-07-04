@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type { ProfileStackParamsList } from '@/types/navigation';
+import type { Navigation } from '@/types';
+import { Colors } from '@/styles';
 import ProfileScreen from '@/screens/profileStack/ProfileScreen';
 import AddPiggyScreen from '@/screens/profileStack/AddPiggyScreen';
 import EditProfileScreen from '@/screens/profileStack/EditProfileScreen';
-import { Colors } from '@/styles';
 
-const ProfileStack = createNativeStackNavigator<ProfileStackParamsList>();
+const ProfileStack = createNativeStackNavigator<Navigation.ProfileStackParamsList>();
 
 export default function ProfileStackScreen(): JSX.Element {
   return (
