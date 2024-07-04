@@ -33,8 +33,7 @@ export interface UseExpensesGroups extends UseHookBase {
 }
 
 export interface UseUserExpenseTypes extends UseHookBase {
-  categories: string[];
-  expenseType: Backend.UserExpenseType[];
+  userExpenseTypes: Backend.UserExpenseType[];
 }
 
 export interface UseBudget extends UseHookBase {

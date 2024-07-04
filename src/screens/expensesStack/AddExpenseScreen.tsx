@@ -37,7 +37,11 @@ export default function AddExpenseScreen({
     loading: userBankCardsLoading,
     userBankCards,
   } = useUserBankCards();
-  const { expenseType } = useUserExpenseTypes();
+  const {
+    error: userExpenseTypesError,
+    loading: userExpenseTypesLoading,
+    userExpenseTypes,
+  } = useUserExpenseTypes();
 
   const categoryItems = categories.map((cat) => ({
     label: cat.name,
@@ -45,7 +49,7 @@ export default function AddExpenseScreen({
     key: cat.id,
   }));
 
-  const userExpenseTypeItems = expenseType.map((type) => ({
+  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
     label: type.name,
     value: type.id,
     key: type.id,
@@ -88,11 +92,11 @@ export default function AddExpenseScreen({
     }
   };
 
-  if (categoriesLoading || userBankCardsLoading) {
+  if (categoriesLoading || userBankCardsLoading || userExpenseTypesLoading) {
     return <ActivityIndicator style={styles.loading} />;
   }
 
-  if (categoriesError || userBankCardsError) {
+  if (categoriesError || userBankCardsError || userExpenseTypesError) {
     return <ErrorText message="Ha ocurrido un error al intentar agregar un gasto" />;
   }
 

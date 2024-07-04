@@ -5,14 +5,12 @@ import { snakeToCamel } from '@/utils';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 
-// REVISAR AUN
 const useUserExpenseTypes = (): Hooks.UseUserExpenseTypes => {
   const isFocused = useIsFocused();
 
-  const [expenseType, setExpenseType] = useState<Backend.UserExpenseType[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [userExpenseTypes, setExpenseType] = useState<Backend.UserExpenseType[]>([]);
 
   const fetchUserExpenseTypes = async (): Promise<void> => {
     setError(false);
@@ -24,14 +22,6 @@ const useUserExpenseTypes = (): Hooks.UseUserExpenseTypes => {
       const camelCaseData: Backend.UserExpenseType[] = data.map((obj: Record<string, any>) =>
         snakeToCamel(obj)
       ) as Backend.UserExpenseType[];
-
-      const records: string[] = [];
-
-      for (let i = 0; i < data.length; i++) {
-        records.push(data[i].name);
-      }
-
-      setCategories(records);
       setExpenseType(camelCaseData);
     } catch (error) {
       setError(true);
@@ -44,7 +34,7 @@ const useUserExpenseTypes = (): Hooks.UseUserExpenseTypes => {
     void fetchUserExpenseTypes();
   }, [isFocused]);
 
-  return { categories, error, loading, expenseType };
+  return { error, loading, userExpenseTypes };
 };
 
 export default useUserExpenseTypes;

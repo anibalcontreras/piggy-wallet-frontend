@@ -65,7 +65,7 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
 }
 
 export interface UserMonthExpensesProps {
-  categories: string[];
+  userExpenseTypes: Backend.UserExpenseType[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
 }

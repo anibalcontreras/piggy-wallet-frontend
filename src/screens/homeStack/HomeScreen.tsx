@@ -17,7 +17,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   const {
     loading: userExpenseTypesLoading,
     error: userExpenseTypesError,
-    categories,
+    userExpenseTypes,
   } = useUserExpenseTypes();
   const { loading: budgetLoading, error: budgetError, budget } = useBudget();
 
@@ -66,7 +66,7 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
   return (
     <SafeAreaView testID={'home-screen'} style={styles.container}>
       <UserMonthExpenses
-        categories={categories}
+        userExpenseTypes={userExpenseTypes}
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
         {...props}

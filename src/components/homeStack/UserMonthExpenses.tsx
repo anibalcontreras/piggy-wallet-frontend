@@ -6,10 +6,11 @@ import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
 
 function UserMonthExpenses({
-  categories,
+  userExpenseTypes,
   expensesByExpenseType,
   expensesByCategory,
 }: Components.UserMonthExpensesProps): JSX.Element {
+  const expenseTypeNames = userExpenseTypes.map((expenseType) => expenseType.name);
   // We set the state values for the filter component outside so we know what to pass to the donut chart
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
@@ -31,7 +32,7 @@ function UserMonthExpenses({
       </View>
 
       <FilterComponent
-        categories={categories}
+        categories={expenseTypeNames}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         page={page}
