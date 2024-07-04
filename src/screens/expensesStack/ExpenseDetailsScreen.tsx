@@ -48,7 +48,7 @@ export default function ExpenseDetailsScreen({
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Monto:</Text>
-        <Text style={styles.value}>{formatCurrency((expense.amount as number).toString())}</Text>
+        <Text style={styles.value}>{formatCurrency(expense.amount.toString())}</Text>
       </View>
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Tipo de gasto:</Text>

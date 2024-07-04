@@ -71,7 +71,7 @@ export default function AddExpenseScreen({
     };
 
     try {
-      const response = await httpService.post(END_POINT.expenses, {
+      await httpService.post(END_POINT.expenses, {
         id: newExpense.id,
         username: newExpense.username,
         user_expense_type: newExpense.userExpenseType,

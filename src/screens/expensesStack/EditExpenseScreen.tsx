@@ -25,7 +25,9 @@ export default function EditExpenseScreen({
   const { expense, onSave } = route.params;
 
   const [amount, setAmount] = useState(expense.amount.toString());
-  const [category, setCategory] = useState(expense.category ? expense.category.toString() : '');
+  const [category, setCategory] = useState(
+    expense.category !== null ? expense.category.toString() : ''
+  );
   const [description, setDescription] = useState(expense.description);
 
   const { loading, error, categories } = useCategories();
@@ -93,7 +95,7 @@ export default function EditExpenseScreen({
       <RNPickerSelect
         style={pickerSelectStyles}
         value={category}
-        onValueChange={(value) => setCategory(value)}
+        onValueChange={(value: string) => setCategory(value)}
         items={categoryItems}
         placeholder={{ label: 'Selecciona una categoría...', value: null }}
       />
