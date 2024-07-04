@@ -27,7 +27,7 @@ export interface DebtTransaction {
 export interface Expense {
   id: number;
   username: string;
-  user_expense_type: number;
+  user_expense_type: string;
   category: number | null;
   bankcard_id: number;
   amount: number;
@@ -40,4 +40,12 @@ export interface UserExpenseType {
   name: string;
   description: string;
   set_by_user: boolean;
+}
+
+export interface BankCard {
+  id: number;
+  user_id: string;
+  account_number: number;
+  bank_name: string;
+  card_type: string;
 }

@@ -12,6 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Colors, Sizing, Typography } from '@/styles';
 import RNPickerSelect from 'react-native-picker-select';
 import type { Navigation } from '@/types';
+import useUserBankCards from '@/hooks/useUserBankCards';
 import useCategories from '@/hooks/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
@@ -25,12 +26,13 @@ export default function AddExpenseScreen({
 }: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState<number | null>(null);
-  const [userExpenseType, setUserExpenseType] = useState<number | null>(null);
+  const [userExpenseType, setUserExpenseType] = useState<string | null>(null);
   const [description, setDescription] = useState('');
   const [sharedExpense, setSharedExpense] = useState(false);
 
   const { categories } = useCategories();
   const { categories: userExpenseTypes } = useUserExpenseTypes();
+  const { userBankCards } = useUserBankCards();
 
   const categoryItems = categories.map((cat) => ({
     label: cat.name,
@@ -55,7 +57,7 @@ export default function AddExpenseScreen({
       username: '',
       user_expense_type: userExpenseType,
       category,
-      bankcard_id: 1,
+      bankcard_id: userBankCards[0].id,
       amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),
       description,
     };
@@ -103,7 +105,7 @@ export default function AddExpenseScreen({
         <RNPickerSelect
           style={pickerSelectStyles}
           value={userExpenseType}
-          onValueChange={(value) => setUserExpenseType(Number(value))}
+          onValueChange={(value) => setUserExpenseType(value)}
           items={userExpenseTypeItems}
           placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
         />

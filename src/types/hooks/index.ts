@@ -50,3 +50,7 @@ export interface Budget {
 export interface UseBudget extends UseHookBase {
   budget: Budget;
 }
+
+export interface UseUserBankCards extends UseHookBase {
+  userBankCards: Backend.BankCard[];
+}

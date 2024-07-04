@@ -19,4 +19,5 @@ export const END_POINT = {
   expensesByCategories: 'expenses/grouped/',
   expenses: 'expenses/',
   categories: 'categories/',
+  bankCards: 'bankcard/',
 };
