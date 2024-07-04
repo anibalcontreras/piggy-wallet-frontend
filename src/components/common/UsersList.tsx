@@ -1,26 +1,17 @@
-import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  SafeAreaView,
-  Alert,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, LogBox } from 'react-native';
 import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Components } from '@/types';
-import httpService from '@/service/api';
-import { END_POINT } from '@/service/constant';
 
 const Item = ({
   user,
   onAddPiggy,
+  showEmail,
 }: {
   user: Backend.User;
   onAddPiggy: (user: Backend.User) => void;
+  showEmail: boolean;
 }): JSX.Element => (
   <View style={styles.userContainer}>
     <View style={styles.userInfo}>
@@ -30,7 +21,10 @@ const Item = ({
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{user.fullName}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.nameText}>{user.firstName}</Text>
+        {showEmail && <Text style={styles.emailText}>{user.email}</Text>}
+      </View>
     </View>
     <TouchableOpacity style={styles.addButton} onPress={() => onAddPiggy(user)}>
       <AntDesign name="pluscircle" size={Sizing.x40} color={Colors.palette.primary} />
@@ -39,75 +33,70 @@ const Item = ({
 );
 
 function UsersList({
+  variant = 'big',
   searchPhrase,
-  setClicked,
   data,
   onPiggyAdded,
+  showEmail = false,
 }: Components.SearchAllPigiesListProps): JSX.Element {
+  let containerStyle;
+  switch (variant) {
+    case 'big':
+      containerStyle = styles.bigContainer;
+      break;
+    case 'small':
+      containerStyle = styles.smallContainer;
+      break;
+  }
+
   const renderUser = ({ item }: { item: Backend.User }): JSX.Element => {
     if (searchPhrase === '') {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} showEmail={showEmail} />;
     }
     if (isUserMatched(item, searchPhrase)) {
-      return <Item user={item} onAddPiggy={handleAddPiggy} />;
+      return <Item user={item} onAddPiggy={onPiggyAdded} showEmail={showEmail} />;
     }
     return <></>;
   };
 
   const isUserMatched = (item: Backend.User, searchPhrase: string): boolean => {
-    return item.fullName
+    return item.firstName
       .toUpperCase()
       .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ''));
   };
 
-  const handleAddPiggy = (user: Backend.User): void => {
-    // AsyncAlert(user);
-    Alert.alert('Agregar Piggy', `¿Quieres agregar a ${user.fullName} como tu piggy?`, [
-      {
-        text: 'Cancelar',
-        style: 'cancel',
-        onPress: () => console.log('Cancel Pressed'),
-      },
-      {
-        text: 'OK',
-        onPress: () => addPiggyRequest(user),
-      },
-    ]);
-  };
-
-  const addPiggyRequest = (user: Backend.User): void => {
-    httpService
-      .post(END_POINT.piggies, { full_name: user.fullName })
-      .then(() => {
-        Alert.alert('Piggy Agregado', `${user.fullName} ha sido agregado a tus piggies`);
-        onPiggyAdded();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   return (
-    <SafeAreaView style={styles.listContainer}>
-      <View
-        onStartShouldSetResponder={() => {
-          setClicked(false);
-          return true;
-        }}
-      >
-        <FlatList data={data} renderItem={renderUser} keyExtractor={(user) => user.id} />
-      </View>
-    </SafeAreaView>
+    <View style={containerStyle}>
+      <FlatList
+        data={data}
+        renderItem={renderUser}
+        keyExtractor={(user) => user.userId}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 }
 
 export default UsersList;
 
 const styles = StyleSheet.create({
-  listContainer: {
-    height: '85%',
+  bigContainer: {
     width: '90%',
     margin: Sizing.x10,
+    height: '75%',
+  },
+  smallContainer: {
+    width: '90%',
+    margin: Sizing.x10,
+    height: '30%',
+  },
+  listContainer: {
+    padding: Sizing.x5,
+    ...Typography.bodyStyles.tertiary,
   },
   userContainer: {
     justifyContent: 'space-between',
@@ -117,12 +106,18 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.palette.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  textContainer: {
+    flexDirection: 'column',
+  },
   userInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  text: {
+  nameText: {
     ...Typography.bodyStyles.primary,
+  },
+  emailText: {
+    ...Typography.bodyStyles.highlight,
   },
   image: {
     width: Sizing.x60,

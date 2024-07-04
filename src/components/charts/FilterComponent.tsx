@@ -34,7 +34,7 @@ const FilterComponent = ({
     () => ({
       transform: [{ translateX: withTiming(filterWidth * selectedTab) }],
     }),
-    []
+    [filterWidth, selectedTab]
   );
 
   const ChangeCategoryPressable = ({ move }: { move: '<' | '>' }): JSX.Element => {

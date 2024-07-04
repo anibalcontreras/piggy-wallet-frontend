@@ -7,7 +7,7 @@ import * as FormatFunctions from '@/utils';
 
 const ChartTooltipLabel = (props: ChartTooltipProps): JSX.Element => {
   const { datum } = props;
-  const amount = FormatFunctions.formatCurrency(datum != null ? datum.x.toString() : '0');
+  const amount = FormatFunctions.formatCurrency(datum != null ? datum.x : 0);
   const text = [`${datum?.label}`, `${amount} (${datum?.y}%)`];
 
   return <VictoryLabel {...props} text={text} />;
@@ -24,6 +24,14 @@ const DonutChart = ({
   // And we filter amounts of 0
   const filteredValues: DonutChartValue[] = [];
 
+  if (disableAvailable && (values === undefined || values.length === 0)) {
+    return (
+      <View style={[styles.container, { marginTop }]}>
+        <Text style={styles.boxText}>No hay gastos</Text>
+      </View>
+    );
+  }
+
   for (let i = 0; i < values.length; i++) {
     total += values[i].amount;
 
@@ -32,13 +40,15 @@ const DonutChart = ({
     }
   }
 
+  const availableBudget = Math.max(userBudget - total, 0);
+
   const data = [
-    { amount: disableAvailable ? 0 : userBudget - total, label: 'Disponible' },
+    { amount: disableAvailable ? 0 : availableBudget, label: 'Disponible' },
     ...filteredValues,
   ];
 
   const formattedAvailableBudget = FormatFunctions.formatCurrency(
-    (disableAvailable ? total : userBudget - total).toString()
+    disableAvailable ? total : availableBudget
   );
 
   return (

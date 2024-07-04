@@ -1,0 +1,447 @@
+{
+  "profile": {
+    "first_name": "Vicente Cruz"
+  },
+  "piggies": [
+    {
+      "user_id": "1",
+      "first_name": "Anibal Contreras",
+      "id": "b694"
+    },
+    {
+      "user_id": "2",
+      "first_name": "Juan Vergara",
+      "id": "1375"
+    },
+    {
+      "user_id": "3",
+      "first_name": "Juan Vergara",
+      "id": "4b89"
+    },
+    {
+      "user_id": "d2fd",
+      "first_name": "Ignacio Huntley",
+      "id": "7ac8"
+    },
+    {
+      "user_id": "3e15",
+      "first_name": "Javier Pinto",
+      "id": "a9b5"
+    },
+    {
+      "user_id": "6507",
+      "first_name": "Juan Pablo Pinto",
+      "id": "52b9"
+    },
+    {
+      "user_id": "9bad",
+      "first_name": "Juan Pablo Pinto",
+      "id": "2bcc"
+    },
+    {
+      "user_id": "0549",
+      "first_name": "Gabriel Quiroz",
+      "id": "c4c4"
+    },
+    {
+      "user_id": "754a",
+      "first_name": "Javier Pinto",
+      "id": "c4a7"
+    },
+    {
+      "user_id": "031e",
+      "first_name": "Anibal Contreras",
+      "id": "aff5"
+    },
+    {
+      "user_id": "417a",
+      "full_name": "Ignacio Huntley",
+      "id": "5087"
+    },
+    {
+      "id": "8f8f",
+      "full_name": "Ignacio Huntley"
+    },
+    {
+      "id": "34f9",
+      "full_name": "Rodrigo Pinto"
+    }
+  ],
+  "users": [
+    {
+      "user_id": "1",
+      "first_name": "Juan Vergara",
+      "id": "fa8b"
+    },
+    {
+      "user_id": "2",
+      "first_name": "Ignacio Huntley",
+      "id": "ccb0"
+    },
+    {
+      "user_id": "3",
+      "first_name": "Anibal Contreras",
+      "id": "813d"
+    },
+    {
+      "user_id": "4",
+      "first_name": "Gabriel Quiroz",
+      "id": "f361"
+    },
+    {
+      "user_id": "5",
+      "first_name": "Javier Pinto",
+      "id": "f7d7"
+    },
+    {
+      "user_id": "6",
+      "first_name": "Jorge Pinto",
+      "id": "ad70"
+    },
+    {
+      "user_id": "7",
+      "first_name": "Juan Pablo Pinto",
+      "id": "b414"
+    },
+    {
+      "user_id": "8",
+      "first_name": "Luis Pinto",
+      "id": "6575"
+    },
+    {
+      "user_id": "9",
+      "first_name": "Mauricio Pinto",
+      "id": "0ccb"
+    },
+    {
+      "user_id": "10",
+      "first_name": "Nelson Pinto",
+      "id": "0827"
+    },
+    {
+      "user_id": "11",
+      "first_name": "Pablo Pinto",
+      "id": "8d96"
+    },
+    {
+      "user_id": "12",
+      "first_name": "Rodrigo Pinto",
+      "id": "ae3c"
+    },
+    {
+      "user_id": "13",
+      "first_name": "Sebastian Pinto",
+      "id": "4599"
+    },
+    {
+      "user_id": "14",
+      "first_name": "Vicente Pinto",
+      "id": "a752"
+    }
+  ],
+  "contacts": [
+    {
+      "user_id": "1",
+      "enabled": true,
+      "id": "8c00"
+    },
+    {
+      "user_id": "2",
+      "enabled": true,
+      "id": "3b04"
+    }
+  ],
+  "bankcards": [
+    {
+      "user_id": "1",
+      "account_number": 123456789,
+      "bank_name": "Bank A",
+      "type_card": "Credit",
+      "created_at": "2023-03-01",
+      "updated_at": "2023-06-01",
+      "id": "a688"
+    },
+    {
+      "user_id": "2",
+      "account_number": 987654321,
+      "bank_name": "Bank B",
+      "type_card": "Debit",
+      "created_at": "2023-04-01",
+      "updated_at": "2023-06-01",
+      "id": "aabe"
+    }
+  ],
+  "userexpensetypes": [
+    {
+      "user_id": "1",
+      "name": "Food",
+      "description": "Expenses on food",
+      "set_by_user": true,
+      "category_name": "Groceries",
+      "created_at": "2023-01-01",
+      "updated_at": "2023-06-01",
+      "id": "4e75"
+    },
+    {
+      "user_id": "2",
+      "name": "Transport",
+      "description": "Expenses on transport",
+      "set_by_user": true,
+      "category_name": "Travel",
+      "created_at": "2023-02-01",
+      "updated_at": "2023-06-01",
+      "id": "75e8"
+    }
+  ],
+  "expenses": [
+    {
+      "user_id": "1",
+      "userexpensetype_id": 1,
+      "category_id": 1,
+      "bankcard_id": 1,
+      "amount": 100,
+      "created_at": "2023-03-01",
+      "updated_at": "2023-06-01",
+      "id": "c683"
+    },
+    {
+      "user_id": "2",
+      "userexpensetype_id": 2,
+      "category_id": 2,
+      "bankcard_id": 2,
+      "amount": 50,
+      "created_at": "2023-04-01",
+      "updated_at": "2023-06-01",
+      "id": "b0a5"
+    },
+    {
+      "id": "grouped",
+      "Personal": {
+        "Comida": 253750,
+        "Vivienda": 400000,
+        "Salud": 25000,
+        "Entretenimiento": 18620,
+        "Inversión": 52000,
+        "Transporte": 5000
+      },
+      "Vacaciones": {
+        "Comida": 120430,
+        "Vivienda": 60000,
+        "Entretenimiento": 23610,
+        "Transporte": 12500
+      },
+      "Cumpleaños": {
+        "Comida": 50000,
+        "Entretenimiento": 30000
+      }
+    }
+  ],
+  "debts": [
+    {
+      "user_id": "1",
+      "debtor_id": 2,
+      "amount": 200,
+      "ispaid": false,
+      "id": "ec48"
+    },
+    {
+      "user_id": "2",
+      "debtor_id": 1,
+      "amount": 100,
+      "ispaid": true,
+      "id": "ecc8"
+    },
+    {
+      "id": "6dfc",
+      "amount": "10000",
+      "debtor_id": ""
+    },
+    {
+      "id": "413f",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "25be",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "86e6",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "a4ec",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "02bc",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "7e61",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "98b4",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "56cb",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "f3b1",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "4cea",
+      "amount": "123322",
+      "debtor_id": "2"
+    },
+    {
+      "id": "3aa4",
+      "amount": "120000",
+      "debtor_id": "12"
+    },
+    {
+      "id": "264f",
+      "amount": "10000",
+      "debtor_id": "3"
+    }
+  ],
+  "usersWithDebts": [
+    {
+      "user_id": "1",
+      "first_name": "John Doe",
+      "id": "4986"
+    },
+    {
+      "user_id": "2",
+      "first_name": "Jane Smith",
+      "id": "dd69"
+    },
+    {
+      "user_id": "3",
+      "first_name": "John Doe",
+      "id": "77e9"
+    },
+    {
+      "user_id": "4",
+      "first_name": "Jane Smith",
+      "id": "190d"
+    },
+    {
+      "user_id": "5",
+      "first_name": "John Doe",
+      "id": "fd5b"
+    },
+    {
+      "user_id": "6",
+      "first_name": "Jane Smith",
+      "id": "201f"
+    },
+    {
+      "user_id": "7",
+      "first_name": "John Doe",
+      "id": "a882"
+    },
+    {
+      "user_id": "8",
+      "first_name": "Jane Smith",
+      "id": "7b7d"
+    },
+    {
+      "user_id": "9",
+      "first_name": "John Doe",
+      "id": "2063"
+    },
+    {
+      "user_id": "10",
+      "first_name": "Jane Smith",
+      "id": "a48a"
+    }
+  ],
+  "debt_users": [
+    {
+      "user_id": "1",
+      "first_name": "John Doe",
+      "id": "ac09"
+    },
+    {
+      "user_id": "2",
+      "first_name": "Jane Smith",
+      "id": "80ac"
+    },
+    {
+      "user_id": "3",
+      "first_name": "John Doe",
+      "id": "3ef0"
+    },
+    {
+      "user_id": "4",
+      "first_name": "Jane Smith",
+      "id": "0e2b"
+    },
+    {
+      "user_id": "5",
+      "first_name": "John Doe",
+      "id": "dd8e"
+    },
+    {
+      "user_id": "6",
+      "first_name": "Jane Smith",
+      "id": "5bad"
+    },
+    {
+      "user_id": "7",
+      "first_name": "John Doe",
+      "id": "0566"
+    },
+    {
+      "user_id": "8",
+      "first_name": "Jane Smith",
+      "id": "c57d"
+    },
+    {
+      "user_id": "9",
+      "first_name": "John Doe",
+      "id": "2c75"
+    },
+    {
+      "user_id": "10",
+      "first_name": "Jane Smith",
+      "id": "74c6"
+    }
+  ],
+  "user_expense_type": [
+    {
+      "id": "1",
+      "name": "Personal",
+      "description": "Personal expenses",
+      "set_by_user": false
+    },
+    {
+      "id": "2",
+      "name": "Vacaciones",
+      "description": "Gastos de vacaciones",
+      "set_by_user": true
+    },
+    {
+      "id": "3",
+      "name": "Cumpleaños",
+      "description": "Gastos de cumpleaños",
+      "set_by_user": true
+    }
+  ],
+  "budget": {
+    "amount": 3000000
+  }
+}

@@ -2,20 +2,28 @@ import { SafeAreaView, StyleSheet, ActivityIndicator } from 'react-native';
 import type { Navigation } from '@/types';
 import type { DonutChartValue } from '@/types/components';
 import { Sizing } from '@/styles';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import useBudget from '@/hooks/useBudget';
 import UserMonthExpenses from '@/components/homeStack/UserMonthExpenses';
 import UserBudget from '@/components/homeStack/UserBudget';
 import useExpensesGroups from '@/hooks/useExpensesGroups';
 import ErrorText from '@/components/common/ErrorText';
 
 export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.Element {
-  const { loading, error, allExpensesByCategories } = useExpensesGroups();
+  const {
+    loading: expensesGroupsLoading,
+    error: expensesGroupsError,
+    allExpensesByCategories,
+  } = useExpensesGroups();
+  const {
+    loading: userExpenseTypesLoading,
+    error: userExpenseTypesError,
+    categories,
+  } = useUserExpenseTypes();
+  const { loading: budgetLoading, error: budgetError, budget } = useBudget();
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error) {
-    return <ErrorText message="Ha ocurrido un error al cargar tu resumen de gastos" />;
+  if (process.env.EXPO_PUBLIC_ENV === 'dev') {
+    delete allExpensesByCategories.id;
   }
 
   // We compute the total expenses by user expense type
@@ -44,19 +52,37 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
     allExpenses[0].amount += expensesByExpenseType[i].amount;
   }
 
+  const handleClick = (): void => {
+    props.navigation.navigate('Budget');
+  };
+
+  if (expensesGroupsLoading || userExpenseTypesLoading || budgetLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (expensesGroupsError || userExpenseTypesError || budgetError) {
+    return <ErrorText message="Ha ocurrido un error al cargar tu resumen de gastos" />;
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'home-screen'} style={styles.container}>
       <UserMonthExpenses
+        categories={categories}
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
+        {...props}
       />
-
-      <UserBudget allExpenses={allExpenses} {...props} />
+      <UserBudget budget={budget} allExpenses={allExpenses} handleClick={handleClick} {...props} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'space-between',

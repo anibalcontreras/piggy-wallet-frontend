@@ -30,7 +30,7 @@ export default function AddExpenseScreen({
   const [sharedExpense, setSharedExpense] = useState(false);
 
   const { categories } = useCategories();
-  const { userExpenseTypes } = useUserExpenseTypes();
+  const { categories: userExpenseTypes } = useUserExpenseTypes();
 
   const categoryItems = categories.map((cat) => ({
     label: cat.name,
@@ -38,10 +38,10 @@ export default function AddExpenseScreen({
     key: cat.id,
   }));
 
-  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
-    label: type.name,
-    value: type.id.toString(),
-    key: type.id,
+  const userExpenseTypeItems = userExpenseTypes.map((type, idx) => ({
+    label: type,
+    value: type,
+    key: idx,
   }));
 
   const handleAddExpense = async (): Promise<void> => {

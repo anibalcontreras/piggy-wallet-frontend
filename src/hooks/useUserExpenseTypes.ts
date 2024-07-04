@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { UserExpenseType } from '@/types/backend';
+import type { UseUserExpenseTypes, UserExpense } from '@/types/hooks';
 
-interface UseUserExpenseTypesResult {
-  userExpenseTypes: UserExpenseType[];
-  error: boolean;
-  loading: boolean;
-}
+const useUserExpenseTypes = (): UseUserExpenseTypes => {
+  const isFocused = useIsFocused();
 
-const useUserExpenseTypes = (): UseUserExpenseTypesResult => {
-  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -20,7 +17,15 @@ const useUserExpenseTypes = (): UseUserExpenseTypesResult => {
 
     try {
       const response = await httpService.get(END_POINT.userExpenseTypes);
-      setUserExpenseTypes(response.data as UserExpenseType[]);
+      const data: UserExpense[] = (await response.data) as UserExpense[];
+
+      const records: string[] = [];
+
+      for (let i = 0; i < data.length; i++) {
+        records.push(data[i].name);
+      }
+
+      setCategories(records);
     } catch (error) {
       setError(true);
     } finally {
@@ -30,9 +35,9 @@ const useUserExpenseTypes = (): UseUserExpenseTypesResult => {
 
   useEffect(() => {
     void fetchUserExpenseTypes();
-  }, []);
+  }, [isFocused]);
 
-  return { userExpenseTypes, error, loading };
+  return { categories, error, loading };
 };
 
 export default useUserExpenseTypes;

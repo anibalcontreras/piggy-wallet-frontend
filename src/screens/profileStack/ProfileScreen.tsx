@@ -1,8 +1,8 @@
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import type { Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import usePiggies from '@/hooks/usePiggies';
-import useUser from '@/hooks/useUser';
+import usePiggies from '@/hooks/profileStack/usePiggies';
+import useUser from '@/hooks/profileStack/useUser';
 import PiggiesList from '@/components/profileStack/PiggiesList';
 import Profile from '@/components/profileStack/Profile';
 import ErrorText from '@/components/common/ErrorText';
@@ -23,7 +23,7 @@ export default function ProfileScreen({
   };
 
   if (userLoading || piggiesLoading) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator style={styles.loading} />;
   }
 
   if (userError || piggiesError) {
@@ -31,10 +31,12 @@ export default function ProfileScreen({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'profile-screen'} style={styles.container}>
       <Profile user={user} handleClick={handleEditProfileClick} />
       <View style={styles.textContainer}>
-        <Text style={styles.text}>Tus Piggies</Text>
+        <Text testID={'profile-text'} style={styles.text}>
+          Tus Piggies
+        </Text>
       </View>
       <PiggiesList piggies={piggies} />
       <View>
@@ -47,6 +49,11 @@ export default function ProfileScreen({
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import type { ExpensesGroup, UseExpensesGroups } from '@/types/hooks';
 
 const useExpensesGroups = (): UseExpensesGroups => {
+  const isFocused = useIsFocused();
+
   const [allExpensesByCategories, setAllExpensesByCategories] = useState<ExpensesGroup>({});
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,7 +28,7 @@ const useExpensesGroups = (): UseExpensesGroups => {
 
   useEffect(() => {
     void fetchExpensesGroup();
-  }, []);
+  }, [isFocused]);
 
   return { error, loading, allExpensesByCategories };
 };

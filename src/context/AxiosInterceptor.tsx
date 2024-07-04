@@ -15,7 +15,7 @@ const AxiosInterceptor = ({ children }: { children: React.ReactNode }): JSX.Elem
 
     const errInterceptor = async (error: any): Promise<any> => {
       switch (error.response?.status) {
-        case 401: {
+        case 403: {
           if (onLogout != null) {
             try {
               await onLogout();
