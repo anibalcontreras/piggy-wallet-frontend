@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Alert,
   SafeAreaView,
@@ -8,9 +8,9 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-import type { Expense } from '@/types/backend';
-import type { ExpensesNavigationProps } from '@/types/navigation';
+import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing } from '@/styles';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
@@ -20,9 +20,12 @@ import ExpenseCard from '@/components/expensesStack/ExpenseCard';
 import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
 import ErrorText from '@/components/common/ErrorText';
 
-export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const { error: expensesError, loading: expensesLoading, expenses } = useExpenses();
+export default function ExpensesScreen({
+  navigation,
+}: Navigation.ExpensesNavigationProps): JSX.Element {
+  const { error: expensesError, loading: expensesLoading, expenses, fetchExpenses } = useExpenses();
   const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
+
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
@@ -43,28 +46,38 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
     return false;
   });
 
-  const handleDelete = async (id: number): Promise<void> => {
-    try {
-      await httpService.delete(`${END_POINT.expenses}${id}/`);
-      Alert.alert('Gasto eliminado');
-    } catch (error) {
-      Alert.alert('Error', 'No se pudo eliminar el gasto.');
-    }
+  useFocusEffect(
+    useCallback(() => {
+      void fetchExpenses();
+    }, [])
+  );
+
+  const handleDeleteExpenseClick = (id: number): void => {
+    Alert.alert('Eliminar Gasto', '¿Estás seguro de que quieres eliminar este gasto?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          void deleteExpenseRequest(id);
+        },
+      },
+    ]);
   };
 
-  const handleAddExpense = async (newExpense: Expense): Promise<void> => {
-    try {
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    }
-  };
-
-  const handleEditExpense = async (updatedExpense: Expense): Promise<void> => {
-    try {
-      Alert.alert('Gasto editado');
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-    }
+  const deleteExpenseRequest = async (id: number): Promise<void> => {
+    httpService
+      .delete(`${END_POINT.expenses}${id}/`)
+      .then(async () => {
+        Alert.alert('Gasto eliminado');
+        await fetchExpenses();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'No se pudo eliminar el gasto.');
+      });
   };
 
   if (expensesLoading || categoriesLoading) {
@@ -91,32 +104,30 @@ export default function ExpensesScreen({ navigation }: ExpensesNavigationProps):
             key={expense.id}
             expense={expense}
             categories={categories}
-            onDelete={async () => {
+            onDelete={() => {
               try {
-                await handleDelete(expense.id);
+                handleDeleteExpenseClick(expense.id);
               } catch (error) {
                 console.error(error);
               }
             }}
-            onEdit={(expense: Expense) => {
+            onEdit={(expense: Backend.Expense) => {
               void navigation.navigate('EditExpense', {
                 expense,
-                onSave: (updatedExpense: Expense) => {
-                  void handleEditExpense(updatedExpense);
+                onSave: () => {
+                  Alert.alert('Gasto editado');
                 },
               });
             }}
-            onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
+            onLook={(expense: Backend.Expense) =>
+              navigation.navigate('ExpenseDetails', { expense })
+            }
           />
         ))}
       </ScrollView>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('AddExpense', {
-            onAddExpense: (newExpense: Expense) => {
-              void handleAddExpense(newExpense);
-            },
-          });
+          navigation.navigate('AddExpense');
         }}
         style={styles.addButtonContainer}
       >

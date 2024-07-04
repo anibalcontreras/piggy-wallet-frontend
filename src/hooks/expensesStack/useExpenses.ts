@@ -33,7 +33,7 @@ const useExpenses = (): Hooks.UseExpenses => {
     void fetchExpenses();
   }, [isFocused]);
 
-  return { error, loading, expenses };
+  return { error, loading, expenses, fetchExpenses };
 };
 
 export default useExpenses;

@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Colors, Sizing, Typography } from '@/styles';
+import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
+import { Colors, Sizing, Typography } from '@/styles';
 import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import { formatCurrency } from '@/utils';
+import ErrorText from '@/components/common/ErrorText';
 
 export default function ExpenseDetailsScreen({
-  navigation,
   route,
 }: ExpenseDetailsNavigationProps): JSX.Element {
   const { expense } = route.params;
+
   const [categoryName, setCategoryName] = useState<string>('Categoría desconocida');
   const [expenseTypeName, setExpenseTypeName] = useState<string>('Tipo de gasto desconocido');
 
-  const { categories } = useCategories();
-  const { expenseType: userExpenseTypes } = useUserExpenseTypes();
+  const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
+  const {
+    loading: userExpenseTypesLoading,
+    error: userExpenseTypesError,
+    userExpenseTypes,
+  } = useUserExpenseTypes();
 
   useEffect(() => {
     const category = categories.find((cat) => cat.id === expense.category);
@@ -23,10 +28,18 @@ export default function ExpenseDetailsScreen({
       category !== null && category !== undefined ? category.name : 'Categoría desconocida'
     );
 
-    const expenseType = userExpenseTypes.find((type) => type.id === expense.user_expense_type);
+    const expenseType = userExpenseTypes.find((type) => type.id === expense.userExpenseType);
 
     setExpenseTypeName(expenseType?.name ?? 'Tipo de gasto desconocido');
-  }, [categories, userExpenseTypes, expense.category, expense.user_expense_type]);
+  }, [categories, userExpenseTypes, expense.category, expense.userExpenseType]);
+
+  if (categoriesLoading || userExpenseTypesLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
+
+  if (categoriesError || userExpenseTypesError) {
+    return <ErrorText message="Ha ocurrido un error al cargar el detalle de tu gasto" />;
+  }
 
   return (
     <View style={styles.container}>
@@ -54,6 +67,11 @@ export default function ExpenseDetailsScreen({
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: Sizing.x20,

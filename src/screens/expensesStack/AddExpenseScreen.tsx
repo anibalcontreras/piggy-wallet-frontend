@@ -23,7 +23,6 @@ import ErrorText from '@/components/common/ErrorText';
 
 export default function AddExpenseScreen({
   navigation,
-  route,
 }: Navigation.ExpensesNavigationProps): JSX.Element {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState<number | null>(null);
@@ -56,7 +55,7 @@ export default function AddExpenseScreen({
   }));
 
   const handleAddExpense = async (): Promise<void> => {
-    if (amount === '' || category === null || userExpenseType === null || description === '') {
+    if (amount === '' || userExpenseType === null || description === '') {
       Alert.alert('Error', 'Todos los campos son obligatorios.');
       return;
     }
@@ -82,9 +81,6 @@ export default function AddExpenseScreen({
         description: newExpense.description,
       });
       Alert.alert('Gasto creado exitosamente');
-      (
-        route.params as { onAddExpense: (expense: Backend.Expense) => void } | undefined
-      )?.onAddExpense(response.data as Backend.Expense);
       navigation.goBack();
     } catch (error) {
       console.error('Error posting expense:', error);

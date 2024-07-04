@@ -21,7 +21,6 @@ export default function AddPiggyScreen({
       {
         text: 'Cancelar',
         style: 'cancel',
-        onPress: () => console.log('Cancel Pressed'),
       },
       {
         text: 'OK',
