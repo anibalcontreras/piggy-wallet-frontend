@@ -103,7 +103,7 @@ export default function AddExpenseScreen({
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="close" size={Sizing.x40} color={Colors.palette.primary} />
           </TouchableOpacity>
-          <Text style={styles.title}>Nuevo gasto</Text>
+          {/* <Text style={styles.title}>Nuevo gasto</Text> */}
           <TouchableOpacity
             onPress={() => {
               handleAddExpense().catch(console.error);
@@ -112,7 +112,6 @@ export default function AddExpenseScreen({
             <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
           </TouchableOpacity>
         </View>
-
         <Text style={styles.title}>Categoría</Text>
         <RNPickerSelect
           style={pickerSelectStyles}
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Sizing.x20,
-    backgroundColor: Colors.palette.background,
+    // backgroundColor: Colors.palette.secondary,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
   sharedExpenseContainer: {
     marginTop: Sizing.x20,
     padding: Sizing.x10,
-    backgroundColor: Colors.palette.background,
+    // backgroundColor: Colors.palette.background,
     borderRadius: Sizing.x5,
   },
   sharedExpenseOptions: {

@@ -43,9 +43,9 @@ export default function ExpenseDetailsScreen({
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.title}>Detalles del Gasto</Text>
-      </View>
+      </View> */}
       <View style={styles.detailContainer}>
         <Text style={styles.label}>Monto:</Text>
         <Text style={styles.value}>{formatCurrency(expense.amount.toString())}</Text>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Sizing.x20,
-    backgroundColor: Colors.palette.background,
+    // backgroundColor: Colors.palette.background,
   },
   header: {
     flexDirection: 'row',
