@@ -47,17 +47,22 @@ export default function ExpensesScreen({
     const start = new Date(end.getTime());
 
     if (selectedTab === 0) {
-      start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+      start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
     } else if (selectedTab === 1) {
       start.setDate(1);
     }
 
-    return [start, end]
+    return [start, end];
   };
 
   const [startDate, endDate] = getTimeRange();
 
-  const { error: expensesError, loading: expensesLoading, expenses, fetchExpenses } = useExpenses(startDate, endDate);
+  const {
+    error: expensesError,
+    loading: expensesLoading,
+    expenses,
+    fetchExpenses,
+  } = useExpenses(startDate, endDate);
 
   useEffect(() => {
     const [start, end] = getTimeRange();
@@ -153,9 +158,9 @@ export default function ExpensesScreen({
       >
         <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.primary} />
       </TouchableOpacity>
-      <View style={{...styles.filterContainer, paddingBottom: Sizing.x85}}>
+      <View style={{ ...styles.filterContainer, paddingBottom: Sizing.x85 }}>
         <FilterComponent
-          defaultCategories={["Semanal", "Mensual"]}
+          defaultCategories={['Semanal', 'Mensual']}
           selectedTab={selectedTab}
           setSelectedTab={handleTabChange}
           page={page}
