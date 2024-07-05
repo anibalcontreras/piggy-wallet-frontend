@@ -66,14 +66,15 @@ export default function ExpensesScreen({
 
   useEffect(() => {
     const [start, end] = getTimeRange();
-    fetchExpenses(start, end);
+    void fetchExpenses(start, end);
   }, [timeOffset, selectedTab]);
 
   const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
 
   useFocusEffect(
     useCallback(() => {
-      void fetchExpenses();
+      const [start, end] = getTimeRange();
+      void fetchExpenses(start, end);
     }, [])
   );
 
