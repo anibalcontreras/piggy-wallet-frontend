@@ -68,6 +68,14 @@ export default function ExpensesStackScreen(): JSX.Element {
         component={EditExpenseScreen}
         options={{
           title: 'Editar Gasto',
+          headerBackTitle: 'Atrás',
+          headerTintColor: Colors.palette.text,
+          headerStyle: {
+            backgroundColor: Colors.palette.border,
+          },
+          contentStyle: {
+            backgroundColor: Colors.palette.secondary,
+          },
         }}
       />
 
