@@ -3,10 +3,23 @@ import type { Navigation } from '@/types';
 import { Colors } from '@/styles';
 import HomeScreen from '@/screens/homeStack/HomeScreen';
 import BudgetScreen from '@/screens/homeStack/BudgetScreen';
+import UserExpenseTypeCreationScreen from '@/screens/homeStack/UserExpenseTypeCreationScreen';
 
 const HomeStack = createNativeStackNavigator<Navigation.HomeStackParamsList>();
 
 export default function HomeStackScreen(): JSX.Element {
+  const commonScreenOptions = {
+    headerStyle: {
+      backgroundColor: Colors.palette.background,
+    },
+    headerTintColor: Colors.palette.text,
+    headerBackTitle: 'Atrás',
+    contentStyle: {
+      borderTopColor: Colors.palette.border,
+      borderTopWidth: 1,
+    },
+  };
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -21,15 +34,15 @@ export default function HomeStackScreen(): JSX.Element {
         component={BudgetScreen}
         options={{
           title: 'Configuración de presupuesto',
-          headerStyle: {
-            backgroundColor: Colors.palette.background,
-          },
-          headerTintColor: Colors.palette.text,
-          headerBackTitle: 'Atrás',
-          contentStyle: {
-            borderTopColor: Colors.palette.border,
-            borderTopWidth: 1,
-          },
+          ...commonScreenOptions,
+        }}
+      />
+      <HomeStack.Screen
+        name="UserExpenseTypeCreation"
+        component={UserExpenseTypeCreationScreen}
+        options={{
+          title: 'Creación de tipo de gasto',
+          ...commonScreenOptions,
         }}
       />
     </HomeStack.Navigator>
