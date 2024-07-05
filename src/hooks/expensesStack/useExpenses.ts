@@ -15,18 +15,18 @@ const useExpenses = (start?: Date, end?: Date): Hooks.UseExpenses => {
   let endpoint = END_POINT.expenses;
 
   if (start !== undefined && end !== undefined) {
-    endpoint += `?start_date=${start.toISOString().substring(0, 10)}&end_date=${end
+    endpoint += `?start_date=${start.toISOString().substring(0, 10)}T00:00:00&end_date=${end
       .toISOString()
-      .substring(0, 10)}`;
+      .substring(0, 10)}T23:59:59`;
   }
 
   const fetchExpenses = async (startDate?: Date, endDate?: Date): Promise<void> => {
     if (startDate !== undefined && endDate !== undefined) {
       endpoint =
         END_POINT.expenses +
-        `?start_date=${startDate.toISOString().substring(0, 10)}&end_date=${endDate
+        `?start_date=${startDate.toISOString().substring(0, 10)}T00:00:00&end_date=${endDate
           .toISOString()
-          .substring(0, 10)}`;
+          .substring(0, 10)}T23:59:59`;
     }
     setError(false);
     setLoading(true);
