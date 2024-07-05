@@ -122,3 +122,10 @@ export interface ExpenseCardProps {
   onEdit: (expense: Backend.Expense) => void;
   onLook: (expense: Backend.Expense) => void;
 }
+
+export interface TimeSelectionProps {
+  startDate: Date;
+  selectedTab: number;
+  timeOffset: number;
+  setTimeOffset: (t: number) => void;
+}

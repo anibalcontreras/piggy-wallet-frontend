@@ -46,7 +46,7 @@ export interface UseUserBankCards extends UseHookBase {
 
 export interface UseExpenses extends UseHookBase {
   expenses: Backend.Expense[];
-  fetchExpenses: () => Promise<void>;
+  fetchExpenses: (start?: Date, end?: Date) => Promise<void>;
 }
 
 export interface UseCategories extends UseHookBase {
