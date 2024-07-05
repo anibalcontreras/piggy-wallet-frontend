@@ -68,6 +68,7 @@ export interface UserMonthExpensesProps {
   userExpenseTypes: Backend.UserExpenseType[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
+  handleClick: () => void;
 }
 
 export interface UserBudgetProps {

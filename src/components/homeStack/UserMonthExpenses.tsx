@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import type { Components } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
+import { Entypo } from '@expo/vector-icons';
 
 function UserMonthExpenses({
   userExpenseTypes,
   expensesByExpenseType,
   expensesByCategory,
+  handleClick,
 }: Components.UserMonthExpensesProps): JSX.Element {
   const expenseTypeNames = userExpenseTypes.map((expenseType) => expenseType.name);
   // We set the state values for the filter component outside so we know what to pass to the donut chart
@@ -29,6 +31,13 @@ function UserMonthExpenses({
         <Text testID={'month-expenses-text'} style={styles.boxText}>
           Gastos del mes
         </Text>
+        <TouchableOpacity onPress={handleClick}>
+          <Entypo
+            name="dots-three-vertical"
+            size={Sizing.x25}
+            color={Colors.transparent.lightGrey}
+          />
+        </TouchableOpacity>
       </View>
 
       <FilterComponent

@@ -51,7 +51,11 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
     allExpenses[0].amount += expensesByExpenseType[i].amount;
   }
 
-  const handleClick = (): void => {
+  const handleExpensesClick = (): void => {
+    props.navigation.navigate('UserExpenseTypeCreation');
+  };
+
+  const handleBudgetClick = (): void => {
     props.navigation.navigate('Budget');
   };
 
@@ -69,9 +73,15 @@ export default function HomeScreen(props: Navigation.HomeNavigationProps): JSX.E
         userExpenseTypes={userExpenseTypes}
         expensesByExpenseType={expensesByExpenseType}
         expensesByCategory={expensesByCategory}
+        handleClick={handleExpensesClick}
         {...props}
       />
-      <UserBudget budget={budget} allExpenses={allExpenses} handleClick={handleClick} {...props} />
+      <UserBudget
+        budget={budget}
+        allExpenses={allExpenses}
+        handleClick={handleBudgetClick}
+        {...props}
+      />
     </SafeAreaView>
   );
 }

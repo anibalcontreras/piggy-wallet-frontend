@@ -25,6 +25,7 @@ export type RootStackParamsList = {
 export type HomeStackParamsList = {
   Home: undefined;
   Budget: undefined;
+  UserExpenseTypeCreation: undefined;
 };
 
 export type ExpensesStackParamsList = {
@@ -57,6 +58,10 @@ export type RegisterNavigationProps = NativeStackScreenProps<RootStackParamsList
 
 export type HomeNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Home'>;
 export type BudgetNavigationProps = NativeStackScreenProps<HomeStackParamsList, 'Budget'>;
+export type UserExpenseTypeCreationNavigationProps = NativeStackScreenProps<
+  HomeStackParamsList,
+  'UserExpenseTypeCreation'
+>;
 
 export type ExpensesNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Expenses'>;
 export type AmountNavigationProps = NativeStackScreenProps<ExpensesStackParamsList, 'Amount'>;
