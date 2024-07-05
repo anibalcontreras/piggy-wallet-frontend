@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import type { ExpenseDetailsNavigationProps } from '@/types/navigation';
 import { Colors, Sizing, Typography } from '@/styles';
 import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import { formatCurrency } from '@/utils';
 import ErrorText from '@/components/common/ErrorText';
+
+const truncateText = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) return text;
+  return `${text.substring(0, maxLength)}...`;
+};
 
 export default function ExpenseDetailsScreen({
   route,
@@ -29,7 +35,6 @@ export default function ExpenseDetailsScreen({
     );
 
     const expenseType = userExpenseTypes.find((type) => type.id === expense.userExpenseType);
-
     setExpenseTypeName(expenseType?.name ?? 'Tipo de gasto desconocido');
   }, [categories, userExpenseTypes, expense.category, expense.userExpenseType]);
 
@@ -43,24 +48,32 @@ export default function ExpenseDetailsScreen({
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Text style={styles.title}>Detalles del Gasto</Text>
-      </View> */}
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Monto:</Text>
-        <Text style={styles.value}>{formatCurrency(expense.amount.toString())}</Text>
+      <View style={styles.amountContainer}>
+        <FontAwesome
+          name="dollar"
+          size={24}
+          color={Colors.palette.primary}
+          style={styles.dollarIcon}
+        />
+        <View style={styles.amountTextContainer}>
+          <Text style={styles.amountText}>
+            {formatCurrency(expense.amount.toString()).substring(1)}
+          </Text>
+        </View>
       </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Tipo de gasto:</Text>
-        <Text style={styles.value}>{expenseTypeName}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Categoría:</Text>
-        <Text style={styles.value}>{categoryName}</Text>
-      </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.label}>Descripción:</Text>
-        <Text style={styles.value}>{expense.description}</Text>
+      <View style={styles.detailsContainer}>
+        <View style={styles.detailItem}>
+          <Text style={styles.detailLabel}>Tipo de gasto</Text>
+          <Text style={styles.detailValue}>{expenseTypeName}</Text>
+        </View>
+        <View style={styles.detailItem}>
+          <Text style={styles.detailLabel}>Categoría</Text>
+          <Text style={styles.detailValue}>{categoryName}</Text>
+        </View>
+        <View style={styles.lastDetailItem}>
+          <Text style={styles.detailLabel}>Descripción</Text>
+          <Text style={styles.detailValue}>{truncateText(expense.description, 22)}</Text>
+        </View>
       </View>
     </View>
   );
@@ -75,31 +88,50 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Sizing.x20,
-    // backgroundColor: Colors.palette.background,
   },
-  header: {
+  amountContainer: {
+    backgroundColor: Colors.palette.border,
+    padding: Sizing.x30,
+    borderRadius: Sizing.x10,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: Sizing.x20,
+    marginBottom: Sizing.x40,
   },
-  title: {
-    ...Typography.headerStyles.medium,
+  dollarIcon: {
+    marginRight: Sizing.x10,
+  },
+  amountTextContainer: {
     flex: 1,
-    textAlign: 'center',
+    alignItems: 'center',
   },
-  detailContainer: {
+  amountText: {
+    ...Typography.headerStyles.medium,
+  },
+  detailsContainer: {
+    backgroundColor: Colors.palette.border,
+    padding: Sizing.x30,
+    borderRadius: Sizing.x10,
+  },
+  detailItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: Sizing.x10,
-    paddingVertical: Sizing.x10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.palette.border,
+    alignItems: 'center',
+    paddingVertical: Sizing.x20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.palette.background,
   },
-  label: {
+  lastDetailItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: Sizing.x20,
+  },
+  detailLabel: {
     ...Typography.bodyStyles.primary,
     fontWeight: 'bold',
+    color: Colors.palette.text,
   },
-  value: {
+  detailValue: {
     ...Typography.bodyStyles.primary,
     color: Colors.palette.text,
   },
