@@ -18,3 +18,8 @@ export function snakeToCamel(obj: Record<string, any>): Record<string, any> {
   }
   return newObj;
 }
+
+export function dateToUTC(date: Date): Date {
+  const utc = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+  return new Date(utc);
+}

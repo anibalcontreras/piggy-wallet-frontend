@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import {
   Alert,
   SafeAreaView,
@@ -17,34 +17,54 @@ import { END_POINT } from '@/service/constant';
 import useExpenses from '@/hooks/expensesStack/useExpenses';
 import useCategories from '@/hooks/expensesStack/useCategories';
 import ExpenseCard from '@/components/expensesStack/ExpenseCard';
-import ExpensesFilterComponent from '@/components/charts/ExpensesFilterComponent';
+import FilterComponent from '@/components/charts/FilterComponent';
 import ErrorText from '@/components/common/ErrorText';
+import * as FormatFunctions from '@/utils';
+import TimeSelection from '@/components/common/TimeSelection';
 
 export default function ExpensesScreen({
   navigation,
 }: Navigation.ExpensesNavigationProps): JSX.Element {
-  const { error: expensesError, loading: expensesLoading, expenses, fetchExpenses } = useExpenses();
-  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
-
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  const filteredExpenses = expenses.filter((expense) => {
-    const today = new Date();
-    const expenseDate = new Date(expense.createdAt ?? new Date());
-    if (selectedTab === 0) return true;
-    if (selectedTab === 1) {
-      const lastMonth = new Date();
-      lastMonth.setMonth(today.getMonth() - 1);
-      return expenseDate > lastMonth;
+  const [timeOffset, setTimeOffset] = useState(0);
+
+  const handleTabChange = (value: number): void => {
+    setSelectedTab(value);
+    setTimeOffset(0);
+  };
+
+  const getTimeRange = (): Date[] => {
+    const end = FormatFunctions.dateToUTC(new Date());
+
+    if (selectedTab === 0) {
+      end.setDate(end.getDate() - 7 * timeOffset);
+    } else if (selectedTab === 1) {
+      end.setMonth(end.getMonth() - timeOffset);
     }
-    if (selectedTab === 2) {
-      const lastWeek = new Date();
-      lastWeek.setDate(today.getDate() - 7);
-      return expenseDate > lastWeek;
+
+    const start = new Date(end.getTime());
+
+    if (selectedTab === 0) {
+      start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+    } else if (selectedTab === 1) {
+      start.setDate(1);
     }
-    return false;
-  });
+
+    return [start, end]
+  };
+
+  const [startDate, endDate] = getTimeRange();
+
+  const { error: expensesError, loading: expensesLoading, expenses, fetchExpenses } = useExpenses(startDate, endDate);
+
+  useEffect(() => {
+    const [start, end] = getTimeRange();
+    fetchExpenses(start, end);
+  }, [timeOffset, selectedTab]);
+
+  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
 
   useFocusEffect(
     useCallback(() => {
@@ -91,15 +111,15 @@ export default function ExpensesScreen({
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.filterContainer}>
-        <ExpensesFilterComponent
+        <TimeSelection
+          startDate={startDate}
           selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          page={page}
-          setPage={setPage}
+          timeOffset={timeOffset}
+          setTimeOffset={setTimeOffset}
         />
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {filteredExpenses.map((expense) => (
+        {expenses.map((expense) => (
           <ExpenseCard
             key={expense.id}
             expense={expense}
@@ -133,6 +153,15 @@ export default function ExpensesScreen({
       >
         <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.primary} />
       </TouchableOpacity>
+      <View style={{...styles.filterContainer, paddingBottom: Sizing.x85}}>
+        <FilterComponent
+          defaultCategories={["Semanal", "Mensual"]}
+          selectedTab={selectedTab}
+          setSelectedTab={handleTabChange}
+          page={page}
+          setPage={setPage}
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -159,6 +188,8 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 2,
+    marginBottom: Sizing.x50,
   },
   scrollContainer: {
     padding: Sizing.x20,
