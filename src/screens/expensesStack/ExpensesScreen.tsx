@@ -20,7 +20,7 @@ import ExpenseCard from '@/components/expensesStack/ExpenseCard';
 import FilterComponent from '@/components/charts/FilterComponent';
 import ErrorText from '@/components/common/ErrorText';
 import * as FormatFunctions from '@/utils';
-import TimeSelection from '@/components/common/TimeSelection';
+import TimeSelection from '@/components/expensesStack/TimeSelection';
 
 export default function ExpensesScreen({
   navigation,
