@@ -72,7 +72,7 @@ export default function ExpenseDetailsScreen({
         </View>
         <View style={styles.lastDetailItem}>
           <Text style={styles.detailLabel}>Descripción</Text>
-          <Text style={styles.detailValue}>{truncateText(expense.description, 22)}</Text>
+          <Text style={styles.detailValue}>{truncateText(expense.description, 25)}</Text>
         </View>
       </View>
     </View>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     backgroundColor: Colors.palette.border,
-    padding: Sizing.x30,
+    padding: Sizing.x20,
     borderRadius: Sizing.x10,
   },
   detailItem: {
