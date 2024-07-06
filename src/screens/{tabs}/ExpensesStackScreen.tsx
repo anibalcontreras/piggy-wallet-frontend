@@ -1,14 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import type { ExpensesStackParamsList } from '../../types/navigation';
+import type { Navigation } from '@/types';
+import { Colors } from '@/styles';
 import ExpensesScreen from '../expensesStack/ExpensesScreen';
 import AddExpenseScreen from '../expensesStack/AddExpenseScreen';
 import ExpenseTypeScreen from '../expensesStack/ExpenseTypeScreen';
-import CategoryScreen from '../expensesStack/CategoryScreen';
 import SharedExpenseDetailsScreen from '../expensesStack/SharedExpenseDetailsScreen';
 import EditExpenseScreen from '../expensesStack/EditExpenseScreen';
 import ExpenseDetailsScreen from '../expensesStack/ExpenseDetailsScreen';
-const ExpensesStack = createNativeStackNavigator<ExpensesStackParamsList>();
+const ExpensesStack = createNativeStackNavigator<Navigation.ExpensesStackParamsList>();
 
 function AddExpenseStackScreen(): JSX.Element {
   return (
@@ -18,6 +17,13 @@ function AddExpenseStackScreen(): JSX.Element {
         component={AddExpenseScreen}
         options={{
           title: 'Nuevo gasto',
+          headerStyle: {
+            backgroundColor: Colors.palette.border,
+          },
+          headerTintColor: Colors.palette.text,
+          contentStyle: {
+            backgroundColor: Colors.palette.secondary,
+          },
         }}
       />
       <ExpensesStack.Screen
@@ -25,13 +31,6 @@ function AddExpenseStackScreen(): JSX.Element {
         component={ExpenseTypeScreen}
         options={{
           title: 'Tipo de Gasto',
-        }}
-      />
-      <ExpensesStack.Screen
-        name="Category"
-        component={CategoryScreen}
-        options={{
-          title: 'Categoría',
         }}
       />
       <ExpensesStack.Screen
@@ -69,6 +68,14 @@ export default function ExpensesStackScreen(): JSX.Element {
         component={EditExpenseScreen}
         options={{
           title: 'Editar Gasto',
+          headerBackTitle: 'Atrás',
+          headerTintColor: Colors.palette.text,
+          headerStyle: {
+            backgroundColor: Colors.palette.border,
+          },
+          contentStyle: {
+            backgroundColor: Colors.palette.secondary,
+          },
         }}
       />
 
@@ -76,7 +83,15 @@ export default function ExpensesStackScreen(): JSX.Element {
         name="ExpenseDetails"
         component={ExpenseDetailsScreen}
         options={{
-          title: 'Valor',
+          title: 'Detalles del gasto',
+          headerBackTitle: 'Atrás',
+          headerTintColor: Colors.palette.text,
+          headerStyle: {
+            backgroundColor: Colors.palette.border,
+          },
+          contentStyle: {
+            backgroundColor: Colors.palette.secondary,
+          },
         }}
       />
     </ExpensesStack.Navigator>

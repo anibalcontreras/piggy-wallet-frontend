@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '../../styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
-import type { Navigation } from '../../types';
+import type { Navigation } from '@/types';
 
 const expenseTypes = ['Gasto personal', 'Gasto de vacaciones'];
 

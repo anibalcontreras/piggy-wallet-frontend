@@ -1,98 +1,191 @@
-import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView, View } from 'react-native';
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-
-import { Colors, Sizing } from '@/styles';
+import type { Backend, Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
+import useExpenses from '@/hooks/expensesStack/useExpenses';
+import useCategories from '@/hooks/expensesStack/useCategories';
+import ExpenseCard from '@/components/expensesStack/ExpenseCard';
 import FilterComponent from '@/components/charts/FilterComponent';
-import ExpenseCard from '@/components/expenses/ExpenseCard';
-import type { ExpensesNavigationProps } from '@/types/navigation';
-import type { Expense, UserExpenseType } from '@/types/components';
-import { isSameMonth, parseISO } from 'date-fns';
+import ErrorText from '@/components/common/ErrorText';
+import * as FormatFunctions from '@/utils';
+import TimeSelection from '@/components/expensesStack/TimeSelection';
 
-export default function ExpensesScreen({ navigation }: ExpensesNavigationProps): JSX.Element {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userExpenseTypes, setUserExpenseTypes] = useState<UserExpenseType[]>([]); // Re-enable rule
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filter, setFilter] = useState<string>('todo'); // Re-enable rule
+export default function ExpensesScreen({
+  navigation,
+}: Navigation.ExpensesNavigationProps): JSX.Element {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [page, setPage] = useState(0);
 
-  /*
+  const [timeOffset, setTimeOffset] = useState(0);
+
+  const handleTabChange = (value: number): void => {
+    setSelectedTab(value);
+    setTimeOffset(0);
+  };
+
+  const getTimeRange = (): Date[] => {
+    const end = FormatFunctions.dateToUTC(new Date());
+
+    if (selectedTab === 0) {
+      end.setDate(end.getDate() - 7 * timeOffset);
+    } else if (selectedTab === 1) {
+      end.setMonth(end.getMonth() - timeOffset);
+    }
+
+    const start = new Date(end.getTime());
+
+    if (selectedTab === 0) {
+      start.setDate(start.getDate() - ((start.getDay() + 6) % 7));
+    } else if (selectedTab === 1) {
+      start.setDate(1);
+    }
+
+    return [start, end];
+  };
+
+  const [startDate, endDate] = getTimeRange();
+
+  const {
+    error: expensesError,
+    loading: expensesLoading,
+    expenses,
+    fetchExpenses,
+  } = useExpenses(startDate, endDate);
+
   useEffect(() => {
-    setExpenses(db.expenses.map((expense) => ({ ...expense, description: db.userexpensetypes.find((type) => type.id === expense.userexpensetype_id)?.description ?? 'Unknown'}))); 
-    setUserExpenseTypes(db.userexpensetypes);
-  }, []);
-  */
+    const [start, end] = getTimeRange();
+    void fetchExpenses(start, end);
+  }, [timeOffset, selectedTab]);
 
-  const handleDelete = (id: number): void => {
-    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
-    Alert.alert('Gasto eliminado');
+  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
+
+  useFocusEffect(
+    useCallback(() => {
+      const [start, end] = getTimeRange();
+      void fetchExpenses(start, end);
+    }, [])
+  );
+
+  const handleDeleteExpenseClick = (id: number): void => {
+    Alert.alert('Eliminar Gasto', '¿Estás seguro de que quieres eliminar este gasto?', [
+      {
+        text: 'Cancelar',
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          void deleteExpenseRequest(id);
+        },
+      },
+    ]);
   };
 
-  const handleAddExpense = (newExpense: Expense): void => {
-    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+  const deleteExpenseRequest = async (id: number): Promise<void> => {
+    httpService
+      .delete(`${END_POINT.expenses}${id}/`)
+      .then(async () => {
+        Alert.alert('Gasto eliminado');
+        await fetchExpenses();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        Alert.alert('Error', 'No se pudo eliminar el gasto.');
+      });
   };
 
-  const handleEditExpense = (updatedExpense: Expense): void => {
-    setExpenses((prevExpenses) =>
-      prevExpenses.map((expense) => (expense.id === updatedExpense.id ? updatedExpense : expense))
-    );
-    Alert.alert('Gasto editado');
-  };
+  if (expensesLoading || categoriesLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
 
-  /*
-  const getUserExpenseTypeDescription = (id: number): string => {
-    const userExpenseType = userExpenseTypes.find((type) => type.id === id);
-    return userExpenseType?.description ?? 'Unknown';
-  };
-  */
-
-  const filterExpenses = (): Expense[] => {
-    const currentDate = new Date();
-
-    if (filter === 'todo') return expenses;
-    if (filter === 'mensual') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
-    }
-    if (filter === 'ahorro') {
-      return expenses.filter((expense) => isSameMonth(parseISO(expense.created_at), currentDate));
-    }
-    return expenses;
-  };
+  if (expensesError || categoriesError) {
+    return <ErrorText message="Ha ocurrido un error al cargar tus gastos" />;
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'expenses-screen'} style={styles.container}>
       <View style={styles.filterContainer}>
-        <FilterComponent />
+        <TimeSelection
+          startDate={startDate}
+          selectedTab={selectedTab}
+          timeOffset={timeOffset}
+          setTimeOffset={setTimeOffset}
+        />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {filterExpenses().map((expense) => (
-          <ExpenseCard
-            key={expense.id}
-            expense={{
-              ...expense,
-              // userexpensetype_id: getUserExpenseTypeDescription(expense.userexpensetype_id)
-              userexpensetype_id: expense.userexpensetype_id,
-            }}
-            onDelete={() => handleDelete(expense.id)}
-            onEdit={(expense: Expense) =>
-              navigation.navigate('EditExpense', { expense, onSave: handleEditExpense })
-            }
-            onLook={(expense: Expense) => navigation.navigate('ExpenseDetails', { expense })}
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.scrollWrapper}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {expenses.length > 0 ? (
+            expenses.map((expense) => (
+              <ExpenseCard
+                key={expense.id}
+                expense={expense}
+                categories={categories}
+                onDelete={() => {
+                  try {
+                    handleDeleteExpenseClick(expense.id);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+                onEdit={(expense: Backend.Expense) => {
+                  void navigation.navigate('EditExpense', {
+                    expense,
+                    onSave: () => {
+                      Alert.alert('Gasto editado');
+                    },
+                  });
+                }}
+                onLook={(expense: Backend.Expense) =>
+                  navigation.navigate('ExpenseDetails', { expense })
+                }
+              />
+            ))
+          ) : (
+            <Text style={styles.text}>No tienes gastos por el momento</Text>
+          )}
+        </ScrollView>
+      </View>
+
       <TouchableOpacity
-        onPress={() => navigation.navigate('AddExpense', { onAddExpense: handleAddExpense })}
+        onPress={() => {
+          navigation.navigate('AddExpense');
+        }}
         style={styles.addButtonContainer}
       >
         <AntDesign name="pluscircle" size={Sizing.x50} color={Colors.palette.primary} />
       </TouchableOpacity>
+      <View style={{ ...styles.filterContainer, paddingBottom: Sizing.x85 }}>
+        <FilterComponent
+          defaultCategories={['Semanal', 'Mensual']}
+          selectedTab={selectedTab}
+          setSelectedTab={handleTabChange}
+          page={page}
+          setPage={setPage}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.palette.background,
@@ -100,18 +193,28 @@ const styles = StyleSheet.create({
   filterContainer: {
     zIndex: 1,
     backgroundColor: Colors.palette.background,
+    marginHorizontal: Sizing.x50,
+  },
+  scrollWrapper: {
+    flex: 1,
+    marginTop: Sizing.x80,
   },
   addButtonContainer: {
     position: 'absolute',
-    bottom: Sizing.x20,
+    bottom: Sizing.x15,
     left: 0,
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 2,
+    marginBottom: Sizing.x50,
   },
   scrollContainer: {
     padding: Sizing.x20,
-    paddingBottom: Sizing.x60,
-    paddingTop: Sizing.x100,
+    paddingBottom: Sizing.x80,
+  },
+  text: {
+    margin: 'auto',
+    ...Typography.bodyStyles.highlight,
   },
 });

@@ -1,10 +1,11 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "baseUrl": "./",
     "strict": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "allowSyntheticDefaultImports": true
+  "exclude": ["./cypress.config.ts", "node_modules", "cypress", "**/*.cy.ts"]
 }

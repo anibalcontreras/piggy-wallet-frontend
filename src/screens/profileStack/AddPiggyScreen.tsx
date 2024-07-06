@@ -21,7 +21,6 @@ export default function AddPiggyScreen({
       {
         text: 'Cancelar',
         style: 'cancel',
-        onPress: () => console.log('Cancel Pressed'),
       },
       {
         text: 'OK',
@@ -42,14 +41,6 @@ export default function AddPiggyScreen({
       });
   };
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error) {
-    return <ErrorText message="Ha ocurrido un error al cargar los usuarios" />;
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       {!clicked && <Text style={styles.title}>Busca a otros usuarios</Text>}
@@ -59,7 +50,18 @@ export default function AddPiggyScreen({
         setSearchPhrase={setSearchPiggy}
         setClicked={setClicked}
       />
-      <UsersList searchPhrase={searchPiggy} data={allUsers} onPiggyAdded={handleAddPiggyClick} />
+      {loading ? (
+        <ActivityIndicator />
+      ) : error ? (
+        <ErrorText message="Ha ocurrido un error al cargar los usuarios" />
+      ) : (
+        <UsersList
+          searchPhrase={searchPiggy}
+          data={allUsers}
+          onPiggyAdded={handleAddPiggyClick}
+          showEmail={true}
+        />
+      )}
     </SafeAreaView>
   );
 }

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import type { Backend } from '@/types';
-import type { UseUsersWithDebts } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import { snakeToCamel } from '@/utils';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 
-const useUsersWithDebts = (): UseUsersWithDebts => {
+const useUsersWithDebts = (): Hooks.UseUsersWithDebts => {
   const isFocused = useIsFocused();
 
   const [usersWithDebts, setUsersWithDebts] = useState<Backend.User[]>([]);

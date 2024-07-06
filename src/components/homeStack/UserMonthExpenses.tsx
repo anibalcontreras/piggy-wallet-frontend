@@ -1,31 +1,23 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import type { DonutChartValue, UserMonthExpensesProps } from '@/types/components';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import type { Components } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import FilterComponent from '@/components/charts/FilterComponent';
 import DonutChart from '@/components/charts/donutChart';
-import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
-import ErrorText from '@/components/common/ErrorText';
+import { Entypo } from '@expo/vector-icons';
 
-const UserMonthExpenses = ({
+function UserMonthExpenses({
+  userExpenseTypes,
   expensesByExpenseType,
   expensesByCategory,
-}: UserMonthExpensesProps): JSX.Element => {
+  handleClick,
+}: Components.UserMonthExpensesProps): JSX.Element {
+  const expenseTypeNames = userExpenseTypes.map((expenseType) => expenseType.name);
   // We set the state values for the filter component outside so we know what to pass to the donut chart
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(0);
 
-  const { loading, error, categories } = useUserExpenseTypes();
-
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error) {
-    return <ErrorText message="Ha ocurrido un error al cargar tus categorías de gastos" />;
-  }
-
-  const getChartValue = (): DonutChartValue[] => {
+  const getChartValue = (): Components.DonutChartValue[] => {
     if (page === 0) {
       return selectedTab === 0 ? expensesByExpenseType : expensesByCategory[selectedTab - 1];
     }
@@ -36,11 +28,20 @@ const UserMonthExpenses = ({
   return (
     <View style={[styles.contentBox, styles.contentBoxOne]}>
       <View style={styles.hr}>
-        <Text style={styles.boxText}>Gastos del mes</Text>
+        <Text testID={'month-expenses-text'} style={styles.boxText}>
+          Gastos del mes
+        </Text>
+        <TouchableOpacity onPress={handleClick}>
+          <Entypo
+            name="dots-three-vertical"
+            size={Sizing.x25}
+            color={Colors.transparent.lightGrey}
+          />
+        </TouchableOpacity>
       </View>
 
       <FilterComponent
-        categories={categories}
+        categories={expenseTypeNames}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         page={page}
@@ -50,9 +51,14 @@ const UserMonthExpenses = ({
       <DonutChart values={getChartValue()} userBudget={0} marginTop={Sizing.x80} disableAvailable />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   contentBox: {
     position: 'relative',
     width: '80%',

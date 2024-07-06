@@ -24,25 +24,31 @@ export interface UseUserBalance extends UseHookBase {
   userBalance?: Backend.Balance;
 }
 
-export type ExpensesGroup = Record<string, Record<string, number>>;
-
-export interface UseExpensesGroups extends UseHookBase {
-  allExpensesByCategories: ExpensesGroup;
+export interface UserUserDebtsHistory extends UseHookBase {
+  userDebtsHistory?: Backend.DebtsTransactions;
 }
 
-export interface UserExpense {
-  id: number;
-  name: string;
+export interface UseExpensesGroups extends UseHookBase {
+  allExpensesByCategories: Backend.ExpensesGroup;
 }
 
 export interface UseUserExpenseTypes extends UseHookBase {
-  categories: string[];
-}
-
-export interface Budget {
-  amount: number | null;
+  userExpenseTypes: Backend.UserExpenseType[];
 }
 
 export interface UseBudget extends UseHookBase {
-  budget: Budget;
+  budget: Backend.Budget;
+}
+
+export interface UseUserBankCards extends UseHookBase {
+  userBankCards: Backend.BankCard[];
+}
+
+export interface UseExpenses extends UseHookBase {
+  expenses: Backend.Expense[];
+  fetchExpenses: (start?: Date, end?: Date) => Promise<void>;
+}
+
+export interface UseCategories extends UseHookBase {
+  categories: Backend.Category[];
 }

@@ -3,7 +3,7 @@ import type { StyleProp, PressableProps, TextInputProps, ViewStyle } from 'react
 import type { BottomTabBarProps as ReactNavigationBottomTabBarProps } from '@react-navigation/bottom-tabs';
 import type { Entypo } from '@expo/vector-icons';
 import type { VictoryTooltipProps } from 'victory-tooltip';
-import type { Backend, Navigation } from '@/types';
+import type { Backend } from '@/types';
 
 export interface ButtonProps extends PressableProps {
   variant?: 'contained' | 'fullWidth' | 'text';
@@ -65,12 +65,16 @@ export interface ChartTooltipProps extends VictoryTooltipProps {
 }
 
 export interface UserMonthExpensesProps {
+  userExpenseTypes: Backend.UserExpenseType[];
   expensesByExpenseType: DonutChartValue[];
   expensesByCategory: DonutChartValue[][];
+  handleClick: () => void;
 }
 
-export interface UserBudgetProps extends Navigation.HomeNavigationProps {
+export interface UserBudgetProps {
+  budget: Backend.Budget;
   allExpenses: DonutChartValue[];
+  handleClick: () => void;
 }
 
 export interface PiggiesListProps {
@@ -90,9 +94,11 @@ export interface SearchBarProps {
 }
 
 export interface SearchAllPigiesListProps {
+  variant?: 'big' | 'small';
   searchPhrase: string;
   data?: Backend.User[];
   onPiggyAdded: (user: Backend.User) => void;
+  showEmail?: boolean;
 }
 
 export interface DebtorsListProps {
@@ -104,25 +110,23 @@ export interface UserBalanceProps {
   userBalance?: Backend.Balance;
 }
 
-export interface Expense {
-  id: number;
-  user_id: number;
-  userexpensetype_id: number;
-  category_id: number;
-  bankcard_id: number;
-  amount: number;
-  created_at: string;
-  updated_at: string;
-  description: string;
+export interface DebtTransactionProps {
+  title: string;
+  transactions: Backend.DebtTransaction[];
+  onSettleDebtClick: (debtId: number) => void;
 }
 
-export interface UserExpenseType {
-  id: number;
-  user_id: number;
-  name: string;
-  description: string;
-  set_by_user: boolean;
-  category_name: string;
-  created_at: string;
-  updated_at: string;
+export interface ExpenseCardProps {
+  expense: Backend.Expense;
+  categories: Backend.Category[];
+  onDelete: (expense: Backend.Expense) => void;
+  onEdit: (expense: Backend.Expense) => void;
+  onLook: (expense: Backend.Expense) => void;
+}
+
+export interface TimeSelectionProps {
+  startDate: Date;
+  selectedTab: number;
+  timeOffset: number;
+  setTimeOffset: (t: number) => void;
 }

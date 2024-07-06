@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, ActivityIndicator, Alert, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
-import { type Backend, type Navigation } from '@/types';
+import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
+import usePiggies from '@/hooks/profileStack/usePiggies';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import Button from '@/components/common/Button';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import SearchBar from '@/components/common/SearchBar';
 import UsersList from '@/components/common/UsersList';
-import usePiggies from '@/hooks/profileStack/usePiggies';
 
 export default function AddDebtScreen({
   navigation,
@@ -19,6 +19,7 @@ export default function AddDebtScreen({
   const debtValidationSchema = yup.object().shape({
     amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
     debtorId: yup.string().required('Deudor es requerido'),
+    description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
   });
 
   const { loading, error, piggies } = usePiggies();
@@ -27,12 +28,17 @@ export default function AddDebtScreen({
   const [isCreatingDebt, setIsCreatingDebt] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Backend.User>();
 
-  const handleSubmit = async (amount: string, debtorId: string): Promise<void> => {
+  const handleSubmit = async (
+    amount: string,
+    debtorId: string,
+    description: string
+  ): Promise<void> => {
     setIsCreatingDebt(true);
     try {
       await httpService.post(END_POINT.debt, {
         amount,
         debtor_id: debtorId,
+        description,
       });
       navigation.goBack();
     } catch (error) {
@@ -46,45 +52,53 @@ export default function AddDebtScreen({
     <SafeAreaView style={styles.container}>
       <Formik
         validationSchema={debtValidationSchema}
-        initialValues={{ amount: '', debtorId: '' }}
-        onSubmit={async (values) => {
-          await handleSubmit(values.amount, values.debtorId);
+        initialValues={{ amount: '', debtorId: '', description: '' }}
+        onSubmit={async (values): Promise<void> => {
+          await handleSubmit(values.amount, values.debtorId, values.description);
         }}
         validateOnMount={true}
       >
         {({ handleSubmit, isValid, setFieldValue }) => (
           <>
             {!clicked && <Text style={styles.title}>Busca a tus piggies</Text>}
-            <SearchBar
-              clicked={clicked}
-              searchPhrase={searchPiggy}
-              setSearchPhrase={setSearchPiggy}
-              setClicked={setClicked}
-            />
-            {loading ? (
-              <ActivityIndicator />
-            ) : error ? (
-              <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
-            ) : (
-              <UsersList
-                searchPhrase={searchPiggy}
-                data={piggies}
-                onPiggyAdded={(piggy) => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  setFieldValue('debtorId', piggy.userId);
-                  const user = piggies?.find((p) => p.userId === piggy.userId);
-                  setSelectedUser(user);
-                }}
-              />
-            )}
-            {selectedUser != null && (
-              <View style={styles.selectedUserContainer}>
-                <Text style={styles.selectedUserText}>
-                  Piggy seleccionado: {selectedUser.firstName}
-                </Text>
-              </View>
-            )}
             <KeyboardAwareScrollView>
+              <SearchBar
+                clicked={clicked}
+                searchPhrase={searchPiggy}
+                setSearchPhrase={setSearchPiggy}
+                setClicked={setClicked}
+              />
+              {loading ? (
+                <ActivityIndicator />
+              ) : error ? (
+                <Text style={styles.errorText}>Ha ocurrido un error al cargar los usuarios</Text>
+              ) : piggies.length > 0 ? (
+                <UsersList
+                  variant="small"
+                  searchPhrase={searchPiggy}
+                  data={piggies}
+                  onPiggyAdded={(piggy) => {
+                    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                    setFieldValue('debtorId', piggy.userId);
+                    const user = piggies?.find((p) => p.userId === piggy.userId);
+                    setSelectedUser(user);
+                  }}
+                />
+              ) : (
+                <View style={styles.noPiggiesTextContainer}>
+                  <Text style={styles.noPiggiesText}>No has agregado a ningún piggy</Text>
+                  <Text style={styles.noPiggiesText}>
+                    Agrega a tus amigos para poder compartir deudas
+                  </Text>
+                </View>
+              )}
+              {selectedUser != null && (
+                <View style={styles.selectedUserContainer}>
+                  <Text style={styles.selectedUserText}>
+                    Piggy seleccionado: {selectedUser.firstName}
+                  </Text>
+                </View>
+              )}
               <Field
                 component={CustomTextInput}
                 variant="secondary"
@@ -95,18 +109,27 @@ export default function AddDebtScreen({
                 textContentType="none"
                 autoCapitalize="none"
               />
+              <Field
+                component={CustomTextInput}
+                variant="primary"
+                name="description"
+                placeholder="Descripción (opcional)"
+                keyboardType="default"
+                inputMode="text"
+                textContentType="none"
+                autoCapitalize="none"
+                maxLength={71}
+              />
               {isCreatingDebt ? (
                 <View style={styles.buttonContainer}>
                   <Button variant="fullWidth" loading={true} />
                 </View>
               ) : (
-                <>
-                  <View style={styles.buttonContainer}>
-                    <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
-                      Crear
-                    </Button>
-                  </View>
-                </>
+                <View style={styles.buttonContainer}>
+                  <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                    Crear
+                  </Button>
+                </View>
               )}
             </KeyboardAwareScrollView>
           </>
@@ -123,6 +146,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
+    marginTop: Sizing.x10,
     alignItems: 'center',
   },
   title: {
@@ -132,6 +156,12 @@ const styles = StyleSheet.create({
   errorText: {
     color: Colors.palette.error,
     marginTop: Sizing.x10,
+  },
+  noPiggiesTextContainer: {
+    padding: Sizing.x10,
+  },
+  noPiggiesText: {
+    ...Typography.bodyStyles.primary,
   },
   selectedUserContainer: {
     marginVertical: Sizing.x10,

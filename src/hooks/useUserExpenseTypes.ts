@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import type { Backend, Hooks } from '@/types';
+import { snakeToCamel } from '@/utils';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { UserExpense, UseUserExpenseTypes } from '@/types/hooks';
 
-const useUserExpenseTypes = (): UseUserExpenseTypes => {
-  const [categories, setCategories] = useState<string[]>([]);
+const useUserExpenseTypes = (): Hooks.UseUserExpenseTypes => {
+  const isFocused = useIsFocused();
+
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [userExpenseTypes, setExpenseType] = useState<Backend.UserExpenseType[]>([]);
 
   const fetchUserExpenseTypes = async (): Promise<void> => {
     setError(false);
@@ -14,15 +18,11 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
 
     try {
       const response = await httpService.get(END_POINT.userExpenseTypes);
-      const data: UserExpense[] = (await response.data) as UserExpense[];
-
-      const records: string[] = [];
-
-      for (let i = 0; i < data.length; i++) {
-        records.push(data[i].name);
-      }
-
-      setCategories(records);
+      const data: Record<string, any> = await response.data;
+      const camelCaseData: Backend.UserExpenseType[] = data.map((obj: Record<string, any>) =>
+        snakeToCamel(obj)
+      ) as Backend.UserExpenseType[];
+      setExpenseType(camelCaseData);
     } catch (error) {
       setError(true);
     } finally {
@@ -32,9 +32,9 @@ const useUserExpenseTypes = (): UseUserExpenseTypes => {
 
   useEffect(() => {
     void fetchUserExpenseTypes();
-  }, []);
+  }, [isFocused]);
 
-  return { error, loading, categories };
+  return { error, loading, userExpenseTypes };
 };
 
 export default useUserExpenseTypes;

@@ -15,7 +15,8 @@ function Profile({ user, handleClick }: Components.ProfileProps): JSX.Element {
         }}
         style={styles.image}
       />
-      <Text style={styles.text}>{user?.firstName}</Text>
+      <Text style={styles.nameText}>{user?.firstName}</Text>
+      <Text style={styles.emailText}>{user?.email}</Text>
       <Button variant="text" onPress={handleClick}>
         Editar perfil
       </Button>
@@ -36,8 +37,11 @@ const styles = StyleSheet.create({
     height: Sizing.x85,
     borderRadius: Sizing.x60,
   },
-  text: {
+  nameText: {
     ...Typography.headerStyles.medium,
+  },
+  emailText: {
+    ...Typography.subheaderStyles.regular,
   },
 });
 

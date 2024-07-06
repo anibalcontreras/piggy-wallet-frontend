@@ -1,11 +1,10 @@
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import type { Backend } from '@/types';
-import type { UseAllUsers } from '@/types/hooks';
+import type { Backend, Hooks } from '@/types';
 import { snakeToCamel } from '@/utils';
 import { useEffect, useState } from 'react';
 
-const useAllUsers = (): UseAllUsers => {
+const useAllUsers = (): Hooks.UseAllUsers => {
   const [allUsers, setAllUsers] = useState<Backend.User[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);

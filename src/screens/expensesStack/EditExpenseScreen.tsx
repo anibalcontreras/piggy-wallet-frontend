@@ -1,110 +1,198 @@
-// import React, { useState, useEffect } from 'react';
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { Colors, Sizing, Typography } from '@/styles';
-import { AntDesign } from '@expo/vector-icons';
-import type { EditExpenseNavigationProps } from '@/types/navigation';
-import type { Expense } from '@/types/components';
+import { useState } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import db from '../../../db.json'; // Do not
+import { Field, Formik } from 'formik';
+import * as yup from 'yup';
+import type { Backend, Navigation } from '@/types';
+import { Colors, Sizing, Typography } from '@/styles';
+import useCategories from '@/hooks/expensesStack/useCategories';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
+import httpService from '@/service/api';
+import { END_POINT } from '@/service/constant';
+import ErrorText from '@/components/common/ErrorText';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import Button from '@/components/common/Button';
 
 export default function EditExpenseScreen({
   navigation,
   route,
-}: EditExpenseNavigationProps): JSX.Element {
-  const { expense, onSave } = route.params;
-  const [amount, setAmount] = useState(expense.amount.toString());
-  // const [categoryName, setCategoryName] = useState();
-  // const [description, setDescription] = useState(expense.userexpensetype_id);
-  const [description, setDescription] = useState('CHANGE ME');
-  const [userExpenseTypeId, setUserExpenseTypeId] = useState(db.userexpensetypes[0].id);
+}: Navigation.EditExpenseNavigationProps): JSX.Element {
+  const expenseValidationSchema = yup.object().shape({
+    amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
+    userExpenseType: yup.string().required('Tipo de gasto es requerido'),
+    category: yup.string().required('Categoría es requerida'),
+    description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
+  });
 
-  const categories = db.userexpensetypes.map((cat) => ({
+  const { expense, onSave } = route.params;
+
+  const [isEditingExpense, setIsEditingExpense] = useState(false);
+
+  const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
+  const {
+    error: userExpenseTypesError,
+    loading: userExpenseTypesLoading,
+    userExpenseTypes,
+  } = useUserExpenseTypes();
+
+  const handleSave = async (values: {
+    amount: string;
+    userExpenseType: string;
+    category: string;
+    description: string;
+  }): Promise<void> => {
+    setIsEditingExpense(true);
+
+    const updatedExpense: Backend.Expense = {
+      ...expense,
+      amount: parseInt(values.amount, 10),
+      userExpenseType: parseInt(values.userExpenseType, 10),
+      category: parseInt(values.category, 10),
+      description: values.description,
+    };
+
+    try {
+      const response = await httpService.put(`${END_POINT.expenses}${expense.id}/`, updatedExpense);
+      onSave(response.data as Backend.Expense);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      Alert.alert('Error', 'No se pudo actualizar el gasto. Inténtalo de nuevo.');
+    } finally {
+      setIsEditingExpense(false);
+    }
+  };
+
+  const categoryItems = categories.map((cat) => ({
     label: cat.name,
-    value: cat.name,
+    value: cat.id.toString(),
     key: cat.id,
   }));
 
-  const handleSave = (): void => {
-    if (amount === '' || description === '') {
-      Alert.alert('Error', 'Todos los campos son obligatorios.');
-      return;
-    }
+  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
+    label: type.name,
+    value: type.id.toString(),
+    key: type.id,
+  }));
 
-    const updatedExpense: Expense = {
-      ...expense,
-      amount: parseInt(amount, 10),
-      userexpensetype_id: expense.userexpensetype_id,
-      description,
-    };
+  if (categoriesLoading || userExpenseTypesLoading) {
+    return <ActivityIndicator style={styles.loading} />;
+  }
 
-    onSave(updatedExpense);
-    navigation.goBack();
-  };
+  if (categoriesError || userExpenseTypesError) {
+    return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.pageTitle}>Editar gasto</Text>
-        <TouchableOpacity onPress={handleSave}>
-          <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
-        </TouchableOpacity>
-      </View>
+      <Formik
+        validationSchema={expenseValidationSchema}
+        initialValues={{
+          amount: expense.amount.toString(),
+          userExpenseType:
+            expense.userExpenseType !== null ? expense.userExpenseType.toString() : '',
+          category: expense.category !== null ? expense.category.toString() : '',
+          description: expense.description,
+        }}
+        onSubmit={async (values) => {
+          await handleSave(values);
+        }}
+        validateOnMount={true}
+      >
+        {({ handleSubmit, isValid, setFieldValue, values }) => (
+          <>
+            <Text style={styles.title}>Monto</Text>
+            <Field
+              component={CustomTextInput}
+              variant="secondary"
+              name="amount"
+              placeholder="Monto"
+              keyboardType="numeric"
+              inputMode="numeric"
+              textContentType="none"
+              autoCapitalize="none"
+            />
+            <View style={styles.detailsContainer}>
+              <Text style={styles.title}>Tipo de gasto</Text>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                value={values.userExpenseType}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('userExpenseType', value);
+                }}
+                items={userExpenseTypeItems}
+                placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
+              />
+              <Text style={styles.title}>Categoría</Text>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                value={values.category}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('category', value);
+                }}
+                items={categoryItems}
+                placeholder={{ label: 'Selecciona una categoría...', value: null }}
+              />
 
-      <Text style={styles.title}>Monto</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Monto"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={setAmount}
-      />
+              <Text style={styles.title}>Descripción</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Field
+                  component={CustomTextInput}
+                  variant="primary"
+                  name="description"
+                  placeholder="Descripción"
+                  keyboardType="default"
+                  inputMode="text"
+                  textContentType="none"
+                  autoCapitalize="none"
+                  maxLength={71}
+                />
+              </View>
+            </View>
 
-      <Text style={styles.title}>Categoría</Text>
-      <RNPickerSelect
-        style={pickerSelectStyles}
-        value={userExpenseTypeId}
-        onValueChange={(value: string) => setUserExpenseTypeId(value)}
-        items={categories}
-      />
-
-      <Text style={styles.title}>Descripción</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Descripción"
-        value={description}
-        onChangeText={setDescription}
-      />
+            <View style={styles.buttonContainer}>
+              {isEditingExpense ? (
+                <Button variant="fullWidth" loading={true} />
+              ) : (
+                <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                  Editar
+                </Button>
+              )}
+            </View>
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: Sizing.x20,
-    backgroundColor: Colors.palette.background,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: Sizing.x20,
+  },
+  detailsContainer: {
+    width: '100%',
+    marginTop: Sizing.x40,
   },
   title: {
-    ...Typography.headerStyles.medium,
-  },
-  pageTitle: {
-    ...Typography.headerStyles.medium,
-    marginLeft: Sizing.x80,
+    ...Typography.subheaderStyles.regular,
+    color: Colors.palette.text,
+    alignSelf: 'flex-start',
   },
   input: {
-    borderWidth: 1,
-    borderColor: Colors.palette.border,
-    padding: Sizing.x10,
-    marginVertical: Sizing.x10,
-    borderRadius: Sizing.x5,
-    color: 'white',
+    width: '100%',
+  },
+  buttonContainer: {
+    marginTop: Sizing.x50,
   },
 });
 
@@ -114,22 +202,24 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: Colors.palette.border,
     borderRadius: 4,
-    color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
-    marginBottom: 10,
-    marginTop: 10,
+    color: Colors.palette.text,
+    paddingRight: 30,
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x20,
+    width: '100%',
   },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
-    borderColor: 'gray',
+    borderColor: Colors.palette.border,
     borderRadius: 8,
-    color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
-    marginBottom: 10,
+    color: Colors.palette.text,
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x20,
+    width: '100%',
   },
 });

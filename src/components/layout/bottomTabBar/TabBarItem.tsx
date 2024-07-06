@@ -10,7 +10,7 @@ function TabBarItem({
   onPress,
 }: Components.TabBarItemProps): JSX.Element {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable testID={`${title}-tab`} style={styles.container} onPress={onPress}>
       <Entypo
         name={iconName}
         size={Sizing.x30}

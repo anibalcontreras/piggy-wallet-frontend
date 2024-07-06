@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, StyleSheet, Text } from 'react-native';
-import { type Navigation } from '@/types';
+import type { Navigation } from '@/types';
 import { Sizing, Typography } from '@/styles';
 import Button from '@/components/common/Button';
 
@@ -7,12 +7,18 @@ export default function LandingScreen({
   navigation,
 }: Navigation.LandingNavigationProps): JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'landing-screen'} style={styles.container}>
       <Image style={styles.logo} source={require('../assets/images/logo.png')} />
       <Text style={styles.header}>PiggyWallet</Text>
-      <Text style={styles.body}>Gestiona tus finanzas sabiamente</Text>
-      <Button onPress={() => navigation.navigate('Login')}>Iniciar Sesión</Button>
-      <Button onPress={() => navigation.navigate('Register')}>Registrarse</Button>
+      <Text testID={'landing-text'} style={styles.body} data-cy="landing-text">
+        Gestiona tus finanzas sabiamente
+      </Text>
+      <Button onPress={() => navigation.navigate('Login')} testID={'login-button'}>
+        Iniciar Sesión
+      </Button>
+      <Button onPress={() => navigation.navigate('Register')} testID={'signup-button'}>
+        Registrarse
+      </Button>
     </SafeAreaView>
   );
 }
