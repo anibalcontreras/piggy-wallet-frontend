@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   scrollWrapper: {
     flex: 1,
-    marginTop: Sizing.x80, // Altura del filterContainer
+    marginTop: Sizing.x80,
   },
   addButtonContainer: {
     position: 'absolute',

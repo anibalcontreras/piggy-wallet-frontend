@@ -17,7 +17,7 @@ function TimeSelection({
   return (
     <View style={styles.filterContainer}>
       <Pressable onPress={() => setTimeOffset(timeOffset + 1)} style={styles.filterTab}>
-        <AntDesign style={{ marginRight: Sizing.x60 }} name="left" size={24} color="#696E79" />
+        <AntDesign style={styles.iconRight} name="left" size={24} color="#696E79" />
       </Pressable>
 
       <View style={styles.filterTab}>
@@ -28,7 +28,7 @@ function TimeSelection({
         onPress={() => setTimeOffset(timeOffset > 0 ? timeOffset - 1 : timeOffset)}
         style={styles.filterTab}
       >
-        <AntDesign style={{ marginLeft: Sizing.x60 }} name="right" size={24} color="#696E79" />
+        <AntDesign style={styles.iconLeft} name="right" size={24} color="#696E79" />
       </Pressable>
     </View>
   );
@@ -51,6 +51,12 @@ const styles = StyleSheet.create({
   },
   filterText: {
     ...Typography.bodyStyles.primary,
+  },
+  iconRight: {
+    marginRight: Sizing.x60,
+  },
+  iconLeft: {
+    marginLeft: Sizing.x60,
   },
 });
 
