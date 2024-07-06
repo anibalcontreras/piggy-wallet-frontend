@@ -125,37 +125,40 @@ export default function ExpensesScreen({
           setTimeOffset={setTimeOffset}
         />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {expenses.length > 0 ? (
-          expenses.map((expense) => (
-            <ExpenseCard
-              key={expense.id}
-              expense={expense}
-              categories={categories}
-              onDelete={() => {
-                try {
-                  handleDeleteExpenseClick(expense.id);
-                } catch (error) {
-                  console.error(error);
+      <View style={styles.scrollWrapper}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {expenses.length > 0 ? (
+            expenses.map((expense) => (
+              <ExpenseCard
+                key={expense.id}
+                expense={expense}
+                categories={categories}
+                onDelete={() => {
+                  try {
+                    handleDeleteExpenseClick(expense.id);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+                onEdit={(expense: Backend.Expense) => {
+                  void navigation.navigate('EditExpense', {
+                    expense,
+                    onSave: () => {
+                      Alert.alert('Gasto editado');
+                    },
+                  });
+                }}
+                onLook={(expense: Backend.Expense) =>
+                  navigation.navigate('ExpenseDetails', { expense })
                 }
-              }}
-              onEdit={(expense: Backend.Expense) => {
-                void navigation.navigate('EditExpense', {
-                  expense,
-                  onSave: () => {
-                    Alert.alert('Gasto editado');
-                  },
-                });
-              }}
-              onLook={(expense: Backend.Expense) =>
-                navigation.navigate('ExpenseDetails', { expense })
-              }
-            />
-          ))
-        ) : (
-          <Text style={styles.text}>No tienes gastos por el momento</Text>
-        )}
-      </ScrollView>
+              />
+            ))
+          ) : (
+            <Text style={styles.text}>No tienes gastos por el momento</Text>
+          )}
+        </ScrollView>
+      </View>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('AddExpense');
@@ -192,6 +195,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.palette.background,
     marginHorizontal: Sizing.x50,
   },
+  scrollWrapper: {
+    flex: 1,
+    marginTop: Sizing.x80, // Altura del filterContainer
+  },
   addButtonContainer: {
     position: 'absolute',
     bottom: Sizing.x15,
@@ -205,7 +212,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Sizing.x20,
     paddingBottom: Sizing.x80,
-    paddingTop: Sizing.x80,
   },
   text: {
     margin: 'auto',
