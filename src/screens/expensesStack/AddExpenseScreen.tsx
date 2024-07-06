@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import type { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
@@ -69,7 +70,19 @@ export default function AddExpenseScreen({
       Alert.alert('Gasto creado exitosamente');
       navigation.goBack();
     } catch (error) {
-      console.error('Error posting expense:', error);
+      const response = error as AxiosError;
+      const { error: errorMessage } = response.response?.data as { error: string };
+      console.error('Error posting expense:', errorMessage);
+      if (
+        errorMessage ===
+        'El texto proporcionado no proporciona información suficiente para clasificar el gasto en una categoría. Por favor, se un poco mas descriptivo.'
+      ) {
+        Alert.alert(
+          'Error',
+          'El texto proporcionado no proporciona información suficiente para clasificar el gasto en una categoría. Por favor, se un poco más descriptivo.'
+        );
+        return;
+      }
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
     } finally {
       setIsAddingExpense(false);
