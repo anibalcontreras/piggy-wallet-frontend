@@ -97,8 +97,7 @@ describe('Debt Screen', () => {
       cy.get('[data-testid="month-expenses-text"]').should('contain', 'Gastos del mes');
       cy.get('[data-testid="month-budget-text"]').should('contain', 'Presupuesto mensual');
     });
-    // cy.get('@expensesTab').click();
-    // Aca se debe ibcluir el test para la pantalla de gastos cuando Vergara haga su feature
+    cy.get('@expensesTab').click();
     cy.get('@debtTab').click();
     cy.get('[data-testid="debts-screen"]').within(() => {
       cy.get('[data-testid="debts-text"]').should(
