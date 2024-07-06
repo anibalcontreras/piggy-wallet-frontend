@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
 import useCategories from '@/hooks/expensesStack/useCategories';
+import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import ErrorText from '@/components/common/ErrorText';
@@ -14,6 +15,7 @@ import Button from '@/components/common/Button';
 
 const expenseValidationSchema = yup.object().shape({
   amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
+  userExpenseType: yup.string().required('Tipo de gasto es requerido'),
   category: yup.string().required('Categoría es requerida'),
   description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
 });
@@ -27,6 +29,11 @@ export default function EditExpenseScreen({
   const [isEditingExpense, setIsEditingExpense] = useState(false);
 
   const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
+  const {
+    error: userExpenseTypesError,
+    loading: userExpenseTypesLoading,
+    userExpenseTypes,
+  } = useUserExpenseTypes();
 
   const handleSave = async (values: any): Promise<void> => {
     setIsEditingExpense(true);
@@ -34,6 +41,7 @@ export default function EditExpenseScreen({
     const updatedExpense: Backend.Expense = {
       ...expense,
       amount: parseInt(values.amount, 10),
+      userExpenseType: parseInt(values.userExpenseType, 10),
       category: parseInt(values.category, 10),
       description: values.description,
     };
@@ -56,11 +64,17 @@ export default function EditExpenseScreen({
     key: cat.id,
   }));
 
-  if (categoriesLoading) {
+  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
+    label: type.name,
+    value: type.id.toString(),
+    key: type.id,
+  }));
+
+  if (categoriesLoading || userExpenseTypesLoading) {
     return <ActivityIndicator style={styles.loading} />;
   }
 
-  if (categoriesError) {
+  if (categoriesError || userExpenseTypesError) {
     return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
   }
 
@@ -70,6 +84,8 @@ export default function EditExpenseScreen({
         validationSchema={expenseValidationSchema}
         initialValues={{
           amount: expense.amount.toString(),
+          userExpenseType:
+            expense.userExpenseType !== null ? expense.userExpenseType.toString() : '',
           category: expense.category !== null ? expense.category.toString() : '',
           description: expense.description,
         }}
@@ -92,11 +108,20 @@ export default function EditExpenseScreen({
               autoCapitalize="none"
             />
             <View style={styles.detailsContainer}>
+              <Text style={styles.title}>Tipo de gasto</Text>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                value={values.userExpenseType}
+                onValueChange={(value) => setFieldValue('userExpenseType', value)}
+                items={userExpenseTypeItems}
+                placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
+              />
+
               <Text style={styles.title}>Categoría</Text>
               <RNPickerSelect
                 style={pickerSelectStyles}
                 value={values.category}
-                onValueChange={async (value) => await setFieldValue('category', value)}
+                onValueChange={(value) => setFieldValue('category', value)}
                 items={categoryItems}
                 placeholder={{ label: 'Selecciona una categoría...', value: null }}
               />
