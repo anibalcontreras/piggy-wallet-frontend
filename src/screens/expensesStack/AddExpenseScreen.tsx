@@ -6,7 +6,6 @@ import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
@@ -26,7 +25,6 @@ export default function AddExpenseScreen({
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
 
-  const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
   const {
     error: userExpenseTypesError,
     loading: userExpenseTypesLoading,
@@ -41,7 +39,6 @@ export default function AddExpenseScreen({
   const handleAddExpense = async (values: {
     amount: string;
     userExpenseType: string;
-    category: string;
     description: string;
   }): Promise<void> => {
     setIsAddingExpense(true);
@@ -50,7 +47,6 @@ export default function AddExpenseScreen({
       id: 0,
       username: '',
       userExpenseType: parseInt(values.userExpenseType, 10),
-      category: parseInt(values.category, 10),
       bankcardId: userBankCards[0].id,
       amount: parseInt(values.amount, 10),
       description: values.description,
@@ -61,7 +57,6 @@ export default function AddExpenseScreen({
         id: newExpense.id,
         username: newExpense.username,
         user_expense_type: newExpense.userExpenseType,
-        category: newExpense.category,
         bankcard_id: newExpense.bankcardId,
         amount: newExpense.amount,
         description: newExpense.description,
@@ -87,23 +82,17 @@ export default function AddExpenseScreen({
     }
   };
 
-  const categoryItems = categories.map((cat) => ({
-    label: cat.name,
-    value: cat.id.toString(),
-    key: cat.id,
-  }));
-
   const userExpenseTypeItems = userExpenseTypes.map((type) => ({
     label: type.name,
     value: type.id.toString(),
     key: type.id,
   }));
 
-  if (categoriesLoading || userExpenseTypesLoading || userBankCardsLoading) {
+  if (userExpenseTypesLoading || userBankCardsLoading) {
     return <ActivityIndicator style={styles.loading} />;
   }
 
-  if (categoriesError || userExpenseTypesError || userBankCardsError) {
+  if (userExpenseTypesError || userBankCardsError) {
     return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
   }
 
@@ -114,7 +103,6 @@ export default function AddExpenseScreen({
         initialValues={{
           amount: '',
           userExpenseType: '',
-          category: '',
           description: '',
         }}
         onSubmit={async (values) => {
@@ -147,21 +135,6 @@ export default function AddExpenseScreen({
                 items={userExpenseTypeItems}
                 placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
               />
-              <Text style={styles.title}>Categoría (opcional)</Text>
-              <Text style={styles.infoText}>
-                No es necesario seleccionar una categoría, la IA puede asignarla automáticamente
-                basada en la descripción del gasto.
-              </Text>
-              <RNPickerSelect
-                style={pickerSelectStyles}
-                value={values.category}
-                onValueChange={(value) => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  setFieldValue('category', value);
-                }}
-                items={categoryItems}
-                placeholder={{ label: 'Selecciona una categoría...', value: null }}
-              />
               <Text style={styles.title}>Descripción</Text>
               <View style={{ alignItems: 'center' }}>
                 <Field
@@ -177,7 +150,6 @@ export default function AddExpenseScreen({
                 />
               </View>
             </View>
-
             <View style={styles.buttonContainer}>
               {isAddingExpense ? (
                 <Button variant="fullWidth" loading={true} />

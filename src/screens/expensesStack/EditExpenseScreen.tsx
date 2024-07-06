@@ -91,7 +91,10 @@ export default function EditExpenseScreen({
           amount: expense.amount.toString(),
           userExpenseType:
             expense.userExpenseType !== null ? expense.userExpenseType.toString() : '',
-          category: expense.category !== null ? expense.category.toString() : '',
+          category:
+            expense.category != null && expense.category !== undefined
+              ? expense.category.toString()
+              : '',
           description: expense.description,
         }}
         onSubmit={async (values) => {
