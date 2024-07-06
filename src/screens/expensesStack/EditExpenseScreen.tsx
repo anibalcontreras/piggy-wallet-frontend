@@ -13,17 +13,17 @@ import ErrorText from '@/components/common/ErrorText';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import Button from '@/components/common/Button';
 
-const expenseValidationSchema = yup.object().shape({
-  amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
-  userExpenseType: yup.string().required('Tipo de gasto es requerido'),
-  category: yup.string().required('Categoría es requerida'),
-  description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
-});
-
 export default function EditExpenseScreen({
   navigation,
   route,
 }: Navigation.EditExpenseNavigationProps): JSX.Element {
+  const expenseValidationSchema = yup.object().shape({
+    amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
+    userExpenseType: yup.string().required('Tipo de gasto es requerido'),
+    category: yup.string().required('Categoría es requerida'),
+    description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
+  });
+
   const { expense, onSave } = route.params;
 
   const [isEditingExpense, setIsEditingExpense] = useState(false);
@@ -35,7 +35,12 @@ export default function EditExpenseScreen({
     userExpenseTypes,
   } = useUserExpenseTypes();
 
-  const handleSave = async (values: any): Promise<void> => {
+  const handleSave = async (values: {
+    amount: string;
+    userExpenseType: string;
+    category: string;
+    description: string;
+  }): Promise<void> => {
     setIsEditingExpense(true);
 
     const updatedExpense: Backend.Expense = {
@@ -112,16 +117,21 @@ export default function EditExpenseScreen({
               <RNPickerSelect
                 style={pickerSelectStyles}
                 value={values.userExpenseType}
-                onValueChange={(value) => setFieldValue('userExpenseType', value)}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('userExpenseType', value);
+                }}
                 items={userExpenseTypeItems}
                 placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
               />
-
               <Text style={styles.title}>Categoría</Text>
               <RNPickerSelect
                 style={pickerSelectStyles}
                 value={values.category}
-                onValueChange={(value) => setFieldValue('category', value)}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('category', value);
+                }}
                 items={categoryItems}
                 placeholder={{ label: 'Selecciona una categoría...', value: null }}
               />
