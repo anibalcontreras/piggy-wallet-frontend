@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
@@ -12,6 +13,7 @@ import { END_POINT } from '@/service/constant';
 import ErrorText from '@/components/common/ErrorText';
 import CustomTextInput from '@/components/common/CustomTextInput';
 import Button from '@/components/common/Button';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function EditExpenseScreen({
   navigation,
@@ -84,14 +86,17 @@ export default function EditExpenseScreen({
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Formik
         validationSchema={expenseValidationSchema}
         initialValues={{
           amount: expense.amount.toString(),
           userExpenseType:
             expense.userExpenseType !== null ? expense.userExpenseType.toString() : '',
-          category: expense.category !== null ? expense.category.toString() : '',
+          category:
+            expense.category != null && expense.category !== undefined
+              ? expense.category.toString()
+              : '',
           description: expense.description,
         }}
         onSubmit={async (values) => {
@@ -100,18 +105,20 @@ export default function EditExpenseScreen({
         validateOnMount={true}
       >
         {({ handleSubmit, isValid, setFieldValue, values }) => (
-          <>
+          <KeyboardAwareScrollView style={styles.keyboardScrollContainer}>
             <Text style={styles.title}>Monto</Text>
-            <Field
-              component={CustomTextInput}
-              variant="secondary"
-              name="amount"
-              placeholder="Monto"
-              keyboardType="numeric"
-              inputMode="numeric"
-              textContentType="none"
-              autoCapitalize="none"
-            />
+            <View style={styles.amountContainer}>
+              <Field
+                component={CustomTextInput}
+                variant="secondary"
+                name="amount"
+                placeholder="Monto"
+                keyboardType="numeric"
+                inputMode="numeric"
+                textContentType="none"
+                autoCapitalize="none"
+              />
+            </View>
             <View style={styles.detailsContainer}>
               <Text style={styles.title}>Tipo de gasto</Text>
               <RNPickerSelect
@@ -161,10 +168,10 @@ export default function EditExpenseScreen({
                 </Button>
               )}
             </View>
-          </>
+          </KeyboardAwareScrollView>
         )}
       </Formik>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -176,20 +183,23 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: Sizing.x20,
+    alignItems: 'center',
+    marginHorizontal: Sizing.x10,
+  },
+  keyboardScrollContainer: {
+    width: '100%',
+  },
+  amountContainer: {
+    flex: 1,
     alignItems: 'center',
   },
   detailsContainer: {
-    width: '100%',
     marginTop: Sizing.x40,
   },
   title: {
     ...Typography.subheaderStyles.regular,
     color: Colors.palette.text,
     alignSelf: 'flex-start',
-  },
-  input: {
-    width: '100%',
   },
   buttonContainer: {
     marginTop: Sizing.x50,

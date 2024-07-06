@@ -28,7 +28,7 @@ export interface Expense {
   id: number;
   username: string;
   userExpenseType: number;
-  category: number | null;
+  category?: number | null;
   bankcardId: number;
   amount: number;
   description: string;
