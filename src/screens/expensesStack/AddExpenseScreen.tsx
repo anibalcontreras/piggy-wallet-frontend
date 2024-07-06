@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import type { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
@@ -24,7 +25,6 @@ export default function AddExpenseScreen({
   });
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
-  // const [sharedExpense, setSharedExpense] = useState(false);
 
   const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
   const {
@@ -69,7 +69,18 @@ export default function AddExpenseScreen({
       Alert.alert('Gasto creado exitosamente');
       navigation.goBack();
     } catch (error) {
-      console.error('Error posting expense:', error);
+      const response = error as AxiosError;
+      const { error: errorMessage } = response.response?.data as { error: string };
+      if (
+        errorMessage ===
+        'El texto proporcionado no proporciona información suficiente para clasificar el gasto en una categoría. Por favor, se un poco mas descriptivo.'
+      ) {
+        Alert.alert(
+          'Error',
+          'El texto proporcionado no proporciona información suficiente para clasificar el gasto en una categoría. Por favor, se un poco más descriptivo.'
+        );
+        return;
+      }
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
     } finally {
       setIsAddingExpense(false);
@@ -176,45 +187,6 @@ export default function AddExpenseScreen({
                 </Button>
               )}
             </View>
-            {/* <View style={styles.sharedExpenseContainer}>
-              <Text style={styles.inputLabel}>¿Es un gasto compartido?</Text>
-              <View style={styles.sharedExpenseOptions}>
-                <TouchableOpacity
-                  style={[
-                    styles.sharedExpenseButton,
-                    sharedExpense
-                      ? styles.sharedExpenseButtonActive
-                      : styles.sharedExpenseButtonInactive,
-                  ]}
-                  onPress={() => setSharedExpense(true)}
-                >
-                  <Text style={styles.sharedExpenseButtonText}>Sí</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.sharedExpenseButton,
-                    !sharedExpense
-                      ? styles.sharedExpenseButtonActive
-                      : styles.sharedExpenseButtonInactive,
-                  ]}
-                  onPress={() => setSharedExpense(false)}
-                >
-                  <Text style={styles.sharedExpenseButtonText}>No</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {sharedExpense && (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('SharedExpenseDetails', {
-                    onSave: (sharedWith: any) => console.log(sharedWith),
-                  })
-                }
-                style={styles.sharedExpenseButton}
-              >
-                <Text style={styles.inputLabel}>Detalles del gasto compartido</Text>
-              </TouchableOpacity>
-            )} */}
           </>
         )}
       </Formik>
@@ -252,39 +224,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: Sizing.x50,
   },
-  // sharedExpenseContainer: {
-  //   marginTop: Sizing.x20,
-  //   padding: Sizing.x10,
-  //   borderRadius: Sizing.x5,
-  // },
-  // sharedExpenseOptions: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   marginTop: Sizing.x10,
-  // },
-  // sharedExpenseButton: {
-  //   padding: Sizing.x10,
-  //   backgroundColor: Colors.palette.primary,
-  //   borderRadius: Sizing.x5,
-  //   alignItems: 'center',
-  //   marginHorizontal: Sizing.x15,
-  // },
-  // sharedExpenseButtonActive: {
-  //   backgroundColor: Colors.palette.primary,
-  // },
-  // sharedExpenseButtonInactive: {
-  //   backgroundColor: Colors.palette.border,
-  // },
-  // sharedExpenseButtonText: {
-  //   color: Colors.palette.text,
-  //   ...Typography.bodyStyles.primary,
-  // },
-  // inputLabel: {
-  //   ...Typography.bodyStyles.primary,
-  //   paddingVertical: Sizing.x10,
-  //   fontWeight: 'bold',
-  //   fontSize: Sizing.x25,
-  // },
 });
 
 const pickerSelectStyles = StyleSheet.create({

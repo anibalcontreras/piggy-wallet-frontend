@@ -1,6 +1,7 @@
 import { Pressable, View, Text, StyleSheet } from 'react-native';
-import { Colors, Sizing, Typography } from '@/styles';
+import { AntDesign } from '@expo/vector-icons';
 import type { Components } from '@/types';
+import { Sizing, Typography } from '@/styles';
 
 function TimeSelection({
   startDate,
@@ -16,7 +17,7 @@ function TimeSelection({
   return (
     <View style={styles.filterContainer}>
       <Pressable onPress={() => setTimeOffset(timeOffset + 1)} style={styles.filterTab}>
-        <Text style={styles.filterText}>{'<'}</Text>
+        <AntDesign style={styles.iconRight} name="left" size={24} color="#696E79" />
       </Pressable>
 
       <View style={styles.filterTab}>
@@ -27,7 +28,7 @@ function TimeSelection({
         onPress={() => setTimeOffset(timeOffset > 0 ? timeOffset - 1 : timeOffset)}
         style={styles.filterTab}
       >
-        <Text style={styles.filterText}>{'>'}</Text>
+        <AntDesign style={styles.iconLeft} name="right" size={24} color="#696E79" />
       </Pressable>
     </View>
   );
@@ -37,9 +38,9 @@ const styles = StyleSheet.create({
   filterContainer: {
     position: 'absolute',
     flexDirection: 'row',
-    backgroundColor: Colors.palette.text,
+    justifyContent: 'space-between',
     borderRadius: Sizing.x10,
-    top: Sizing.x50,
+    top: Sizing.x20,
     margin: Sizing.x10,
   },
   filterTab: {
@@ -49,7 +50,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   filterText: {
-    ...Typography.bodyStyles.tertiary,
+    ...Typography.bodyStyles.primary,
+  },
+  iconRight: {
+    marginRight: Sizing.x60,
+  },
+  iconLeft: {
+    marginLeft: Sizing.x60,
   },
 });
 

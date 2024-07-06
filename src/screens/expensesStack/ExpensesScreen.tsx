@@ -3,6 +3,7 @@ import {
   Alert,
   SafeAreaView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   ScrollView,
   View,
@@ -11,7 +12,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import type { Backend, Navigation } from '@/types';
-import { Colors, Sizing } from '@/styles';
+import { Colors, Sizing, Typography } from '@/styles';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
 import useExpenses from '@/hooks/expensesStack/useExpenses';
@@ -115,7 +116,7 @@ export default function ExpensesScreen({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID={'expenses-screen'} style={styles.container}>
       <View style={styles.filterContainer}>
         <TimeSelection
           startDate={startDate}
@@ -124,33 +125,40 @@ export default function ExpensesScreen({
           setTimeOffset={setTimeOffset}
         />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {expenses.map((expense) => (
-          <ExpenseCard
-            key={expense.id}
-            expense={expense}
-            categories={categories}
-            onDelete={() => {
-              try {
-                handleDeleteExpenseClick(expense.id);
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-            onEdit={(expense: Backend.Expense) => {
-              void navigation.navigate('EditExpense', {
-                expense,
-                onSave: () => {
-                  Alert.alert('Gasto editado');
-                },
-              });
-            }}
-            onLook={(expense: Backend.Expense) =>
-              navigation.navigate('ExpenseDetails', { expense })
-            }
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.scrollWrapper}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {expenses.length > 0 ? (
+            expenses.map((expense) => (
+              <ExpenseCard
+                key={expense.id}
+                expense={expense}
+                categories={categories}
+                onDelete={() => {
+                  try {
+                    handleDeleteExpenseClick(expense.id);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+                onEdit={(expense: Backend.Expense) => {
+                  void navigation.navigate('EditExpense', {
+                    expense,
+                    onSave: () => {
+                      Alert.alert('Gasto editado');
+                    },
+                  });
+                }}
+                onLook={(expense: Backend.Expense) =>
+                  navigation.navigate('ExpenseDetails', { expense })
+                }
+              />
+            ))
+          ) : (
+            <Text style={styles.text}>No tienes gastos por el momento</Text>
+          )}
+        </ScrollView>
+      </View>
+
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('AddExpense');
@@ -187,9 +195,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.palette.background,
     marginHorizontal: Sizing.x50,
   },
+  scrollWrapper: {
+    flex: 1,
+    marginTop: Sizing.x80,
+  },
   addButtonContainer: {
     position: 'absolute',
-    bottom: Sizing.x20,
+    bottom: Sizing.x15,
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -200,6 +212,9 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Sizing.x20,
     paddingBottom: Sizing.x80,
-    paddingTop: Sizing.x100,
+  },
+  text: {
+    margin: 'auto',
+    ...Typography.bodyStyles.highlight,
   },
 });
