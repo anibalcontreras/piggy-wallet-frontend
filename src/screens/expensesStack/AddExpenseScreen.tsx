@@ -1,73 +1,59 @@
 import { useState } from 'react';
-import {
-  Alert,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  View,
-  TextInput,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import { AntDesign } from '@expo/vector-icons';
+import { Field, Formik } from 'formik';
+import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
 import useCategories from '@/hooks/expensesStack/useCategories';
+import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
 import { END_POINT } from '@/service/constant';
-import { formatCurrency } from '@/utils';
 import ErrorText from '@/components/common/ErrorText';
+import CustomTextInput from '@/components/common/CustomTextInput';
+import Button from '@/components/common/Button';
 
 export default function AddExpenseScreen({
   navigation,
 }: Navigation.ExpensesNavigationProps): JSX.Element {
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState<number | null>(null);
-  const [userExpenseType, setUserExpenseType] = useState<number | null>(null);
-  const [description, setDescription] = useState('');
-  const [sharedExpense, setSharedExpense] = useState(false);
+  const expenseValidationSchema = yup.object().shape({
+    amount: yup.number().required('Monto es requerido').min(1, 'El monto debe ser mayor a 0'),
+    userExpenseType: yup.string().required('Tipo de gasto es requerido'),
+    description: yup.string().max(70, 'La descripción no puede tener más de 70 caracteres'),
+  });
 
-  const { error: categoriesError, loading: categoriesLoading, categories } = useCategories();
-  const {
-    error: userBankCardsError,
-    loading: userBankCardsLoading,
-    userBankCards,
-  } = useUserBankCards();
+  const [isAddingExpense, setIsAddingExpense] = useState(false);
+  // const [sharedExpense, setSharedExpense] = useState(false);
+
+  const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
   const {
     error: userExpenseTypesError,
     loading: userExpenseTypesLoading,
     userExpenseTypes,
   } = useUserExpenseTypes();
+  const {
+    error: userBankCardsError,
+    loading: userBankCardsLoading,
+    userBankCards,
+  } = useUserBankCards();
 
-  const categoryItems = categories.map((cat) => ({
-    label: cat.name,
-    value: cat.id.toString(),
-    key: cat.id,
-  }));
-
-  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
-    label: type.name,
-    value: type.id,
-    key: type.id,
-  }));
-
-  const handleAddExpense = async (): Promise<void> => {
-    if (amount === '' || userExpenseType === null || description === '') {
-      Alert.alert('Error', 'Todos los campos son obligatorios.');
-      return;
-    }
+  const handleAddExpense = async (values: {
+    amount: string;
+    userExpenseType: string;
+    category: string;
+    description: string;
+  }): Promise<void> => {
+    setIsAddingExpense(true);
 
     const newExpense: Backend.Expense = {
       id: 0,
       username: '',
-      userExpenseType,
-      category,
+      userExpenseType: parseInt(values.userExpenseType, 10),
+      category: parseInt(values.category, 10),
       bankcardId: userBankCards[0].id,
-      amount: parseInt(amount.replace(/\$|\.|,/g, ''), 10),
-      description,
+      amount: parseInt(values.amount, 10),
+      description: values.description,
     };
 
     try {
@@ -85,112 +71,154 @@ export default function AddExpenseScreen({
     } catch (error) {
       console.error('Error posting expense:', error);
       Alert.alert('Error', 'No se pudo agregar el gasto. Inténtalo de nuevo.');
+    } finally {
+      setIsAddingExpense(false);
     }
   };
 
-  if (categoriesLoading || userBankCardsLoading || userExpenseTypesLoading) {
+  const categoryItems = categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id.toString(),
+    key: cat.id,
+  }));
+
+  const userExpenseTypeItems = userExpenseTypes.map((type) => ({
+    label: type.name,
+    value: type.id.toString(),
+    key: type.id,
+  }));
+
+  if (categoriesLoading || userExpenseTypesLoading || userBankCardsLoading) {
     return <ActivityIndicator style={styles.loading} />;
   }
 
-  if (categoriesError || userBankCardsError || userExpenseTypesError) {
-    return <ErrorText message="Ha ocurrido un error al intentar agregar un gasto" />;
+  if (categoriesError || userExpenseTypesError || userBankCardsError) {
+    return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <AntDesign name="close" size={Sizing.x40} color={Colors.palette.primary} />
-          </TouchableOpacity>
-          {/* <Text style={styles.title}>Nuevo gasto</Text> */}
-          <TouchableOpacity
-            onPress={() => {
-              handleAddExpense().catch(console.error);
-            }}
-          >
-            <AntDesign name="check" size={Sizing.x40} color={Colors.palette.primary} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Categoría</Text>
-        <RNPickerSelect
-          style={pickerSelectStyles}
-          value={category}
-          onValueChange={(value) => setCategory(Number(value))}
-          items={categoryItems}
-          placeholder={{ label: 'Selecciona una categoría...', value: null }}
-        />
+    <View style={styles.container}>
+      <Formik
+        validationSchema={expenseValidationSchema}
+        initialValues={{
+          amount: '',
+          userExpenseType: '',
+          category: '',
+          description: '',
+        }}
+        onSubmit={async (values) => {
+          await handleAddExpense(values);
+        }}
+        validateOnMount={true}
+      >
+        {({ handleSubmit, isValid, setFieldValue, values }) => (
+          <>
+            <Text style={styles.title}>Monto</Text>
+            <Field
+              component={CustomTextInput}
+              variant="secondary"
+              name="amount"
+              placeholder="Monto"
+              keyboardType="numeric"
+              inputMode="numeric"
+              textContentType="none"
+              autoCapitalize="none"
+            />
+            <View style={styles.detailsContainer}>
+              <Text style={styles.title}>Tipo de gasto</Text>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                value={values.userExpenseType}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('userExpenseType', value);
+                }}
+                items={userExpenseTypeItems}
+                placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
+              />
+              <Text style={styles.title}>Categoría (opcional)</Text>
+              <Text style={styles.infoText}>
+                No es necesario seleccionar una categoría, la IA puede asignarla automáticamente
+                basada en la descripción del gasto.
+              </Text>
+              <RNPickerSelect
+                style={pickerSelectStyles}
+                value={values.category}
+                onValueChange={(value) => {
+                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                  setFieldValue('category', value);
+                }}
+                items={categoryItems}
+                placeholder={{ label: 'Selecciona una categoría...', value: null }}
+              />
+              <Text style={styles.title}>Descripción</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Field
+                  component={CustomTextInput}
+                  variant="primary"
+                  name="description"
+                  placeholder="Descripción"
+                  keyboardType="default"
+                  inputMode="text"
+                  textContentType="none"
+                  autoCapitalize="none"
+                  maxLength={71}
+                />
+              </View>
+            </View>
 
-        <Text style={styles.title}>Tipo de Gasto</Text>
-        <RNPickerSelect
-          style={pickerSelectStyles}
-          value={userExpenseType}
-          onValueChange={(value) => setUserExpenseType(Number(value))}
-          items={userExpenseTypeItems}
-          placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
-        />
-
-        <Text style={styles.inputLabel}>Descripción:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Descripción"
-          value={description}
-          onChangeText={setDescription}
-        />
-
-        <Text style={styles.inputLabel}>Valor:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Valor"
-          keyboardType="numeric"
-          value={amount}
-          onChangeText={(text) => {
-            const formattedAmount = formatCurrency(text);
-            setAmount(formattedAmount);
-          }}
-        />
-
-        <View style={styles.sharedExpenseContainer}>
-          <Text style={styles.inputLabel}>¿Es un gasto compartido?</Text>
-          <View style={styles.sharedExpenseOptions}>
-            <TouchableOpacity
-              style={[
-                styles.sharedExpenseButton,
-                sharedExpense
-                  ? styles.sharedExpenseButtonActive
-                  : styles.sharedExpenseButtonInactive,
-              ]}
-              onPress={() => setSharedExpense(true)}
-            >
-              <Text style={styles.sharedExpenseButtonText}>Sí</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.sharedExpenseButton,
-                !sharedExpense
-                  ? styles.sharedExpenseButtonActive
-                  : styles.sharedExpenseButtonInactive,
-              ]}
-              onPress={() => setSharedExpense(false)}
-            >
-              <Text style={styles.sharedExpenseButtonText}>No</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {sharedExpense && (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('SharedExpenseDetails', {
-                onSave: (sharedWith: any) => console.log(sharedWith),
-              })
-            }
-            style={styles.sharedExpenseButton2}
-          >
-            <Text style={styles.inputLabel}>Detalles del gasto compartido</Text>
-          </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              {isAddingExpense ? (
+                <Button variant="fullWidth" loading={true} />
+              ) : (
+                <Button variant="fullWidth" onPress={() => handleSubmit()} disabled={!isValid}>
+                  Agregar
+                </Button>
+              )}
+            </View>
+            {/* <View style={styles.sharedExpenseContainer}>
+              <Text style={styles.inputLabel}>¿Es un gasto compartido?</Text>
+              <View style={styles.sharedExpenseOptions}>
+                <TouchableOpacity
+                  style={[
+                    styles.sharedExpenseButton,
+                    sharedExpense
+                      ? styles.sharedExpenseButtonActive
+                      : styles.sharedExpenseButtonInactive,
+                  ]}
+                  onPress={() => setSharedExpense(true)}
+                >
+                  <Text style={styles.sharedExpenseButtonText}>Sí</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.sharedExpenseButton,
+                    !sharedExpense
+                      ? styles.sharedExpenseButtonActive
+                      : styles.sharedExpenseButtonInactive,
+                  ]}
+                  onPress={() => setSharedExpense(false)}
+                >
+                  <Text style={styles.sharedExpenseButtonText}>No</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {sharedExpense && (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SharedExpenseDetails', {
+                    onSave: (sharedWith: any) => console.log(sharedWith),
+                  })
+                }
+                style={styles.sharedExpenseButton}
+              >
+                <Text style={styles.inputLabel}>Detalles del gasto compartido</Text>
+              </TouchableOpacity>
+            )} */}
+          </>
         )}
-      </View>
-    </ScrollView>
+      </Formik>
+    </View>
   );
 }
 
@@ -203,78 +231,60 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Sizing.x20,
-    // backgroundColor: Colors.palette.secondary,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: Sizing.x20,
+  },
+  detailsContainer: {
+    width: '100%',
+    marginTop: Sizing.x40,
   },
   title: {
-    ...Typography.headerStyles.medium,
+    ...Typography.subheaderStyles.regular,
+    color: Colors.palette.text,
+    alignSelf: 'flex-start',
   },
-  inputLabel: {
-    ...Typography.bodyStyles.primary,
-    paddingVertical: Sizing.x10,
-    fontWeight: 'bold',
-    fontSize: Sizing.x25,
+  infoText: {
+    ...Typography.bodyStyles.error,
+    alignSelf: 'flex-start',
   },
   input: {
-    borderWidth: 1,
-    borderColor: Colors.palette.border,
-    padding: Sizing.x10,
-    borderRadius: Sizing.x5,
-    color: Colors.palette.text,
+    width: '100%',
   },
-  sharedExpenseContainer: {
-    marginTop: Sizing.x20,
-    padding: Sizing.x10,
-    // backgroundColor: Colors.palette.background,
-    borderRadius: Sizing.x5,
+  buttonContainer: {
+    marginTop: Sizing.x50,
   },
-  sharedExpenseOptions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: Sizing.x10,
-  },
-  sharedExpenseButton: {
-    flex: 1,
-    padding: Sizing.x10,
-    backgroundColor: Colors.palette.primary,
-    borderRadius: Sizing.x5,
-    alignItems: 'center',
-    marginHorizontal: Sizing.x5,
-    height: Sizing.x50,
-  },
-  sharedExpenseButton2: {
-    padding: Sizing.x10,
-    backgroundColor: Colors.palette.primary,
-    borderRadius: Sizing.x5,
-    alignItems: 'center',
-    marginHorizontal: Sizing.x15,
-  },
-  sharedExpenseButtonActive: {
-    backgroundColor: Colors.palette.primary,
-  },
-  sharedExpenseButtonInactive: {
-    backgroundColor: Colors.palette.border,
-  },
-  sharedExpenseButtonText: {
-    color: Colors.palette.text,
-    ...Typography.bodyStyles.primary,
-  },
-  addPersonButton: {
-    marginTop: Sizing.x20,
-    alignItems: 'center',
-  },
-  addPersonText: {
-    ...Typography.bodyStyles.primary,
-    color: Colors.palette.primary,
-  },
+  // sharedExpenseContainer: {
+  //   marginTop: Sizing.x20,
+  //   padding: Sizing.x10,
+  //   borderRadius: Sizing.x5,
+  // },
+  // sharedExpenseOptions: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   marginTop: Sizing.x10,
+  // },
+  // sharedExpenseButton: {
+  //   padding: Sizing.x10,
+  //   backgroundColor: Colors.palette.primary,
+  //   borderRadius: Sizing.x5,
+  //   alignItems: 'center',
+  //   marginHorizontal: Sizing.x15,
+  // },
+  // sharedExpenseButtonActive: {
+  //   backgroundColor: Colors.palette.primary,
+  // },
+  // sharedExpenseButtonInactive: {
+  //   backgroundColor: Colors.palette.border,
+  // },
+  // sharedExpenseButtonText: {
+  //   color: Colors.palette.text,
+  //   ...Typography.bodyStyles.primary,
+  // },
+  // inputLabel: {
+  //   ...Typography.bodyStyles.primary,
+  //   paddingVertical: Sizing.x10,
+  //   fontWeight: 'bold',
+  //   fontSize: Sizing.x25,
+  // },
 });
 
 const pickerSelectStyles = StyleSheet.create({
@@ -283,22 +293,24 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: Colors.palette.border,
     borderRadius: 4,
-    color: 'white',
+    color: Colors.palette.text,
     paddingRight: 30,
-    marginBottom: 10,
-    marginTop: 10,
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x20,
+    width: '100%',
   },
   inputAndroid: {
     fontSize: 16,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,
-    borderColor: 'gray',
+    borderColor: Colors.palette.border,
     borderRadius: 8,
-    color: 'white',
-    paddingRight: 30,
-    marginBottom: 10,
+    color: Colors.palette.text,
+    marginTop: Sizing.x10,
+    marginBottom: Sizing.x20,
+    width: '100%',
   },
 });
