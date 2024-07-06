@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import type { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
 import type { Backend, Navigation } from '@/types';
 import { Colors, Sizing, Typography } from '@/styles';
-import useCategories from '@/hooks/expensesStack/useCategories';
 import useUserBankCards from '@/hooks/expensesStack/useUserBankCards';
 import useUserExpenseTypes from '@/hooks/useUserExpenseTypes';
 import httpService from '@/service/api';
@@ -26,7 +26,6 @@ export default function AddExpenseScreen({
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
 
-  const { loading: categoriesLoading, error: categoriesError, categories } = useCategories();
   const {
     error: userExpenseTypesError,
     loading: userExpenseTypesLoading,
@@ -41,7 +40,6 @@ export default function AddExpenseScreen({
   const handleAddExpense = async (values: {
     amount: string;
     userExpenseType: string;
-    category: string;
     description: string;
   }): Promise<void> => {
     setIsAddingExpense(true);
@@ -50,7 +48,6 @@ export default function AddExpenseScreen({
       id: 0,
       username: '',
       userExpenseType: parseInt(values.userExpenseType, 10),
-      category: parseInt(values.category, 10),
       bankcardId: userBankCards[0].id,
       amount: parseInt(values.amount, 10),
       description: values.description,
@@ -61,7 +58,6 @@ export default function AddExpenseScreen({
         id: newExpense.id,
         username: newExpense.username,
         user_expense_type: newExpense.userExpenseType,
-        category: newExpense.category,
         bankcard_id: newExpense.bankcardId,
         amount: newExpense.amount,
         description: newExpense.description,
@@ -87,34 +83,27 @@ export default function AddExpenseScreen({
     }
   };
 
-  const categoryItems = categories.map((cat) => ({
-    label: cat.name,
-    value: cat.id.toString(),
-    key: cat.id,
-  }));
-
   const userExpenseTypeItems = userExpenseTypes.map((type) => ({
     label: type.name,
     value: type.id.toString(),
     key: type.id,
   }));
 
-  if (categoriesLoading || userExpenseTypesLoading || userBankCardsLoading) {
+  if (userExpenseTypesLoading || userBankCardsLoading) {
     return <ActivityIndicator style={styles.loading} />;
   }
 
-  if (categoriesError || userExpenseTypesError || userBankCardsError) {
-    return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
+  if (userExpenseTypesError || userBankCardsError) {
+    return <ErrorText message="Ha ocurrido un error al intentar agregar un gasto" />;
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Formik
         validationSchema={expenseValidationSchema}
         initialValues={{
           amount: '',
           userExpenseType: '',
-          category: '',
           description: '',
         }}
         onSubmit={async (values) => {
@@ -123,18 +112,20 @@ export default function AddExpenseScreen({
         validateOnMount={true}
       >
         {({ handleSubmit, isValid, setFieldValue, values }) => (
-          <>
+          <KeyboardAwareScrollView style={styles.keyboardScrollContainer}>
             <Text style={styles.title}>Monto</Text>
-            <Field
-              component={CustomTextInput}
-              variant="secondary"
-              name="amount"
-              placeholder="Monto"
-              keyboardType="numeric"
-              inputMode="numeric"
-              textContentType="none"
-              autoCapitalize="none"
-            />
+            <View style={styles.amountContainer}>
+              <Field
+                component={CustomTextInput}
+                variant="secondary"
+                name="amount"
+                placeholder="Monto"
+                keyboardType="numeric"
+                inputMode="numeric"
+                textContentType="none"
+                autoCapitalize="none"
+              />
+            </View>
             <View style={styles.detailsContainer}>
               <Text style={styles.title}>Tipo de gasto</Text>
               <RNPickerSelect
@@ -147,22 +138,8 @@ export default function AddExpenseScreen({
                 items={userExpenseTypeItems}
                 placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
               />
-              <Text style={styles.title}>Categoría (opcional)</Text>
-              <Text style={styles.infoText}>
-                No es necesario seleccionar una categoría, la IA puede asignarla automáticamente
-                basada en la descripción del gasto.
-              </Text>
-              <RNPickerSelect
-                style={pickerSelectStyles}
-                value={values.category}
-                onValueChange={(value) => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  setFieldValue('category', value);
-                }}
-                items={categoryItems}
-                placeholder={{ label: 'Selecciona una categoría...', value: null }}
-              />
               <Text style={styles.title}>Descripción</Text>
+
               <View style={{ alignItems: 'center' }}>
                 <Field
                   component={CustomTextInput}
@@ -177,7 +154,6 @@ export default function AddExpenseScreen({
                 />
               </View>
             </View>
-
             <View style={styles.buttonContainer}>
               {isAddingExpense ? (
                 <Button variant="fullWidth" loading={true} />
@@ -187,10 +163,10 @@ export default function AddExpenseScreen({
                 </Button>
               )}
             </View>
-          </>
+          </KeyboardAwareScrollView>
         )}
       </Formik>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -202,20 +178,22 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: Sizing.x20,
+    margin: Sizing.x10,
+    alignItems: 'center',
+  },
+  keyboardScrollContainer: {
+    width: '100%',
+  },
+  amountContainer: {
+    flex: 1,
     alignItems: 'center',
   },
   detailsContainer: {
-    width: '100%',
     marginTop: Sizing.x40,
   },
   title: {
     ...Typography.subheaderStyles.regular,
     color: Colors.palette.text,
-    alignSelf: 'flex-start',
-  },
-  infoText: {
-    ...Typography.bodyStyles.error,
     alignSelf: 'flex-start',
   },
   input: {
