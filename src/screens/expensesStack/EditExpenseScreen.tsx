@@ -201,9 +201,6 @@ const styles = StyleSheet.create({
     color: Colors.palette.text,
     alignSelf: 'flex-start',
   },
-  input: {
-    width: '100%',
-  },
   buttonContainer: {
     marginTop: Sizing.x50,
   },

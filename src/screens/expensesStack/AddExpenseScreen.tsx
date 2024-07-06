@@ -196,10 +196,6 @@ const styles = StyleSheet.create({
     color: Colors.palette.text,
     alignSelf: 'flex-start',
   },
-  infoText: {
-    ...Typography.bodyStyles.error,
-    alignSelf: 'flex-start',
-  },
   input: {
     width: '100%',
   },
