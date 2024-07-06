@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     position: 'absolute',
-    bottom: Sizing.x20,
+    bottom: Sizing.x15,
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -200,6 +200,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Sizing.x20,
     paddingBottom: Sizing.x80,
-    paddingTop: Sizing.x100,
+    paddingTop: Sizing.x80,
   },
 });
