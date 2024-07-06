@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import type { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import * as yup from 'yup';
@@ -93,11 +94,11 @@ export default function AddExpenseScreen({
   }
 
   if (userExpenseTypesError || userBankCardsError) {
-    return <ErrorText message="Ha ocurrido un error al cargar el detalle del gasto" />;
+    return <ErrorText message="Ha ocurrido un error al intentar agregar un gasto" />;
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Formik
         validationSchema={expenseValidationSchema}
         initialValues={{
@@ -111,18 +112,20 @@ export default function AddExpenseScreen({
         validateOnMount={true}
       >
         {({ handleSubmit, isValid, setFieldValue, values }) => (
-          <>
+          <KeyboardAwareScrollView style={styles.keyboardScrollContainer}>
             <Text style={styles.title}>Monto</Text>
-            <Field
-              component={CustomTextInput}
-              variant="secondary"
-              name="amount"
-              placeholder="Monto"
-              keyboardType="numeric"
-              inputMode="numeric"
-              textContentType="none"
-              autoCapitalize="none"
-            />
+            <View style={styles.amountContainer}>
+              <Field
+                component={CustomTextInput}
+                variant="secondary"
+                name="amount"
+                placeholder="Monto"
+                keyboardType="numeric"
+                inputMode="numeric"
+                textContentType="none"
+                autoCapitalize="none"
+              />
+            </View>
             <View style={styles.detailsContainer}>
               <Text style={styles.title}>Tipo de gasto</Text>
               <RNPickerSelect
@@ -136,6 +139,7 @@ export default function AddExpenseScreen({
                 placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
               />
               <Text style={styles.title}>Descripción</Text>
+
               <View style={{ alignItems: 'center' }}>
                 <Field
                   component={CustomTextInput}
@@ -159,10 +163,10 @@ export default function AddExpenseScreen({
                 </Button>
               )}
             </View>
-          </>
+          </KeyboardAwareScrollView>
         )}
       </Formik>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -174,11 +178,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: Sizing.x20,
+    margin: Sizing.x10,
+    alignItems: 'center',
+  },
+  keyboardScrollContainer: {
+    width: '100%',
+  },
+  amountContainer: {
+    flex: 1,
     alignItems: 'center',
   },
   detailsContainer: {
-    width: '100%',
     marginTop: Sizing.x40,
   },
   title: {
