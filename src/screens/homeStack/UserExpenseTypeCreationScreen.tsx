@@ -16,7 +16,7 @@ function UserExpenseTypeCreationScreen({
     name: yup
       .string()
       .required('Este campo es obligatorio')
-      .test('len', 'El nombre no puede tener más de 70 caracteres', (str) => str.length <= 70),
+      .test('len', 'El nombre no puede tener más de 20 caracteres', (str) => str.length <= 20),
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -53,6 +53,7 @@ function UserExpenseTypeCreationScreen({
               placeholder="Nombre del nuevo tipo de gasto"
               textContentType="none"
               autoCapitalize="none"
+              maxLength={21}
             />
             {isSaving ? (
               <Button variant="fullWidth" loading />
