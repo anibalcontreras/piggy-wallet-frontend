@@ -25,6 +25,7 @@
     "prebuild:android": "expo prebuild --platform android"
   },
   "dependencies": {
+    "@react-native-picker/picker": "^2.7.7",
     "@react-native/metro-config": "^0.74.85",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",

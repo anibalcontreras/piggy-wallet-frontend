@@ -34,7 +34,8 @@
         "EXPO_PUBLIC_PROD_API_URL": "https://piggy-wallet-api.kalgoc.com",
         "EXPO_PUBLIC_ENV": "prod",
         "EXPO_PUBLIC_APP_URL": "http://localhost:8081"
-      }
+      },
+      "autoIncrement": true
     }
   },
   "submit": {

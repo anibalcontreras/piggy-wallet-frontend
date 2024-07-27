@@ -2,7 +2,7 @@
   "expo": {
     "name": "piggy-wallet",
     "slug": "piggy-wallet",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,21 +11,21 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.anonymous.piggy-wallet"
+      "bundleIdentifier": "com.anonymous.piggy-wallet",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vinicto.piggywallet"
     },
     "web": {
       "favicon": "./assets/favicon.png"
