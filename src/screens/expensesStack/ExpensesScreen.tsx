@@ -40,9 +40,15 @@ export default function ExpensesScreen({
     const end = FormatFunctions.dateToUTC(new Date());
 
     if (selectedTab === 0) {
+      if (timeOffset > 0) {
+        end.setDate(end.getDate() - ((end.getDay() + 6) % 7) + 6);
+      }
       end.setDate(end.getDate() - 7 * timeOffset);
     } else if (selectedTab === 1) {
-      end.setMonth(end.getMonth() - timeOffset);
+      if (timeOffset > 0) {
+        end.setMonth(end.getMonth() - timeOffset + 1);
+        end.setDate(0);
+      }
     }
 
     const start = new Date(end.getTime());

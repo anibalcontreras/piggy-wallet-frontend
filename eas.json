@@ -1,0 +1,44 @@
+{
+  "cli": {
+    "version": ">= 10.1.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_TOKEN_KEY": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNTQ1NzQ3MywiaWF0IjoxNzA1NDU3NDczfQ.AgtlYRAWUT3qGPO4l2jra6eIsiADtxAM7YCAR0PYt3o",
+        "EXPO_PUBLIC_DEV_API_URL": "http://localhost:8000",
+        "EXPO_PUBLIC_PROD_API_URL": "https://piggy-wallet-api.kalgoc.com",
+        "EXPO_PUBLIC_ENV": "dev",
+        "EXPO_PUBLIC_APP_URL": "http://localhost:8081"
+      }
+    },
+    "testing": {
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_TOKEN_KEY": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNTQ1NzQ3MywiaWF0IjoxNzA1NDU3NDczfQ.AgtlYRAWUT3qGPO4l2jra6eIsiADtxAM7YCAR0PYt3o",
+        "EXPO_PUBLIC_DEV_API_URL": "http://localhost:8000",
+        "EXPO_PUBLIC_PROD_API_URL": "https://piggy-wallet-api.kalgoc.com",
+        "EXPO_PUBLIC_ENV": "prod",
+        "EXPO_PUBLIC_APP_URL": "http://localhost:8081"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_TOKEN_KEY": "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNTQ1NzQ3MywiaWF0IjoxNzA1NDU3NDczfQ.AgtlYRAWUT3qGPO4l2jra6eIsiADtxAM7YCAR0PYt3o",
+        "EXPO_PUBLIC_DEV_API_URL": "http://localhost:8000",
+        "EXPO_PUBLIC_PROD_API_URL": "https://piggy-wallet-api.kalgoc.com",
+        "EXPO_PUBLIC_ENV": "prod",
+        "EXPO_PUBLIC_APP_URL": "http://localhost:8081"
+      },
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

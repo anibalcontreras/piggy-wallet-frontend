@@ -129,7 +129,7 @@ export default function EditExpenseScreen({
                   setFieldValue('userExpenseType', value);
                 }}
                 items={userExpenseTypeItems}
-                placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
+                placeholder={{ label: 'Selecciona un tipo de gasto...', value: '' }}
               />
               <Text style={styles.title}>Categoría</Text>
               <RNPickerSelect
@@ -140,7 +140,7 @@ export default function EditExpenseScreen({
                   setFieldValue('category', value);
                 }}
                 items={categoryItems}
-                placeholder={{ label: 'Selecciona una categoría...', value: null }}
+                placeholder={{ label: 'Selecciona una categoría...', value: '' }}
               />
 
               <Text style={styles.title}>Descripción</Text>

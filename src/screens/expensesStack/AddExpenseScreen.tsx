@@ -136,7 +136,7 @@ export default function AddExpenseScreen({
                   setFieldValue('userExpenseType', value);
                 }}
                 items={userExpenseTypeItems}
-                placeholder={{ label: 'Selecciona un tipo de gasto...', value: null }}
+                placeholder={{ label: 'Selecciona un tipo de gasto...', value: '' }}
               />
               <Text style={styles.title}>Descripción</Text>
 
