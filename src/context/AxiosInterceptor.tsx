@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import httpService from '@/service/api';
+import type { AxiosResponse, AxiosError } from 'axios';
 import { useAuth } from './AuthContext';
-import type { AxiosResponse } from 'axios';
+import httpService from '@/service/api';
 
 const AxiosInterceptor = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { onLogout } = useAuth();
+  const { onLogout, refreshAccessToken, authState } = useAuth();
 
   useEffect(() => {
     const resInterceptor = (
@@ -13,15 +13,28 @@ const AxiosInterceptor = ({ children }: { children: React.ReactNode }): JSX.Elem
       return response;
     };
 
-    const errInterceptor = async (error: any): Promise<any> => {
-      switch (error.response?.status) {
-        case 403: {
-          if (onLogout != null) {
-            try {
-              await onLogout();
-            } catch (logoutError) {
-              console.error('Error during logout ofr unauthorized request:', logoutError);
-            }
+    const errInterceptor = async (error: AxiosError): Promise<any> => {
+      if (error.response?.status === 403) {
+        // if (error.response?.status === 403) {
+        console.log('Logramos simular el flujo');
+        try {
+          const newAccessToken = refreshAccessToken && (await refreshAccessToken()); // WTF?
+          if (newAccessToken) {
+            console.log('New access token:', newAccessToken);
+            console.log('error.config:', error.config);
+            console.log('error.config?.method:', error.config?.method);
+            console.log('error.config?.url:', error.config?.url);
+            console.log('error.config?.data:', error.config?.data);
+            return await httpService.request(
+              error.config?.method,
+              error.config?.url || '',
+              error.config?.data
+            );
+          }
+        } catch (refreshError) {
+          console.error('Error during token refresh:', refreshError);
+          if (onLogout) {
+            await onLogout();
           }
         }
       }
@@ -36,7 +49,7 @@ const AxiosInterceptor = ({ children }: { children: React.ReactNode }): JSX.Elem
     return () => {
       httpService.axiosInstance.interceptors.response.eject(interceptor);
     };
-  }, []);
+  }, [authState]);
 
   return <>{children}</>;
 };

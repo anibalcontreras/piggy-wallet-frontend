@@ -1,8 +1,11 @@
+import type { AxiosResponse } from 'axios';
+
 export interface AuthProps {
   authState?: { token: string | null; authenticated: boolean | null };
-  onRegister?: (userRegister: UserRegister) => Promise<any>;
-  onLogin?: (email: string, password: string) => Promise<any>;
-  onLogout?: () => Promise<any>;
+  onRegister?: (userRegister: UserRegister) => Promise<AxiosResponse | ServiceError>;
+  onLogin?: (email: string, password: string) => Promise<AxiosResponse | ServiceError>;
+  onLogout?: () => Promise<void>;
+  refreshAccessToken?: () => Promise<string | ServiceError>;
 }
 
 export interface ServiceError {
